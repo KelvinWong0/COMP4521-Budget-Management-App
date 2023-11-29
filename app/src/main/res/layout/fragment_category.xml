@@ -47,6 +47,13 @@
                 android:text="Auto sort  "
                 android:layout_centerVertical="true"/>
 
+<!--            <com.google.android.material.materialswitch.MaterialSwitch-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:checked="true"-->
+<!--                android:layout_centerVertical="true"-->
+<!--                android:text="@string/category_sort_btn_text"/>-->
+
 <!--            &lt;!&ndash; Edit Button &ndash;&gt;-->
 
 <!--            <ImageButton-->
