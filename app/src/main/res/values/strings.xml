@@ -28,4 +28,16 @@
     <string name="cal_num_clear">AC</string>
     <string name="cal_num_delete">Del</string>
     <string name="cal_num_confirm">OK</string>
+    <string name="month1_short">Jan</string>
+    <string name="month2_short">Feb</string>
+    <string name="month3_short">Mar</string>
+    <string name="month4_short">Apr</string>
+    <string name="month5_short">May</string>
+    <string name="month6_short">Jun</string>
+    <string name="month7_short">Jul</string>
+    <string name="month8_short">Aug</string>
+    <string name="month9_short">Sep</string>
+    <string name="month10_short">Oct</string>
+    <string name="month11_short">Nov</string>
+    <string name="month12_short">Dec</string>
 </resources>
