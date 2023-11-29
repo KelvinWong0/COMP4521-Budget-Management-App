@@ -4,16 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <include
+        android:id="@+id/toolbar_category"
+        layout="@layout/toolbar_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+    </include>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:orientation="vertical"
         android:gravity="center_horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/toolbar_category" >
 
         <!-- Top Left Section -->
 
@@ -23,6 +31,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
             android:orientation="horizontal"
             android:padding="16dp">
 
@@ -38,39 +47,40 @@
                 android:text="Auto sort  "
                 android:layout_centerVertical="true"/>
 
-            <!-- Edit Button -->
+<!--            &lt;!&ndash; Edit Button &ndash;&gt;-->
 
-            <ImageButton
-                android:id="@+id/autoSortToggleButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_edit2"
-                android:background="@null"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true" />
+<!--            <ImageButton-->
+<!--                android:id="@+id/autoSortToggleButton"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:src="@drawable/ic_edit2"-->
+<!--                android:background="@null"-->
+<!--                android:layout_alignParentEnd="true"-->
+<!--                android:layout_centerVertical="true" />-->
 
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="200dp"
-            android:layout_height="33dp"
-            android:layout_marginVertical="80dp"
+            android:layout_width="350dp"
+            android:layout_height="40dp"
+            android:layout_marginVertical="10dp"
             android:background="@drawable/bg_switch"
             android:padding="2.5dp">
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switchOnOff"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_centerVertical="true"
                 android:checked="true"
                 android:textColor="@color/white"
                 android:thumb="@drawable/thumb_selector"
+
                 app:switchMinWidth="140dp"
                 app:track="@drawable/track_selector" />
 
             <LinearLayout
-                android:layout_width="200dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:weightSum="2">
@@ -107,7 +117,7 @@
         <GridLayout
             android:id="@+id/recordLabelsGridLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="fill_parent"
             android:columnCount="2"
             android:orientation="vertical"
             android:padding="16dp">
