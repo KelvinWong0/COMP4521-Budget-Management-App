@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         val fragmentHome        = FragmentHome()
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        bottomNavigationView.setSelectedItemId(R.id.miHome);
+        bottomNavigationView.selectedItemId = R.id.miHome;
 
         setCurrentFragment(fragmentHome)
 

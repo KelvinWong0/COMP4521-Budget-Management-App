@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">Budget</string>
+    <string name="bnm_1">Record</string>
+    <string name="bnm_2">Category</string>
+    <string name="bnm_3">Home</string>
+    <string name="bnm_4">Report</string>
+    <string name="bnm_5">Settings</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="title_home"></string>
+    <string name="month_selected">Nov 2023</string>
 </resources>

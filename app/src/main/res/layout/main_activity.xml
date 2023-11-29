@@ -13,15 +13,16 @@
         layout="@layout/toolbar_edit_record"
         />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
+    <include
         android:id="@+id/bottomNavigationView"
+        layout="@layout/bottom_navigation_bar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/button_nav_menu"/>
+        app:menu="@menu/bottom_navigation_menu"/>
 
     <FrameLayout
         android:id="@+id/flFragment"
