@@ -23,6 +23,8 @@ class MainActivity : AppCompatActivity() {
         val fragmentRecord      = FragmentRecord()
         val fragmentCategory    = FragmentCategory()
         val fragmentHome        = FragmentHome()
+        val fragmentReports     = FragmentReports()
+        val fragmentSettings    = FragmentSettings()
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNavigationView.selectedItemId = R.id.miHome;
@@ -34,6 +36,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.miRecord       -> setCurrentFragment(fragmentRecord)
                 R.id.miCategory     -> setCurrentFragment(fragmentCategory)
                 R.id.miHome         -> setCurrentFragment(fragmentHome)
+                R.id.miReport       -> setCurrentFragment(fragmentReports)
+                R.id.miSettings     -> setCurrentFragment(fragmentSettings)
             }
             true
         }
