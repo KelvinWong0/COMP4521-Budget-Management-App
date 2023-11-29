@@ -40,4 +40,7 @@
     <string name="month10_short">Oct</string>
     <string name="month11_short">Nov</string>
     <string name="month12_short">Dec</string>
+    <string name="report_cat_1">Expense</string>
+    <string name="report_cat_2">Income</string>
+    <string name="report_cat_3">Balance</string>
 </resources>

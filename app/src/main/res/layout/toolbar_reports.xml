@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/edit_record_header"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/toggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:singleSelection="true"
+        app:selectionRequired="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <Button
+            style="?attr/materialButtonOutlinedStyle"
+            android:id="@+id/btn_report_cat_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/report_cat_1"
+            />
+        <Button
+            style="?attr/materialButtonOutlinedStyle"
+            android:id="@+id/btn_report_cat_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/report_cat_2"
+            />
+        <Button
+            style="?attr/materialButtonOutlinedStyle"
+            android:id="@+id/btn_report_cat_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/report_cat_3"
+            />
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+<!--    <View-->
+<!--        android:id="@+id/edit_record_header_divider"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1px"-->
+<!--        android:minHeight="1px"-->
+<!--        android:background="@android:color/darker_gray"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/edit_record_header"/>-->
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/edit_record_header"
+        app:dividerInsetEnd="16dp"
+        app:dividerInsetStart="16dp"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
