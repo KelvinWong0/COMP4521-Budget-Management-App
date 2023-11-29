@@ -1,5 +1,6 @@
 package com.example.compose.data.daos
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -24,9 +25,9 @@ interface CategoryDAO{
     suspend fun delete(category: Category)
 
     @Query("SELECT * FROM category_table")
-    fun getAll(): List<Category>
+    fun getAll(): LiveData<List<Category>>
 
     @Query("SELECT * FROM category_table WHERE category_type LIKE :type")
-    fun loadAllByType(type : String): List<Category>
+    fun loadAllByType(type : String): LiveData<List<Category>>
 
 }

@@ -1,16 +1,18 @@
 package com.example.compose.data
 
+import androidx.lifecycle.LiveData
+import com.example.compose.data.daos.CategoryDAO
 import com.example.compose.data.models.Category
 
 
-class CategoryRepository(private val categoryDatabase: CategoryDatabase) {
+class CategoryRepository(private val categoryDAO: CategoryDAO) {
 
-    private val categoryDao =  categoryDatabase.categoryDao()
+    val readAllData : LiveData<List<Category>>  = categoryDAO.getAll()
 
     suspend fun insertCategory(category: Category){
-        categoryDao.addCategory(category)
+        categoryDAO.addCategory(category)
     }
 
-    fun getAllCategories() = categoryDao.getAll()
+
 
 }
