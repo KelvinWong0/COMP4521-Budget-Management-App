@@ -53,6 +53,7 @@ android {
 }
 
 dependencies {
+    implementation("androidx.gridlayout:gridlayout:1.0.0")
     val room_version = "2.6.0"
 
 // LiveData
