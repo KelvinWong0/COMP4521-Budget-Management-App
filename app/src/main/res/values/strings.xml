@@ -8,4 +8,23 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home"></string>
     <string name="month_selected">Nov 2023</string>
+    <string name="cal_num00">00</string>
+    <string name="cal_num0">0</string>
+    <string name="cal_num1">1</string>
+    <string name="cal_num2">2</string>
+    <string name="cal_num3">3</string>
+    <string name="cal_num4">4</string>
+    <string name="cal_num5">5</string>
+    <string name="cal_num6">6</string>
+    <string name="cal_num7">7</string>
+    <string name="cal_num8">8</string>
+    <string name="cal_num9">9</string>
+    <string name="cal_num_dp">.</string>
+    <string name="cal_num_multi">X</string>
+    <string name="cal_num_divide">÷</string>
+    <string name="cal_num_plus">+</string>
+    <string name="cal_num_minus">-</string>
+    <string name="cal_num_enter">=</string>
+    <string name="cal_num_clear">AC</string>
+    <string name="cal_num_delete">Del</string>
 </resources>
