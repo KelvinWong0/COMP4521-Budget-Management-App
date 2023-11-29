@@ -27,4 +27,5 @@
     <string name="cal_num_enter">=</string>
     <string name="cal_num_clear">AC</string>
     <string name="cal_num_delete">Del</string>
+    <string name="cal_num_confirm">OK</string>
 </resources>
