@@ -61,11 +61,11 @@ class EditRecordActivity : AppCompatActivity() {
             }
         }
 
-        headerLayout = findViewById<ConstraintLayout>(R.id.header_edit_record)
-        btnReturn = headerLayout.findViewById<Button>(R.id.backToHome)
-        btnReturn.setOnClickListener{
-            finish()
-        }
+//        headerLayout = findViewById<ConstraintLayout>(R.id.header_edit_record)
+//        btnReturn = headerLayout.findViewById<Button>(R.id.backToHome)
+//        btnReturn.setOnClickListener{
+//            finish()
+//        }
     }
 
     private fun fetchCurrencyData(): Thread

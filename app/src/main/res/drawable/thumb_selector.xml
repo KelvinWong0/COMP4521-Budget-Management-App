@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<!--<layout xmlns:android="http://schemas.android.com/apk/res/android">-->
 <!--    <data>-->
 <!--        <variable android:name="width" android:type="String"/>-->
 <!--        <variable android:name="height" android:type="String"/>-->
@@ -19,4 +19,4 @@
 
         </item>
     </selector>
-</layout>
+<!--</layout>-->
