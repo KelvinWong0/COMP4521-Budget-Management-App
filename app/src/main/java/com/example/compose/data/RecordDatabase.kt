@@ -8,16 +8,18 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.compose.data.models.Category
 import com.example.compose.data.daos.CategoryDAO
+import com.example.compose.data.daos.RecordDAO
+import com.example.compose.data.models.Record
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
 
 
-@Database(entities = [Category::class], version = 1, exportSchema = false)
+@Database(entities = [Record::class], version = 1, exportSchema = false)
 abstract class RecordDatabase : RoomDatabase() {
 
-    abstract fun categoryDao(): CategoryDAO
+    abstract fun recordDao(): RecordDAO
 
     companion object {
         @Volatile
@@ -25,7 +27,7 @@ abstract class RecordDatabase : RoomDatabase() {
 
         fun getInstance(context: Context): RecordDatabase {
             return instance ?: synchronized(this) {
-                Room.databaseBuilder(context, RecordDatabase::class.java,  "category_database")
+                Room.databaseBuilder(context, RecordDatabase::class.java,  "record_database")
                     .fallbackToDestructiveMigration()
                     .build()
                     .also { instance = it }

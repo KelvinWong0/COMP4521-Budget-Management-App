@@ -2,11 +2,13 @@ package com.example.compose
 
 
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import com.example.compose.fragments.FragmentCategory
+import com.example.compose.fragments.FragmentHome
+import com.example.compose.fragments.FragmentRecord
+import com.example.compose.fragments.FragmentReports
+import com.example.compose.fragments.FragmentSettings
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 

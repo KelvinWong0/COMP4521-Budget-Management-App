@@ -11,7 +11,7 @@ class RecordRepository(private val recordDAO: RecordDAO) {
 
     val readAllData : LiveData<List<Record>>  = recordDAO.getAll()
 
-    suspend fun insertCategory(record: Record){
+    suspend fun insertRecord(record: Record){
         recordDAO.addRecord(record)
     }
 

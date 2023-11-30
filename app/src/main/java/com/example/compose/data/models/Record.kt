@@ -15,7 +15,9 @@ data class Record(
     @ColumnInfo(name = "src")
     val category: Int,
     @ColumnInfo(name = "amount")
-    val amount: Float,
+    val amount: String,
     @ColumnInfo(name = "category_type")
     val type: String,
+    @ColumnInfo(name = "date")
+    val date: String
 )

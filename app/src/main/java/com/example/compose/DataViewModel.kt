@@ -7,27 +7,39 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.example.compose.data.CategoryDatabase
 import com.example.compose.data.CategoryRepository
+import com.example.compose.data.RecordDatabase
+import com.example.compose.data.RecordRepository
 import com.example.compose.data.models.Category
+import com.example.compose.data.models.Record
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class DataViewModel(application: Application): AndroidViewModel(application) {
 
 
-    private val readAllData: LiveData<List<Category>>
-    private val repository : CategoryRepository
+    val readAllCategory: LiveData<List<Category>>
+    val readAllRecord: LiveData<List<Record>>
+    private val categoryRepo : CategoryRepository
+    private val recordRepo : RecordRepository
 
     init {
         val categoryDao = CategoryDatabase.getInstance(application).categoryDao()
-        repository = CategoryRepository(categoryDao)
-        readAllData = repository.readAllData
+        val recordDao = RecordDatabase.getInstance(application).recordDao()
+        categoryRepo = CategoryRepository(categoryDao)
+        recordRepo = RecordRepository(recordDao)
+        readAllCategory = categoryRepo.readAllData
+        readAllRecord = recordRepo.readAllData
     }
 
-
+    fun addRecord (record: Record) {
+        viewModelScope.launch(Dispatchers.IO) {
+            recordRepo.insertRecord(record)
+        }
+    }
 
     fun  addCategory (category: Category) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.insertCategory(category)
+            categoryRepo.insertCategory(category)
         }
     }
 
