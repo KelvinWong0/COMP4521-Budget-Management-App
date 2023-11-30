@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_checked="false">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<!--    <data>-->
+<!--        <variable android:name="width" android:type="String"/>-->
+<!--        <variable android:name="height" android:type="String"/>-->
+<!--    </data>-->
+    <selector
+        xmlns:android="http://schemas.android.com/apk/res/android">
+        <item android:state_checked="false">
         <shape
             android:dither="true" android:shape="rectangle"
             android:useLevel="false" android:visible="true">
@@ -12,6 +17,6 @@
                 android:height="30dp" />
         </shape>
 
-    </item>
-
-</selector>
+        </item>
+    </selector>
+</layout>

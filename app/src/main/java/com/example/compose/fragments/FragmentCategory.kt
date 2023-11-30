@@ -43,8 +43,6 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
                 }
             }
         }
-
-
     }
 
     private fun insertDataToDatabase(){

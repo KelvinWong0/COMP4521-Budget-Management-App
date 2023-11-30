@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import com.example.compose.API.ApiRequest
 import com.example.compose.data.models.Category
@@ -25,6 +26,9 @@ class EditRecordActivity : AppCompatActivity() {
 
     private lateinit var tvSolution: TextView
     private lateinit var tvResult: TextView
+
+    private lateinit var btnReturn : Button
+    private lateinit var headerLayout : ConstraintLayout
 
     private var canAddOperation = false
     private var canAddDecimal = true
@@ -55,6 +59,12 @@ class EditRecordActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
+        }
+
+        headerLayout = findViewById<ConstraintLayout>(R.id.header_edit_record)
+        btnReturn = headerLayout.findViewById<Button>(R.id.backToHome)
+        btnReturn.setOnClickListener{
+            finish()
         }
     }
 
