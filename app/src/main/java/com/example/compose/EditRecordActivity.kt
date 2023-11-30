@@ -141,7 +141,7 @@ class EditRecordActivity : AppCompatActivity() {
     fun equalsAction(view: View)
     {
         val result = calculateResults().toDouble()
-        tvResult.text = String.format("%s: %.2f", selectedCurrencyCode, result)
+        tvResult.text = String.format("%s to HKD: %.2f", selectedCurrencyCode, result)
     }
 
     private fun calculateResults(): String
@@ -152,7 +152,7 @@ class EditRecordActivity : AppCompatActivity() {
         val timesDivision = timesDivisionCalculate(digitsOperators)
         if(timesDivision.isEmpty()) return ""
 
-        val result = addSubtractCalculate(timesDivision) * convertRates
+        val result = addSubtractCalculate(timesDivision) / convertRates //Other currency to HKD
         return result.toString()
     }
 
