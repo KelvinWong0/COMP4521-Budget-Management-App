@@ -162,7 +162,7 @@ class EditRecordActivity : AppCompatActivity() {
         dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
 //        val category = Category(0, "clothings", "@drawables/NO_CREATED", "EXPENSE")
 //        dataViewModel.addCategory(category)
-        val record = Record(420, "RecordN", 1, tvResult.text.toString().substringAfter(": ").trim(), "EXPENSE", "30-11-2023")
+        val record = Record(0, "RecordN", 1, tvResult.text.toString().substringAfter(": ").trim(), "EXPENSE", "30-11-2023")
         dataViewModel.addRecord(record)
     }
 
