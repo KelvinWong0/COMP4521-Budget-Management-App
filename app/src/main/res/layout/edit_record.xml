@@ -324,8 +324,8 @@
         android:id="@+id/tvSolution"
         android:layout_width="156dp"
         android:layout_height="39dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="52dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="16dp"
         android:text=""
         app:layout_constraintBottom_toTopOf="@+id/linearBtnLayout"
         app:layout_constraintStart_toStartOf="parent" />
@@ -334,11 +334,22 @@
         android:id="@+id/tvResult"
         android:layout_width="156dp"
         android:layout_height="39dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginEnd="4dp"
         android:layout_marginBottom="16dp"
         android:text="$:"
         app:layout_constraintBottom_toTopOf="@+id/linearBtnLayout"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/spCurrency" />
+
+    <Spinner
+        android:id="@+id/spCurrency"
+        android:layout_width="77dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="12dp"
+        android:entries="@array/currency_code"
+        app:layout_constraintBottom_toTopOf="@+id/linearBtnLayout"
+        app:layout_constraintStart_toEndOf="@+id/tvSolution" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

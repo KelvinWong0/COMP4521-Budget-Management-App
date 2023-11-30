@@ -40,6 +40,7 @@ android {
 
     buildFeatures {
         compose = true
+        viewBinding = true
     }
 
     composeOptions {
@@ -110,4 +111,7 @@ dependencies {
 
     // optional - Paging 3 Integration
     implementation("androidx.room:room-paging:$room_version")
+
+    // API
+    implementation("com.google.code.gson:gson:2.8.9")
 }
