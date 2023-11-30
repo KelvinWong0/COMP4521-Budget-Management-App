@@ -2,11 +2,19 @@ package com.example.compose
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.AdapterView
 import android.widget.Button
+import android.widget.Spinner
 import android.widget.TextView
+import com.example.compose.API.ApiRequest
 import com.example.compose.databinding.EditRecordBinding
 import com.google.android.material.button.MaterialButton
+import com.google.gson.Gson
+import java.io.InputStreamReader
+import java.net.URL
+import javax.net.ssl.HttpsURLConnection
 
 
 class EditRecordActivity : AppCompatActivity() {
@@ -17,15 +25,70 @@ class EditRecordActivity : AppCompatActivity() {
     private var canAddOperation = false
     private var canAddDecimal = true
 
+    private var convertRates: Double = 1.0
+    private var selectedCurrencyCode: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.edit_record)
 
         initializeViews()
+        val sp = findViewById<Spinner>(R.id.spCurrency)
+        sp.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val selectedItem = parent?.getItemAtPosition(position) as String
+                selectedCurrencyCode = selectedItem // Update the selected currency code
+                fetchCurrencyData().start()
+            }
 
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+        }
     }
 
+    private fun fetchCurrencyData(): Thread
+    {
+        return Thread {
+            val url = URL("https://open.er-api.com/v6/latest/hkd")
+            val connection  = url.openConnection() as HttpsURLConnection
+
+            if(connection.responseCode == 200)
+            {
+                val inputSystem = connection.inputStream
+                val inputStreamReader = InputStreamReader(inputSystem, "UTF-8")
+                val request = Gson().fromJson(inputStreamReader, ApiRequest::class.java)
+                updateRate(request)
+                inputStreamReader.close()
+                inputSystem.close()
+            }
+        }
+    }
+    private fun updateRate(request: ApiRequest)
+    {
+        runOnUiThread {
+            kotlin.run {
+                if (selectedCurrencyCode != null) {
+                    convertRates = when (selectedCurrencyCode) {
+                        "JPY" -> request.rates.JPY
+                        "USD" -> request.rates.USD
+                        "EUR" -> request.rates.EUR
+                        "TWD" -> request.rates.TWD
+                        "GBP" -> request.rates.GBP
+                        "CNY" -> request.rates.CNY
+                        else -> 1.0 // Handle the case when the selected currency code is not found
+                    }
+                    Log.i("ConvertRates", "Value: $convertRates")
+                    tvResult.setText(selectedCurrencyCode)
+                }
+            }
+        }
+    }
     private fun newInput(tv: TextView,num: String) {
         tv.append(num)
     }
@@ -77,7 +140,8 @@ class EditRecordActivity : AppCompatActivity() {
 
     fun equalsAction(view: View)
     {
-        tvResult.text = calculateResults()
+        val result = calculateResults().toDouble()
+        tvResult.text = String.format("%s: %.2f", selectedCurrencyCode, result)
     }
 
     private fun calculateResults(): String
@@ -88,7 +152,7 @@ class EditRecordActivity : AppCompatActivity() {
         val timesDivision = timesDivisionCalculate(digitsOperators)
         if(timesDivision.isEmpty()) return ""
 
-        val result = addSubtractCalculate(timesDivision)
+        val result = addSubtractCalculate(timesDivision) * convertRates
         return result.toString()
     }
 
