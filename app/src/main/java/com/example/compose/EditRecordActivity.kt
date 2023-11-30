@@ -8,7 +8,11 @@ import android.widget.AdapterView
 import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import com.example.compose.API.ApiRequest
+import com.example.compose.data.models.Category
+import com.example.compose.data.models.Record
 import com.example.compose.databinding.EditRecordBinding
 import com.google.android.material.button.MaterialButton
 import com.google.gson.Gson
@@ -27,6 +31,8 @@ class EditRecordActivity : AppCompatActivity() {
 
     private var convertRates: Double = 1.0
     private var selectedCurrencyCode: String? = null
+
+    private lateinit var dataViewModel: DataViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,9 +95,7 @@ class EditRecordActivity : AppCompatActivity() {
             }
         }
     }
-    private fun newInput(tv: TextView,num: String) {
-        tv.append(num)
-    }
+
     private fun initializeViews() {
         tvSolution = findViewById(R.id.tvSolution)
         tvResult = findViewById(R.id.tvResult)
@@ -142,6 +146,14 @@ class EditRecordActivity : AppCompatActivity() {
     {
         val result = calculateResults().toDouble()
         tvResult.text = String.format("%s to HKD: %.2f", selectedCurrencyCode, result)
+    }
+
+    fun confrimAddRecord(view: View) {
+        dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
+//        val category = Category(0, "clothings", "@drawables/NO_CREATED", "EXPENSE")
+//        dataViewModel.addCategory(category)
+        val record = Record(420, "RecordN", 1, tvResult.text.toString().substringAfter(": ").trim(), "EXPENSE", "30-11-2023")
+        dataViewModel.addRecord(record)
     }
 
     private fun calculateResults(): String
