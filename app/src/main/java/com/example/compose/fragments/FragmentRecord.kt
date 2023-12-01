@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -15,6 +16,7 @@ import com.example.compose.DataViewModel
 import com.example.compose.EditRecordActivity
 import com.example.compose.R
 import com.example.compose.fragments.list.ListAdapter
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class FragmentRecord: Fragment(R.layout.fragment_record){
@@ -32,7 +34,22 @@ class FragmentRecord: Fragment(R.layout.fragment_record){
         val toptoolbar = header.findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.topAppBar)
 
         toptoolbar.setNavigationOnClickListener{
-            
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Warning")
+                .setMessage("Delete all record?")
+                .setNeutralButton("Cancel") { dialog, which ->
+                    // Respond to neutral button press
+
+                }
+//                .setNegativeButton(resources.getString(R.string.decline)) { dialog, which ->
+//                    // Respond to negative button press
+//                }
+                .setPositiveButton("Proceed") { dialog, which ->
+                    // Respond to positive button press
+                    dataViewModel.clearRecordTable()
+                    Toast.makeText(activity?.applicationContext, "All record deleted!", Toast.LENGTH_LONG).show()
+                }
+                .show()
         }
 
         dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)

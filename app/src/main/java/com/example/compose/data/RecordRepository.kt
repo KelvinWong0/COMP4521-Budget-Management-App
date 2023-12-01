@@ -15,6 +15,8 @@ class RecordRepository(private val recordDAO: RecordDAO) {
         recordDAO.addRecord(record)
     }
 
-
+    suspend fun clearRecord(){
+        recordDAO.nukeTable()
+    }
 
 }
