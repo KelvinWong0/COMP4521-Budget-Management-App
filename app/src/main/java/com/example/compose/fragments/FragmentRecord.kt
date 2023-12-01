@@ -30,8 +30,7 @@ class FragmentRecord: Fragment(R.layout.fragment_record){
         rvRecord.adapter = adapter
         rvRecord.layoutManager = LinearLayoutManager(requireContext())
 
-        val header = view.findViewById<ConstraintLayout>(R.id.header_record)
-        val toptoolbar = header.findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.topAppBar)
+        val toptoolbar = view.findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.topAppBar)
 
         toptoolbar.setNavigationOnClickListener{
             MaterialAlertDialogBuilder(requireContext())
