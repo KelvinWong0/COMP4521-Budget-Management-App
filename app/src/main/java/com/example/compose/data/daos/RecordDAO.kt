@@ -8,7 +8,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.example.compose.data.models.Record
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface RecordDAO{
@@ -23,6 +22,9 @@ interface RecordDAO{
 
     @Delete
     suspend fun delete(record: Record)
+
+    @Query("DELETE FROM record_table")
+    suspend fun nukeTable()
 
     @Query("SELECT * FROM record_table")
     fun getAll(): LiveData<List<Record>>

@@ -44,6 +44,7 @@
     <string name="report_cat_2">Income</string>
     <string name="report_cat_3">Balance</string>
     <string name="title_category">Categories</string>
+    <string name="title_record">Records</string>
     <string name="category_sort_btn_text">Auto Sort</string>
     <string-array name="currency_code">
         <item>HKD</item>
