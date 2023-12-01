@@ -26,6 +26,7 @@ class EditRecordActivity : AppCompatActivity() {
 
     private lateinit var tvSolution: TextView
     private lateinit var tvResult: TextView
+    private lateinit var tvCurCode: TextView
 
     private lateinit var btnReturn : Button
     private lateinit var headerLayout : ConstraintLayout
@@ -53,6 +54,7 @@ class EditRecordActivity : AppCompatActivity() {
             ) {
                 val selectedItem = parent?.getItemAtPosition(position) as String
                 selectedCurrencyCode = selectedItem // Update the selected currency code
+                tvCurCode.text = String.format("%s:",selectedCurrencyCode)
                 fetchCurrencyData().start()
             }
 
@@ -99,8 +101,6 @@ class EditRecordActivity : AppCompatActivity() {
                         "CNY" -> request.rates.CNY
                         else -> 1.0 // Handle the case when the selected currency code is not found
                     }
-                    Log.i("ConvertRates", "Value: $convertRates")
-                    tvResult.setText(selectedCurrencyCode)
                 }
             }
         }
@@ -109,6 +109,7 @@ class EditRecordActivity : AppCompatActivity() {
     private fun initializeViews() {
         tvSolution = findViewById(R.id.tvSolution)
         tvResult = findViewById(R.id.tvResult)
+        tvCurCode = findViewById(R.id.tvCurCode)
     }
 
     fun numberAction(view: View)

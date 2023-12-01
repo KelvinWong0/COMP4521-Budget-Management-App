@@ -8,10 +8,9 @@
     <!-- Header -->
     <include
         android:id="@+id/header_edit_record"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         layout="@layout/toolbar_edit_record"
-        />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:id="@+id/linearBtnLayout"
@@ -38,10 +37,10 @@
                 android:layout_margin="10dp"
                 android:layout_weight="0.25"
                 android:backgroundTint="#FF5722"
+                android:onClick="allClearAction"
                 android:text="@string/cal_num_clear"
                 android:textColor="@color/white"
-                app:cornerRadius="25dp"
-                android:onClick="allClearAction"/>
+                app:cornerRadius="25dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_num_delete"
@@ -51,10 +50,10 @@
                 android:layout_margin="10dp"
                 android:layout_weight="0.25"
                 android:backgroundTint="#FF5722"
+                android:onClick="backSpaceAction"
                 android:text="@string/cal_num_delete"
                 android:textColor="@color/white"
-                app:cornerRadius="25dp"
-                android:onClick="backSpaceAction"/>
+                app:cornerRadius="25dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_num_confirm"
@@ -64,10 +63,10 @@
                 android:layout_margin="10dp"
                 android:layout_weight="0.25"
                 android:backgroundTint="#4CAF50"
+                android:onClick="confrimAddRecord"
                 android:text="@string/cal_num_confirm"
                 android:textColor="@color/white"
-                app:cornerRadius="25dp"
-                android:onClick="confrimAddRecord"/>
+                app:cornerRadius="25dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_num_divide"
@@ -77,10 +76,10 @@
                 android:layout_margin="10dp"
                 android:layout_weight="0.25"
                 android:backgroundTint="#FF9800"
+                android:onClick="operationAction"
                 android:text="@string/cal_num_divide"
                 android:textColor="@color/white"
-                app:cornerRadius="25dp"
-                android:onClick="operationAction"/>
+                app:cornerRadius="25dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -96,10 +95,10 @@
                 android:layout_margin="10dp"
                 android:layout_weight="0.25"
                 android:backgroundTint="#D5F1FA"
+                android:onClick="numberAction"
                 android:text="@string/cal_num7"
                 android:textColor="@color/black"
-                app:cornerRadius="25dp"
-                android:onClick="numberAction"/>
+                app:cornerRadius="25dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_num_8"
@@ -109,10 +108,10 @@
                 android:layout_margin="10dp"
                 android:layout_weight="0.25"
                 android:backgroundTint="#D5F1FA"
+                android:onClick="numberAction"
                 android:text="@string/cal_num8"
                 android:textColor="@color/black"
-                app:cornerRadius="25dp"
-                android:onClick="numberAction"/>
+                app:cornerRadius="25dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_num_9"
@@ -122,10 +121,10 @@
                 android:layout_margin="10dp"
                 android:layout_weight="0.25"
                 android:backgroundTint="#D5F1FA"
+                android:onClick="numberAction"
                 android:text="@string/cal_num9"
                 android:textColor="@color/black"
-                app:cornerRadius="25dp"
-                android:onClick="numberAction"/>
+                app:cornerRadius="25dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_num_multiply"
@@ -135,10 +134,10 @@
                 android:layout_margin="10dp"
                 android:layout_weight="0.25"
                 android:backgroundTint="#FF9800"
+                android:onClick="operationAction"
                 android:text="@string/cal_num_multi"
                 android:textColor="@color/white"
-                app:cornerRadius="25dp"
-                android:onClick="operationAction"/>
+                app:cornerRadius="25dp" />
 
         </LinearLayout>
 
@@ -155,10 +154,10 @@
                 android:layout_margin="10dp"
                 android:layout_weight="0.25"
                 android:backgroundTint="#D5F1FA"
+                android:onClick="numberAction"
                 android:text="@string/cal_num4"
                 android:textColor="@color/black"
-                app:cornerRadius="25dp"
-                android:onClick="numberAction"/>
+                app:cornerRadius="25dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_num_5"
@@ -168,10 +167,10 @@
                 android:layout_margin="10dp"
                 android:layout_weight="0.25"
                 android:backgroundTint="#D5F1FA"
+                android:onClick="numberAction"
                 android:text="@string/cal_num5"
                 android:textColor="@color/black"
-                app:cornerRadius="25dp"
-                android:onClick="numberAction"/>
+                app:cornerRadius="25dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_num_6"
@@ -181,10 +180,10 @@
                 android:layout_margin="10dp"
                 android:layout_weight="0.25"
                 android:backgroundTint="#D5F1FA"
+                android:onClick="numberAction"
                 android:text="@string/cal_num6"
                 android:textColor="@color/black"
-                app:cornerRadius="25dp"
-                android:onClick="numberAction"/>
+                app:cornerRadius="25dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_num_minus"
@@ -194,10 +193,10 @@
                 android:layout_margin="10dp"
                 android:layout_weight="0.25"
                 android:backgroundTint="#FF9800"
+                android:onClick="operationAction"
                 android:text="@string/cal_num_minus"
                 android:textColor="@color/white"
-                app:cornerRadius="25dp"
-                android:onClick="operationAction"/>
+                app:cornerRadius="25dp" />
 
         </LinearLayout>
 
@@ -214,10 +213,10 @@
                 android:layout_margin="10dp"
                 android:layout_weight="0.25"
                 android:backgroundTint="#D5F1FA"
+                android:onClick="numberAction"
                 android:text="@string/cal_num1"
                 android:textColor="@color/black"
-                app:cornerRadius="25dp"
-                android:onClick="numberAction"/>
+                app:cornerRadius="25dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_num_2"
@@ -227,10 +226,10 @@
                 android:layout_margin="10dp"
                 android:layout_weight="0.25"
                 android:backgroundTint="#D5F1FA"
+                android:onClick="numberAction"
                 android:text="@string/cal_num2"
                 android:textColor="@color/black"
-                app:cornerRadius="25dp"
-                android:onClick="numberAction"/>
+                app:cornerRadius="25dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_num_3"
@@ -240,10 +239,10 @@
                 android:layout_margin="10dp"
                 android:layout_weight="0.25"
                 android:backgroundTint="#D5F1FA"
+                android:onClick="numberAction"
                 android:text="@string/cal_num3"
                 android:textColor="@color/black"
-                app:cornerRadius="25dp"
-                android:onClick="numberAction"/>
+                app:cornerRadius="25dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_num_plus"
@@ -253,10 +252,10 @@
                 android:layout_margin="10dp"
                 android:layout_weight="0.25"
                 android:backgroundTint="#FF9800"
+                android:onClick="operationAction"
                 android:text="@string/cal_num_plus"
                 android:textColor="@color/white"
-                app:cornerRadius="25dp"
-                android:onClick="operationAction"/>
+                app:cornerRadius="25dp" />
 
         </LinearLayout>
 
@@ -273,10 +272,10 @@
                 android:layout_margin="10dp"
                 android:layout_weight="0.25"
                 android:backgroundTint="#D5F1FA"
+                android:onClick="numberAction"
                 android:text="@string/cal_num00"
                 android:textColor="@color/black"
-                app:cornerRadius="25dp"
-                android:onClick="numberAction"/>
+                app:cornerRadius="25dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_num_0"
@@ -286,10 +285,10 @@
                 android:layout_margin="10dp"
                 android:layout_weight="0.25"
                 android:backgroundTint="#D5F1FA"
+                android:onClick="numberAction"
                 android:text="@string/cal_num0"
                 android:textColor="@color/black"
-                app:cornerRadius="25dp"
-                android:onClick="numberAction"/>
+                app:cornerRadius="25dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_num_dp"
@@ -299,10 +298,10 @@
                 android:layout_margin="10dp"
                 android:layout_weight="0.25"
                 android:backgroundTint="#D5F1FA"
+                android:onClick="numberAction"
                 android:text="@string/cal_num_dp"
                 android:textColor="@color/black"
-                app:cornerRadius="25dp"
-                android:onClick="numberAction"/>
+                app:cornerRadius="25dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_num_enter"
@@ -312,10 +311,10 @@
                 android:layout_margin="10dp"
                 android:layout_weight="0.25"
                 android:backgroundTint="#FF9800"
+                android:onClick="equalsAction"
                 android:text="@string/cal_num_enter"
                 android:textColor="@color/white"
-                app:cornerRadius="25dp"
-                android:onClick="equalsAction"/>
+                app:cornerRadius="25dp" />
         </LinearLayout>
 
 
@@ -323,34 +322,49 @@
 
     <TextView
         android:id="@+id/tvSolution"
-        android:layout_width="156dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginBottom="16dp"
+        android:layout_width="145dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="88dp"
+        android:layout_marginBottom="4dp"
         android:text=""
+        android:textSize="18dp"
         app:layout_constraintBottom_toTopOf="@+id/linearBtnLayout"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tvResult"
-        android:layout_width="156dp"
-        android:layout_height="39dp"
+        android:layout_width="161dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="3dp"
         android:layout_marginEnd="4dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="4dp"
         android:text="$:"
+        android:textSize="18dp"
         app:layout_constraintBottom_toTopOf="@+id/linearBtnLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/spCurrency" />
+        app:layout_constraintHorizontal_bias="0.294"
+        app:layout_constraintStart_toEndOf="@+id/tvSolution" />
 
     <Spinner
         android:id="@+id/spCurrency"
-        android:layout_width="77dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginBottom="12dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:entries="@array/currency_code"
-        app:layout_constraintBottom_toTopOf="@+id/linearBtnLayout"
-        app:layout_constraintStart_toEndOf="@+id/tvSolution" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvCurCode"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.475" />
+
+    <TextView
+        android:id="@+id/tvCurCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="280dp"
+        android:text="HKD:"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header_edit_record" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
