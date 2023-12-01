@@ -58,7 +58,8 @@ class EditRecordActivity : AppCompatActivity() {
 
     private lateinit var ibtnSelectDate : ImageButton
     private var shownDateView: Boolean = false
-    private  var selectedDate: String = ""
+    private val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+    private  var selectedDate: String = dateFormat.format(Date(Instant.now().toEpochMilli()))
 
     private lateinit var btnReturn : Button
     private lateinit var headerLayout : ConstraintLayout
@@ -78,9 +79,9 @@ class EditRecordActivity : AppCompatActivity() {
         initializeViews()
         ibtnSelectDate.setOnClickListener{
             // DATE picker
-            val datePicker = findViewById<ComposeView>(R.id.composeViewDatePicker)
+            val datePickerView = findViewById<ComposeView>(R.id.composeViewDatePicker)
             if(!shownDateView){
-                datePicker.setContent {
+                datePickerView.setContent {
                     Box(
                         modifier = Modifier
                             .wrapContentSize()
@@ -92,7 +93,7 @@ class EditRecordActivity : AppCompatActivity() {
                 }
                 shownDateView = true
             }else{
-                datePicker.setContent {}
+                datePickerView.setContent {}
                 //tvResult.text = selectedDate //for debug print only
                 shownDateView = false
             }
@@ -218,7 +219,7 @@ class EditRecordActivity : AppCompatActivity() {
         dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
 //        val category = Category(0, "clothings", "@drawables/NO_CREATED", "EXPENSE")
 //        dataViewModel.addCategory(category)
-        val record = Record(0, "RecordN", 1, tvResult.text.toString().substringAfter(": ").trim(), "EXPENSE", selectedDate)
+        val record = Record(0, "RecordN", 1, tvResult.text.toString().substringAfter(": ").trim(), selectedDate, "EXPENSE")
         dataViewModel.addRecord(record)
     }
 
@@ -346,12 +347,7 @@ class EditRecordActivity : AppCompatActivity() {
             showModeToggle = true, // allow input mode or picker
         )
 
-        val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-        if(selectedDate == ""){
-            selectedDate = dateFormat.format(Date(Instant.now().toEpochMilli()))
-        }else{
-            selectedDate = dateFormat.format(Date(datePickerState.selectedDateMillis ?: 0))
-        }
+        selectedDate = dateFormat.format(Date(datePickerState.selectedDateMillis ?: 0))
 
     }
 }
