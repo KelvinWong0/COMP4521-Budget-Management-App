@@ -16,13 +16,51 @@
         android:id="@+id/linearBtnLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="320dp"
+        android:layout_marginTop="275dp"
         android:background="@color/teal_200"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/header_edit_record">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#C4FFF9"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvCurCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="HKD:"
+                android:textSize="20dp" />
+
+            <Spinner
+                android:id="@+id/spCurrency"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:entries="@array/currency_code" />
+
+            <TextView
+                android:id="@+id/tvSolution"
+                android:layout_width="145dp"
+                android:layout_height="34dp"
+
+                android:text=""
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/tvResult"
+                android:layout_width="161dp"
+                android:layout_height="51dp"
+                android:layout_marginStart="3dp"
+                android:text="$:"
+                android:textSize="18dp" />
+
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -320,51 +358,7 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvSolution"
-        android:layout_width="145dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="88dp"
-        android:layout_marginBottom="4dp"
-        android:text=""
-        android:textSize="18dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearBtnLayout"
-        app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/tvResult"
-        android:layout_width="161dp"
-        android:layout_height="51dp"
-        android:layout_marginStart="3dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="4dp"
-        android:text="$:"
-        android:textSize="18dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearBtnLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.294"
-        app:layout_constraintStart_toEndOf="@+id/tvSolution" />
-
-    <Spinner
-        android:id="@+id/spCurrency"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:entries="@array/currency_code"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvCurCode"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.475" />
-
-    <TextView
-        android:id="@+id/tvCurCode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="280dp"
-        android:text="HKD:"
-        android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/header_edit_record" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
