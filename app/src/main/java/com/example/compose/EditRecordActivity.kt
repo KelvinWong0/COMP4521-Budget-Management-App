@@ -1,14 +1,26 @@
 package com.example.compose
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.ComposeView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import com.example.compose.API.ApiRequest
@@ -21,12 +33,32 @@ import java.io.InputStreamReader
 import java.net.URL
 import javax.net.ssl.HttpsURLConnection
 
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerColors
+import androidx.compose.material3.DatePickerDefaults
+import androidx.compose.material3.DatePickerState
+import androidx.compose.material3.DisplayMode
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import java.sql.Date
+import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.LocalDateTime
+import java.util.Locale
 
 class EditRecordActivity : AppCompatActivity() {
 
     private lateinit var tvSolution: TextView
     private lateinit var tvResult: TextView
     private lateinit var tvCurCode: TextView
+
+    private lateinit var ibtnSelectDate : ImageButton
+    private var shownDateView: Boolean = false
+    private  var selectedDate: String = ""
 
     private lateinit var btnReturn : Button
     private lateinit var headerLayout : ConstraintLayout
@@ -44,6 +76,27 @@ class EditRecordActivity : AppCompatActivity() {
         setContentView(R.layout.edit_record)
 
         initializeViews()
+        ibtnSelectDate.setOnClickListener{
+            // DATE picker
+            val datePicker = findViewById<ComposeView>(R.id.composeViewDatePicker)
+            if(!shownDateView){
+                datePicker.setContent {
+                    Box(
+                        modifier = Modifier
+                            .wrapContentSize()
+                            .padding(16.dp)
+                            .background(Color.LightGray)
+                    ) {
+                        DatePickerView()
+                    }
+                }
+                shownDateView = true
+            }else{
+                datePicker.setContent {}
+                //tvResult.text = selectedDate //for debug print only
+                shownDateView = false
+            }
+        }
         val sp = findViewById<Spinner>(R.id.spCurrency)
         sp.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(
@@ -62,6 +115,7 @@ class EditRecordActivity : AppCompatActivity() {
                 TODO("Not yet implemented")
             }
         }
+
 
 //        headerLayout = findViewById<ConstraintLayout>(R.id.header_edit_record)
 //        btnReturn = headerLayout.findViewById<Button>(R.id.backToHome)
@@ -110,6 +164,7 @@ class EditRecordActivity : AppCompatActivity() {
         tvSolution = findViewById(R.id.tvSolution)
         tvResult = findViewById(R.id.tvResult)
         tvCurCode = findViewById(R.id.tvCurCode)
+        ibtnSelectDate = findViewById(R.id.ibtnSelectDate)
     }
 
     fun numberAction(view: View)
@@ -163,7 +218,7 @@ class EditRecordActivity : AppCompatActivity() {
         dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
 //        val category = Category(0, "clothings", "@drawables/NO_CREATED", "EXPENSE")
 //        dataViewModel.addCategory(category)
-        val record = Record(0, "RecordN", 1, tvResult.text.toString().substringAfter(": ").trim(), "EXPENSE", "30-11-2023")
+        val record = Record(0, "RecordN", 1, tvResult.text.toString().substringAfter(": ").trim(), "EXPENSE", selectedDate)
         dataViewModel.addRecord(record)
     }
 
@@ -268,5 +323,35 @@ class EditRecordActivity : AppCompatActivity() {
             list.add(currentDigit.toFloat())
 
         return list
+    }
+
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    private  fun DatePickerView() {
+
+        val datePickerState = remember {
+            DatePickerState(
+                yearRange = (2023..2024),
+                initialSelectedDateMillis = Instant.now().toEpochMilli(),
+                initialDisplayMode = DisplayMode.Input,
+                initialDisplayedMonthMillis = null
+            )
+        }
+
+        DatePicker(
+            state = datePickerState,
+            dateValidator = { timestamp ->
+                // Disable all the days after today
+                timestamp <= Instant.now().toEpochMilli()},
+            showModeToggle = true, // allow input mode or picker
+        )
+
+        val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+        if(selectedDate == ""){
+            selectedDate = dateFormat.format(Date(Instant.now().toEpochMilli()))
+        }else{
+            selectedDate = dateFormat.format(Date(datePickerState.selectedDateMillis ?: 0))
+        }
+
     }
 }

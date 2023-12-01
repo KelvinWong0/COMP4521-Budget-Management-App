@@ -3,16 +3,12 @@ package com.example.compose.fragments
 import android.content.Context
 import android.graphics.Typeface
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -20,7 +16,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import co.yml.charts.common.components.Legends
@@ -57,7 +52,7 @@ class FragmentReports : Fragment(R.layout.fragment_report){
         val sbtnIncome = view.findViewById<Button>((R.id.btn_report_cat_2))
         val sbtnBalance = view.findViewById<Button>(R.id.btn_report_cat_3)
 
-        val composeView = view.findViewById<ComposeView>(R.id.composeView)
+        val composeView = view.findViewById<ComposeView>(R.id.composeViewChart)
         //Default show Expense chart
         composeView.setContent {
             //Text(text = "Compose created")
