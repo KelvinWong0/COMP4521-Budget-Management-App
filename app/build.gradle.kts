@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.compose"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -118,4 +118,7 @@ dependencies {
 
     // API
     implementation("com.google.code.gson:gson:2.8.9")
+
+    //YCharts
+    implementation("co.yml:ycharts:2.1.0")
 }
