@@ -12,8 +12,8 @@ data class Record(
     val id: Int = 0,
     @ColumnInfo(name = "name")
     val name: String,
-    @ColumnInfo(name = "categoryId")
-    val categoryId: Int,
+    @ColumnInfo(name = "img_src")
+    val src: Int,
     @ColumnInfo(name = "amount")
     val amount: String,
     @ColumnInfo(name = "date")
