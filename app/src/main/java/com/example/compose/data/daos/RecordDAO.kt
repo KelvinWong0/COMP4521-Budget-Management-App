@@ -27,7 +27,7 @@ interface RecordDAO{
     @Query("SELECT * FROM record_table")
     fun getAll(): LiveData<List<Record>>
 
-    @Query("SELECT * FROM record_table WHERE category_type LIKE :type")
-    fun loadAllByType(type : String): LiveData<List<Record>>
+    @Query("SELECT * FROM record_table WHERE type LIKE :categoryType")
+    fun loadAllByType(categoryType : String): LiveData<List<Record>>
 
 }

@@ -12,7 +12,7 @@ data class Category(
     val id: Int = 0,
     @ColumnInfo(name = "name")
     val name: String,
-    @ColumnInfo(name = "src")
+    @ColumnInfo(name = "img_src")
     val src: String,
     @ColumnInfo(name = "category_type")
     val type: String

@@ -36,7 +36,7 @@
             android:layout_centerVertical="true"
             android:checked="true"
             android:textColor="@color/white"
-            android:thumb="@drawable/thumb_selector"
+            android:thumb="@drawable/thumb_selector_small"
             app:switchMinWidth="140dp"
             app:track="@drawable/track_selector" />
 

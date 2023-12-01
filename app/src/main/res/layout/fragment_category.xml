@@ -81,7 +81,7 @@
                 android:layout_centerVertical="true"
                 android:checked="true"
                 android:textColor="@color/white"
-                android:thumb="@drawable/thumb_selector"
+                android:thumb="@drawable/thumb_selector_large"
 
                 app:switchMinWidth="140dp"
                 app:track="@drawable/track_selector" />
@@ -121,17 +121,17 @@
         </RelativeLayout>
 
         <!-- Grid of Record Labels -->
-        <GridLayout
+        <androidx.gridlayout.widget.GridLayout
             android:id="@+id/recordLabelsGridLayout"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:columnCount="2"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="16dp"
+            app:columnCount="4"
+            app:orientation="vertical">
 
             <!-- Add grid rows dynamically based on available categories -->
 
-        </GridLayout>
+        </androidx.gridlayout.widget.GridLayout>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

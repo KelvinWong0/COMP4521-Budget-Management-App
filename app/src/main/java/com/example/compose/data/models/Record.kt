@@ -12,12 +12,12 @@ data class Record(
     val id: Int = 0,
     @ColumnInfo(name = "name")
     val name: String,
-    @ColumnInfo(name = "src")
-    val category: Int,
+    @ColumnInfo(name = "categoryId")
+    val categoryId: Int,
     @ColumnInfo(name = "amount")
     val amount: String,
-    @ColumnInfo(name = "category_type")
-    val type: String,
     @ColumnInfo(name = "date")
-    val date: String
+    val date: String,
+    @ColumnInfo(name = "type")
+    val type: String
 )
