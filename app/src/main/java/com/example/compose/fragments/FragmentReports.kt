@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import co.yml.charts.common.components.Legends
+import co.yml.charts.common.model.PlotType
 import co.yml.charts.common.utils.DataUtils
 import co.yml.charts.ui.piechart.charts.DonutPieChart
 import co.yml.charts.ui.piechart.models.PieChartConfig
@@ -34,21 +35,26 @@ class FragmentReports : Fragment(R.layout.fragment_report){
 
     private lateinit var dataViewModel: DataViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = ComposeView(requireContext())
-        view.apply {
-            setContent {
-                Text(text = "Compose created")
-            }
-        }
-        return view
-    }
+//    override fun onCreateView(
+//        inflater: LayoutInflater,
+//        container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ): View? {
+//        val view = ComposeView(requireContext())
+//        view.apply {
+//            setContent {
+//                Text(text = "Compose created")
+//            }
+//        }
+//        return view
+//    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val composeView = view.findViewById<ComposeView>(R.id.composeView)
+        composeView.setContent {
+            //Text(text = "Compose created")
+            TestDountChart(requireContext())
+        }
         dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
     }
 }
@@ -57,12 +63,21 @@ class FragmentReports : Fragment(R.layout.fragment_report){
 private fun TestDountChart(context: Context){
 
     val scope = rememberCoroutineScope()
-    val data = DataUtils.getDonutChartData()
+    //val data = DataUtils.getDonutChartData()
+    val donutChartData = PieChartData(
+        slices = listOf(
+            PieChartData.Slice("CAT 1", 15f, Color(0xFF5F0A87)),
+            PieChartData.Slice("CAT 2", 30f, Color(0xFF20BF55)),
+            PieChartData.Slice("CAT 3", 40f,  Color(0xFFEC9F05)),
+            PieChartData.Slice("CAT 4", 10f, Color(0xFFF53844))
+        ),
+        plotType = PlotType.Donut
+    )
     // Sum of all the values
-    val sumOfValues = data.totalLength
+    val sumOfValues = donutChartData.totalLength
 
     // Calculate each proportion value
-    val proportions = data.slices.proportion(sumOfValues)
+    val proportions = donutChartData.slices.proportion(sumOfValues)
     val pieChartConfig =
         PieChartConfig(
             labelVisible = true,
@@ -80,12 +95,12 @@ private fun TestDountChart(context: Context){
             .fillMaxWidth()
             .height(500.dp)
     ) {
-        Legends(legendsConfig = DataUtils.getLegendsConfigFromPieChartData(pieChartData = data, 3))
+        Legends(legendsConfig = DataUtils.getLegendsConfigFromPieChartData(pieChartData = donutChartData, 3))
         DonutPieChart(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(400.dp),
-            data,
+            donutChartData,
             pieChartConfig
         ) { slice ->
             Toast.makeText(context, slice.label, Toast.LENGTH_SHORT).show()
