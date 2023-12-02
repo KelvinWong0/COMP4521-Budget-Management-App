@@ -50,8 +50,10 @@ class DataViewModel(application: Application): AndroidViewModel(application) {
     }
     fun clearCategoryTable (){
         viewModelScope.launch(Dispatchers.IO) {
-            categoryRepo.clearRecord()
+            categoryRepo.clearCategory()
         }
     }
+
+    fun readCategoryByType(isIncome: Boolean) = categoryRepo.readCategoryByType(isIncome)
 
 }

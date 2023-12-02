@@ -13,8 +13,11 @@ class CategoryRepository(private val categoryDAO: CategoryDAO) {
         categoryDAO.addCategory(category)
     }
 
-    suspend fun clearRecord(){
+    suspend fun clearCategory(){
         categoryDAO.nukeTable()
     }
 
+    fun readCategoryByType(isIncome: Boolean) : LiveData<List<Category>>{
+        return  categoryDAO.loadAllByType(isIncome)
+    }
 }

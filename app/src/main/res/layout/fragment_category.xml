@@ -79,7 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
-                android:checked="true"
+                android:checked="false"
                 android:textColor="@color/white"
                 android:thumb="@drawable/thumb_selector_large"
 

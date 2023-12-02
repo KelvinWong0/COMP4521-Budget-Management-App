@@ -3,6 +3,7 @@ package com.example.compose.fragments
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.widget.BaseAdapter
 import android.widget.GridView
 import android.widget.Toast
 import androidx.appcompat.view.menu.ActionMenuItemView
@@ -25,6 +26,7 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
     private lateinit var tvSwitchYes: android.widget.TextView
     private lateinit var tvSwitchNo: android.widget.TextView
     private lateinit var dataViewModel: DataViewModel
+    private lateinit var adapter : GridAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,25 +39,34 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
         val toptoolbar = view.findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.topAppBar)
 
         val gvCategory = view.findViewById<GridView>(R.id.gvCategory)
-        val adapter = GridAdapter()
+        adapter = GridAdapter()
         gvCategory.adapter = adapter
 
         btn.setOnClickListener{
             insertDataToDatabase()
         }
+        dataViewModel.readCategoryByType(false).observe(viewLifecycleOwner, Observer{categories ->
+
+            adapter.setData(categories)
+        })
 
         switchOnOff.setOnCheckedChangeListener { _, checked ->
             when {
                 checked -> {
-                    tvSwitchYes.setTextColor(Color.BLACK)
-                    tvSwitchNo.setTextColor(Color.BLACK)
+                    Toast.makeText(activity?.applicationContext, "Income selected", Toast.LENGTH_SHORT).show()
                 }
                 else -> {
-                    tvSwitchYes.setTextColor(Color.BLACK)
-                    tvSwitchNo.setTextColor(Color.BLACK)
+                    Toast.makeText(activity?.applicationContext, "Expense selected", Toast.LENGTH_SHORT).show()
                 }
+
             }
+            dataViewModel.readCategoryByType(checked).observe(viewLifecycleOwner, Observer{categories ->
+
+                adapter.setData(categories)
+            })
         }
+
+
 
         toptoolbar.setNavigationOnClickListener{
             MaterialAlertDialogBuilder(requireContext())
@@ -76,10 +87,11 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
                 .show()
         }
 
-        dataViewModel.readAllCategory.observe(viewLifecycleOwner, Observer{categories ->
-            adapter.setData(categories)
-        })
+
+
     }
+
+
 
     private fun insertDataToDatabase(){
         val category = Category(0, "clothings", R.drawable.ic_cat_entertainment, false)

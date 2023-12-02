@@ -30,6 +30,6 @@ interface CategoryDAO{
     fun getAll(): LiveData<List<Category>>
 
     @Query("SELECT * FROM category_table WHERE category_type LIKE :type")
-    fun loadAllByType(type : String): LiveData<List<Category>>
+    fun loadAllByType(type : Boolean): LiveData<List<Category>>
 
 }
