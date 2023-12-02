@@ -29,7 +29,7 @@ interface RecordDAO{
     @Query("SELECT * FROM record_table")
     fun getAll(): LiveData<List<Record>>
 
-    @Query("SELECT * FROM record_table WHERE type LIKE :categoryType")
-    fun loadAllByType(categoryType : String): LiveData<List<Record>>
+    @Query("SELECT * FROM record_table WHERE category_type LIKE :categoryType")
+    fun loadAllByType(categoryType : Boolean): LiveData<List<Record>>
 
 }

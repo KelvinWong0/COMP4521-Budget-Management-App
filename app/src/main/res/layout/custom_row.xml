@@ -14,7 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:text="@{record.name}"
+            android:text="@{record.category.name}"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -29,7 +29,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:src="@{record.src != 0? context.getDrawable(record.src) : @drawable/ic_default}" />
+            android:src="@{record.category.src != 0? context.getDrawable(record.category.src) : @drawable/ic_default}" />
 
         <TextView
             android:id="@+id/record_amount"

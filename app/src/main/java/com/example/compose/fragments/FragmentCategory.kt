@@ -43,7 +43,7 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
         gvCategory.adapter = adapter
 
         btn.setOnClickListener{
-            insertDataToDatabase()
+            tempDatabaseInsert()
         }
         dataViewModel.readCategoryByType(false).observe(viewLifecycleOwner, Observer{categories ->
 
@@ -94,16 +94,16 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
 
 
     private fun insertDataToDatabase(){
-        val category = Category(0, "clothings", R.drawable.ic_cat_entertainment, false)
+        val category = Category(0,"clothings", R.drawable.ic_cat_entertainment, false)
         dataViewModel.addCategory(category)
         Toast.makeText(requireContext(),"successful!", Toast.LENGTH_LONG).show()
     }
 
     private fun tempDatabaseInsert(){
-        val record1 = Record(0, "Record1", R.drawable.ic_cat_savings, "200", "30-11-2023","INCOME" )
-        val record2 = Record(0, "Record2", R.drawable.ic_cat_entertainment, "-20", "30-11-2023","EXPENSE")
-        val record3 = Record(0, "Record3", R.drawable.ic_cat_shopping, "-60", "30-11-2023","EXPENSE" )
-        val record4 = Record(0, "Record4", R.drawable.ic_cat_savings, "150", "30-11-2023","INCOME" )
+        val record1 = Record(0,  "GTA6"     , Category(0,"games", R.drawable.ic_cat_entertainment, false)   , "200", "30-11-2023")
+        val record2 = Record(0,  "underwear", Category(0,"clothings", R.drawable.ic_cat_shopping, false)    , "-20", "30-11-2023")
+        val record3 = Record(0,  "water"    , Category(0,"bill", R.drawable.ic_cat_bills, false)            , "-60", "30-11-2023")
+        val record4 = Record(0,  "milk"     , Category(0,"grocery", R.drawable.ic_cat_grocery, false)       , "150", "30-11-2023")
         dataViewModel.addRecord(record1)
         dataViewModel.addRecord(record2)
         dataViewModel.addRecord(record3)
