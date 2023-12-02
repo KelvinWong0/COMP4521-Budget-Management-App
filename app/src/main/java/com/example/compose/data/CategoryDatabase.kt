@@ -25,12 +25,20 @@ abstract class CategoryDatabase : RoomDatabase() {
         private var instance: CategoryDatabase? = null
 
         private val PREPOPULATED_DATA = listOf(
+            //Expenses
             Category(0, "Grocery"   , R.drawable.ic_cat_grocery         , false),
             Category(0, "Game"      , R.drawable.ic_cat_entertainment   , false),
             Category(0, "Medication", R.drawable.ic_cat_medical         , false),
             Category(0, "Meal"      , R.drawable.ic_cat_restaurant      , false),
             Category(0, "Transport" , R.drawable.ic_cat_traffic         , false),
             Category(0, "Travel"    , R.drawable.ic_cat_travel          , false),
+
+            //Incomes
+            Category(0, "Savings"    , R.drawable.ic_cat_savings        , true),
+            Category(0, "Gifts"      , R.drawable.ic_cat_gift           , true),
+            Category(0, "Investment" , R.drawable.ic_cat_investment     , true),
+            Category(0, "Salary"     , R.drawable.ic_cat_salary         , true),
+            Category(0, "Dividend"   , R.drawable.ic_cat_dividend       , true),
             )
 
         fun getInstance(context: Context): CategoryDatabase {
