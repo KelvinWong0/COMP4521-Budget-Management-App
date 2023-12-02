@@ -6,6 +6,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.example.compose.R
 import com.example.compose.data.models.Category
 import com.example.compose.data.daos.CategoryDAO
 import kotlinx.coroutines.CoroutineScope
@@ -23,13 +24,31 @@ abstract class CategoryDatabase : RoomDatabase() {
         @Volatile
         private var instance: CategoryDatabase? = null
 
+        private val PREPOPULATED_DATA = listOf(
+            Category(0, "Grocery"   , R.drawable.ic_cat_grocery         , false),
+            Category(0, "Game"      , R.drawable.ic_cat_entertainment   , false),
+            Category(0, "Medication", R.drawable.ic_cat_medical         , false),
+            Category(0, "Meal"      , R.drawable.ic_cat_restaurant      , false),
+            Category(0, "Transport" , R.drawable.ic_cat_traffic         , false),
+            Category(0, "Travel"    , R.drawable.ic_cat_travel          , false),
+            )
+
         fun getInstance(context: Context): CategoryDatabase {
             return instance ?: synchronized(this) {
                 Room.databaseBuilder(context, CategoryDatabase::class.java,  "category_database")
                     .fallbackToDestructiveMigration()
+                    .addCallback(object : Callback() {
+                        override fun onCreate(db: SupportSQLiteDatabase) {
+                            super.onCreate(db)
+                            // insert the data on the IO Thread
+                            ioThread {
+                                getInstance(context).categoryDao().initializeCategories(PREPOPULATED_DATA)
+                            }
+                        }
+                    })
                     .build()
                     .also { instance = it }
-        }
+            }
             /*
             if (instance == null) {
                 synchronized(this) {
@@ -41,7 +60,5 @@ abstract class CategoryDatabase : RoomDatabase() {
             return instance!!
              */
         }
-
-
     }
 }
