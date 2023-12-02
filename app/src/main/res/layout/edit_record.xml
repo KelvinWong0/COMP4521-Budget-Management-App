@@ -12,6 +12,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <!-- Grid of Record Labels -->
+    <GridView
+        android:id="@+id/gvCategory"
+        android:layout_width="match_parent"
+        android:layout_height="275dp"
+        android:layout_marginTop="55dp"
+        android:horizontalSpacing="10dp"
+        android:numColumns="4"
+        android:padding="16dp"
+        android:verticalSpacing="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearBtnLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:orientation="vertical">
+
+        <!-- Add grid rows dynamically based on available categories -->
+
+    </GridView>
+
     <LinearLayout
         android:id="@+id/linearBtnLayout"
         android:layout_width="match_parent"

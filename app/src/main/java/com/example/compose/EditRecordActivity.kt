@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Button
+import android.widget.GridView
 import android.widget.ImageButton
 import android.widget.Spinner
 import android.widget.TextView
@@ -44,6 +45,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Observer
+import com.example.compose.fragments.list.GridAdapter
 import java.sql.Date
 import java.text.SimpleDateFormat
 import java.time.Instant
@@ -59,7 +62,8 @@ class EditRecordActivity : AppCompatActivity() {
     private lateinit var ibtnSelectDate : ImageButton
     private var shownDateView: Boolean = false
     private val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-    private  var selectedDate: String = dateFormat.format(Date(Instant.now().toEpochMilli()))
+//    private  var selectedDate: String = dateFormat.format(Date(Instant.now().toEpochMilli()))
+    private  var selectedDate: Date = Date(Instant.now().toEpochMilli())
 
     private lateinit var btnReturn : Button
     private lateinit var headerLayout : ConstraintLayout
@@ -71,12 +75,30 @@ class EditRecordActivity : AppCompatActivity() {
     private var selectedCurrencyCode: String? = null
 
     private lateinit var dataViewModel: DataViewModel
+    private lateinit var gridViewAdapter : GridAdapter
+    private lateinit var gvCategory: GridView
+    private lateinit var switchCategory: androidx.appcompat.widget.SwitchCompat
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.edit_record)
 
+        dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
         initializeViews()
+
+        if(switchCategory != null){
+            switchCategory.setOnCheckedChangeListener { _, checked ->
+                when {
+                    checked -> {}
+                    else -> {}
+                }
+                dataViewModel.readCategoryByType(checked).observe(this, Observer{categories ->
+                    gridViewAdapter.setData(categories)
+                })
+            }
+        }
+
+
         ibtnSelectDate.setOnClickListener{
             // DATE picker
             val datePickerView = findViewById<ComposeView>(R.id.composeViewDatePicker)
@@ -166,6 +188,18 @@ class EditRecordActivity : AppCompatActivity() {
         tvResult = findViewById(R.id.tvResult)
         tvCurCode = findViewById(R.id.tvCurCode)
         ibtnSelectDate = findViewById(R.id.ibtnSelectDate)
+
+        headerLayout = findViewById<ConstraintLayout>(R.id.header_edit_record)
+        switchCategory = headerLayout.findViewById<androidx.appcompat.widget.SwitchCompat>(R.id.switchOnOff)
+        Log.d("KYS", switchCategory.toString())
+
+        gvCategory = findViewById<GridView>(R.id.gvCategory)
+        gridViewAdapter = GridAdapter()
+        gvCategory.adapter = gridViewAdapter
+
+        dataViewModel.readCategoryByType(false).observe(this, Observer{categories ->
+            gridViewAdapter.setData(categories)
+        })
     }
 
     fun numberAction(view: View)
@@ -216,7 +250,6 @@ class EditRecordActivity : AppCompatActivity() {
     }
 
     fun confrimAddRecord(view: View) {
-        dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
 //        val category = Category(0, "clothings", "@drawables/NO_CREATED", "EXPENSE")
 //        dataViewModel.addCategory(category)
         val record = Record(0, "Record",  Category(0, "RecordN", 0, false ),  tvResult.text.toString().substringAfter(": ").trim(), selectedDate)
@@ -347,7 +380,8 @@ class EditRecordActivity : AppCompatActivity() {
             showModeToggle = true, // allow input mode or picker
         )
 
-        selectedDate = dateFormat.format(Date(datePickerState.selectedDateMillis ?: 0))
+        //selectedDate = dateFormat.format(Date(datePickerState.selectedDateMillis ?: 0))// gave up database store srting
+        selectedDate = Date(datePickerState.selectedDateMillis ?: 0)
 
     }
 }
