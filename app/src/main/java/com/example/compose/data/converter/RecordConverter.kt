@@ -2,18 +2,20 @@ package com.example.compose.data.converter
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Date
+import java.util.SimpleTimeZone
 
 class RecordConverter {
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun DateToString (date: LocalDate): String{
-        return date.format(DateTimeFormatter.ISO_LOCAL_DATE)
+
+    fun DateToString (date: Date): String{
+        return date.toString()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun StringToDate (date: String): LocalDate{
-        return LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE)
+
+    fun StringToDate (date: String): Date{
+        return SimpleDateFormat("dd-mm-yyyy").parse(date)
     }
 }

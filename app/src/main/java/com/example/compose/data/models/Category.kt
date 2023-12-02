@@ -12,8 +12,8 @@ data class Category(
     val id: Int = 0,
     @ColumnInfo(name = "name")
     val name: String,
-    @ColumnInfo(name = "img_src")
-    val src: String,
+    @ColumnInfo(name = "img_src_id")
+    val src: Int,
     @ColumnInfo(name = "category_type")
-    val type: String
+    val type: Boolean
 )

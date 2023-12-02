@@ -48,5 +48,10 @@ class DataViewModel(application: Application): AndroidViewModel(application) {
             recordRepo.clearRecord()
         }
     }
+    fun clearCategoryTable (){
+        viewModelScope.launch(Dispatchers.IO) {
+            categoryRepo.clearRecord()
+        }
+    }
 
 }

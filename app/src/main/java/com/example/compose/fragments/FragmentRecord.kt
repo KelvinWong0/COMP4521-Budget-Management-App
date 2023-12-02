@@ -46,6 +46,7 @@ class FragmentRecord: Fragment(R.layout.fragment_record){
                 .setPositiveButton("Proceed") { dialog, which ->
                     // Respond to positive button press
                     dataViewModel.clearRecordTable()
+                    dataViewModel.clearCategoryTable()
                     Toast.makeText(activity?.applicationContext, "All record deleted!", Toast.LENGTH_LONG).show()
                 }
                 .show()

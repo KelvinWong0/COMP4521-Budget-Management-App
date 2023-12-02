@@ -3,15 +3,21 @@ package com.example.compose.fragments
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.widget.GridView
 import android.widget.Toast
 import androidx.appcompat.view.menu.ActionMenuItemView
+import androidx.lifecycle.Observer
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.compose.DataViewModel
 import com.example.compose.R
 import com.example.compose.data.models.Category
 import com.example.compose.data.models.Record
+import com.example.compose.fragments.list.GridAdapter
+import com.example.compose.fragments.list.ListAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class FragmentCategory : Fragment(R.layout.fragment_category) {
@@ -30,8 +36,12 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
         val btn    = view.findViewById<ActionMenuItemView>(R.id.fl_category_action)
         val toptoolbar = view.findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.topAppBar)
 
+        val gvCategory = view.findViewById<GridView>(R.id.gvCategory)
+        val adapter = GridAdapter()
+        gvCategory.adapter = adapter
+
         btn.setOnClickListener{
-            tempDatabaseInsert()
+            insertDataToDatabase()
         }
 
         switchOnOff.setOnCheckedChangeListener { _, checked ->
@@ -65,10 +75,14 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
                 }
                 .show()
         }
+
+        dataViewModel.readAllCategory.observe(viewLifecycleOwner, Observer{categories ->
+            adapter.setData(categories)
+        })
     }
 
     private fun insertDataToDatabase(){
-        val category = Category(0, "clothings", "@drawables/NO_CREATED", "EXPENSE")
+        val category = Category(0, "clothings", R.drawable.ic_cat_entertainment, false)
         dataViewModel.addCategory(category)
         Toast.makeText(requireContext(),"successful!", Toast.LENGTH_LONG).show()
     }

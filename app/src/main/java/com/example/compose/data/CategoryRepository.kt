@@ -13,6 +13,8 @@ class CategoryRepository(private val categoryDAO: CategoryDAO) {
         categoryDAO.addCategory(category)
     }
 
-
+    suspend fun clearRecord(){
+        categoryDAO.nukeTable()
+    }
 
 }

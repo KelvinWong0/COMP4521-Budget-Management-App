@@ -121,17 +121,17 @@
         </RelativeLayout>
 
         <!-- Grid of Record Labels -->
-        <androidx.gridlayout.widget.GridLayout
-            android:id="@+id/recordLabelsGridLayout"
+        <GridView
+            android:id="@+id/gvCategory"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:padding="16dp"
-            app:columnCount="4"
+            android:numColumns="4"
             app:orientation="vertical">
 
             <!-- Add grid rows dynamically based on available categories -->
 
-        </androidx.gridlayout.widget.GridLayout>
+        </GridView>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
