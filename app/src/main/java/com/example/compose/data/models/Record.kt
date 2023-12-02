@@ -20,3 +20,4 @@ data class Record(
     @ColumnInfo(name = "date")
     val date: String,
 )
+

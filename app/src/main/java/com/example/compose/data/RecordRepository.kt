@@ -19,7 +19,7 @@ class RecordRepository(private val recordDAO: RecordDAO) {
         recordDAO.nukeTable()
     }
 
-    fun readAllDateWithRecordsByType(isIncome:Boolean){
-        recordDAO.loadAllRecordsDatedByType(isIncome)
+    fun readAllDateWithRecordsByType(month:String ,isIncome:Boolean){
+        recordDAO.loadAllRecordsDatedByType(month, isIncome)
     }
 }
