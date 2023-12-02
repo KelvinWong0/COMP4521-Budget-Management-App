@@ -7,6 +7,7 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/gridCat"
         app:strokeColor="@color/black"
         app:strokeWidth="4px"
         app:checkedIconTint="@color/golden"

@@ -1,25 +1,22 @@
 package com.example.compose.fragments
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.widget.BaseAdapter
+import android.widget.AdapterView.OnItemClickListener
 import android.widget.GridView
 import android.widget.Toast
 import androidx.appcompat.view.menu.ActionMenuItemView
-import androidx.lifecycle.Observer
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.findFragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.compose.DataViewModel
 import com.example.compose.R
 import com.example.compose.data.models.Category
 import com.example.compose.data.models.Record
 import com.example.compose.fragments.list.GridAdapter
-import com.example.compose.fragments.list.ListAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+
 
 class FragmentCategory : Fragment(R.layout.fragment_category) {
     private lateinit var switchOnOff: androidx.appcompat.widget.SwitchCompat
@@ -84,10 +81,11 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
                 .show()
         }
 
-        gvCategory.setOnItemClickListener()
-
-
-
+        gvCategory.onItemClickListener = OnItemClickListener { parent, view, position, id -> //here you can use the position to determine what checkbox to check
+            //this assumes that you have an array of your checkboxes as well. called checkbox
+            val grid = view.findViewById<com.google.android.material.card.MaterialCardView>(R.id.gridCat)
+            grid.get(position).setChecked(!checkBox.isChecked())
+        };
     }
 
 
