@@ -125,6 +125,8 @@
             android:id="@+id/gvCategory"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
+            android:verticalSpacing="10dp"
+            android:horizontalSpacing="10dp"
             android:padding="16dp"
             android:numColumns="4"
             app:orientation="vertical">

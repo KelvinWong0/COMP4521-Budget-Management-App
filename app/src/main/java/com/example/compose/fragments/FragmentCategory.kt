@@ -53,10 +53,10 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
         switchOnOff.setOnCheckedChangeListener { _, checked ->
             when {
                 checked -> {
-                    Toast.makeText(activity?.applicationContext, "Income selected", Toast.LENGTH_SHORT).show()
+
                 }
                 else -> {
-                    Toast.makeText(activity?.applicationContext, "Expense selected", Toast.LENGTH_SHORT).show()
+
                 }
 
             }
