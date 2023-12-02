@@ -10,7 +10,7 @@
         app:strokeColor="@color/black"
         app:strokeWidth="4px"
         app:checkedIconTint="@color/golden"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="5dp"
@@ -23,7 +23,7 @@
             android:paddingHorizontal="10dp"
             android:paddingVertical="4dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/record_ic"
@@ -41,7 +41,9 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="18dp"
-                android:text="@{category.name}"
+                android:text="@{category.name.length()>10?category.name.substring(0,6) + `...`:category.name}"
+                android:textSize="12sp"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
