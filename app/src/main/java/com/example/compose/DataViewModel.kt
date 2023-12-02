@@ -13,6 +13,7 @@ import com.example.compose.data.models.Category
 import com.example.compose.data.models.Record
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.Date
 
 class DataViewModel(application: Application): AndroidViewModel(application) {
 
@@ -56,6 +57,6 @@ class DataViewModel(application: Application): AndroidViewModel(application) {
 
     fun readCategoryByType(isIncome: Boolean) = categoryRepo.readCategoryByType(isIncome)
 
-    fun readDatesWithRecordsByType (month: String,isIncome: Boolean) = recordRepo.readAllDateWithRecordsByType(month,isIncome)
+    fun readDatesWithRecordsByType (month: Date,isIncome: Boolean) = recordRepo.readAllDateWithRecordsByType(month,isIncome)
 
 }

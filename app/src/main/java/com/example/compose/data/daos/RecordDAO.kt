@@ -8,6 +8,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.example.compose.data.models.Record
+import java.util.Date
 
 @Dao
 interface RecordDAO{
@@ -26,13 +27,13 @@ interface RecordDAO{
     @Query("DELETE FROM record_table")
     suspend fun nukeTable()
 
-    @Query("SELECT * FROM record_table ORDER BY ")
+    @Query("SELECT * FROM record_table")
     fun getAll(): LiveData<List<Record>>
 
     @Query("SELECT * FROM record_table WHERE category_type LIKE :isIncome")
     fun loadAllByType(isIncome : Boolean): LiveData<List<Record>>
 
-    @Query("SELECT * FROM record_table WHERE category_type LIKE :isIncome AND date LIKE ('-'+ :month + '-')")
-    fun loadAllRecordsDatedByType(month: String, isIncome: Boolean): LiveData<List<Record>>
+    @Query("SELECT * FROM record_table WHERE category_type LIKE :isIncome AND :month LIKE date")
+    fun loadAllRecordsDatedByType(month: Date, isIncome: Boolean): LiveData<List<Record>>
 }
 

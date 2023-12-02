@@ -5,6 +5,7 @@ import com.example.compose.data.daos.CategoryDAO
 import com.example.compose.data.daos.RecordDAO
 import com.example.compose.data.models.Category
 import com.example.compose.data.models.Record
+import java.util.Date
 
 
 class RecordRepository(private val recordDAO: RecordDAO) {
@@ -19,7 +20,7 @@ class RecordRepository(private val recordDAO: RecordDAO) {
         recordDAO.nukeTable()
     }
 
-    fun readAllDateWithRecordsByType(month:String ,isIncome:Boolean){
+    fun readAllDateWithRecordsByType(month: Date, isIncome:Boolean){
         recordDAO.loadAllRecordsDatedByType(month, isIncome)
     }
 }
