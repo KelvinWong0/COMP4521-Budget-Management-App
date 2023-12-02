@@ -46,7 +46,6 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
             tempDatabaseInsert()
         }
         dataViewModel.readCategoryByType(false).observe(viewLifecycleOwner, Observer{categories ->
-
             adapter.setData(categories)
         })
 
@@ -58,10 +57,8 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
                 else -> {
 
                 }
-
             }
             dataViewModel.readCategoryByType(checked).observe(viewLifecycleOwner, Observer{categories ->
-
                 adapter.setData(categories)
             })
         }
@@ -86,6 +83,8 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
                 }
                 .show()
         }
+
+        gvCategory.setOnItemClickListener()
 
 
 

@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-
+import java.sql.Date
 
 
 @Entity(tableName = "record_table")
@@ -18,6 +18,6 @@ data class Record(
     @ColumnInfo(name = "amount")
     val amount: String,
     @ColumnInfo(name = "date")
-    val date: String,
+    val date: Date,
 )
 

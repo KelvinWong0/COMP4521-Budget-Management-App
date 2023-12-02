@@ -26,7 +26,7 @@ interface RecordDAO{
     @Query("DELETE FROM record_table")
     suspend fun nukeTable()
 
-    @Query("SELECT * FROM record_table")
+    @Query("SELECT * FROM record_table ORDER BY ")
     fun getAll(): LiveData<List<Record>>
 
     @Query("SELECT * FROM record_table WHERE category_type LIKE :isIncome")
