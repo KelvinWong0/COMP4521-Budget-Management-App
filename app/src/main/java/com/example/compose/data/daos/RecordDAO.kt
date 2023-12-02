@@ -7,6 +7,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import com.example.compose.data.models.DateWithRecords
 import com.example.compose.data.models.Record
 
 @Dao
@@ -29,7 +30,9 @@ interface RecordDAO{
     @Query("SELECT * FROM record_table")
     fun getAll(): LiveData<List<Record>>
 
-    @Query("SELECT * FROM record_table WHERE category_type LIKE :categoryType")
-    fun loadAllByType(categoryType : Boolean): LiveData<List<Record>>
+    @Query("SELECT * FROM record_table WHERE category_type LIKE :isIncome")
+    fun loadAllByType(isIncome : Boolean): LiveData<List<Record>>
 
+    @Query("SELECT * FROM record_table WHERE category_type LIKE :isIncome GROUP BY Date")
+    fun loadAllRecordsDatedByType(isIncome: Boolean): LiveData<List<DateWithRecords>>
 }

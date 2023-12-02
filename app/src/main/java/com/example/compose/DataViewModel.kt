@@ -56,4 +56,6 @@ class DataViewModel(application: Application): AndroidViewModel(application) {
 
     fun readCategoryByType(isIncome: Boolean) = categoryRepo.readCategoryByType(isIncome)
 
+    fun readDatesWithRecordsByType (isIncome: Boolean) = recordRepo.readAllDateWithRecordsByType(isIncome)
+
 }
