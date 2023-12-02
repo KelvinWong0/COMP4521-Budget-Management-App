@@ -378,6 +378,25 @@
 
     </LinearLayout>
 
+    <ImageButton
+        android:id="@+id/ibtnSelectDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/linearBtnLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_date" />
+
+    <EditText
+        android:id="@+id/etRecordName"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="280dp"
+        android:hint="Enter Record Name"
+        android:inputType="text"
+        android:background="@android:drawable/editbox_background"
+        app:layout_constraintStart_toEndOf="@+id/ibtnSelectDate"
+        app:layout_constraintBottom_toTopOf="@+id/linearBtnLayout" />
+
     <androidx.compose.ui.platform.ComposeView
         android:id="@+id/composeViewDatePicker"
         android:layout_width="wrap_content"
@@ -390,14 +409,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/header_edit_record" />
-
-    <ImageButton
-        android:id="@+id/ibtnSelectDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/linearBtnLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_date" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

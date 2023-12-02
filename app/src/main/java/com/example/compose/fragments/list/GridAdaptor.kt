@@ -15,7 +15,7 @@ import com.example.compose.databinding.CustomRowBinding
 
 class GridAdapter: BaseAdapter() {
     private var categoryList = emptyList<Category>()
-
+    private var onItemClickListener: ((Category, Int) -> Unit)? = null
 
     override fun getCount(): Int {
         return categoryList.size
@@ -58,4 +58,5 @@ class GridAdapter: BaseAdapter() {
         this.categoryList = categories
         notifyDataSetChanged()
     }
+
 }

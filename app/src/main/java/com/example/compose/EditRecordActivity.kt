@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Button
+import android.widget.EditText
 import android.widget.GridView
 import android.widget.ImageButton
 import android.widget.Spinner
@@ -47,7 +48,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Observer
 import com.example.compose.fragments.list.GridAdapter
-import java.sql.Date
+import java.util.Date
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.time.LocalDateTime
@@ -58,6 +59,7 @@ class EditRecordActivity : AppCompatActivity() {
     private lateinit var tvSolution: TextView
     private lateinit var tvResult: TextView
     private lateinit var tvCurCode: TextView
+    private lateinit var etRecorName: EditText
 
     private lateinit var ibtnSelectDate : ImageButton
     private var shownDateView: Boolean = false
@@ -86,6 +88,7 @@ class EditRecordActivity : AppCompatActivity() {
         dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
         initializeViews()
 
+        //switch icons of Expense or Income
         if(switchCategory != null){
             switchCategory.setOnCheckedChangeListener { _, checked ->
                 when {
@@ -97,6 +100,8 @@ class EditRecordActivity : AppCompatActivity() {
                 })
             }
         }
+        //icons onClick
+        gvCategory.onItemClickListener
 
 
         ibtnSelectDate.setOnClickListener{
@@ -188,6 +193,7 @@ class EditRecordActivity : AppCompatActivity() {
         tvResult = findViewById(R.id.tvResult)
         tvCurCode = findViewById(R.id.tvCurCode)
         ibtnSelectDate = findViewById(R.id.ibtnSelectDate)
+        etRecorName = findViewById(R.id.etRecordName)
 
         headerLayout = findViewById<ConstraintLayout>(R.id.header_edit_record)
         switchCategory = headerLayout.findViewById<androidx.appcompat.widget.SwitchCompat>(R.id.switchOnOff)
@@ -246,13 +252,16 @@ class EditRecordActivity : AppCompatActivity() {
     fun equalsAction(view: View)
     {
         val result = calculateResults().toDouble()
-        tvResult.text = String.format("%s to HKD: %.2f", selectedCurrencyCode, result)
+//        tvResult.text = String.format("%s to HKD: %.2f", selectedCurrencyCode, result)
+        tvResult.text = String.format("HKD: %.2f", result)
     }
 
     fun confrimAddRecord(view: View) {
 //        val category = Category(0, "clothings", "@drawables/NO_CREATED", "EXPENSE")
 //        dataViewModel.addCategory(category)
-        val record = Record(0, "Record",  Category(0, "RecordN", 0, false ),  tvResult.text.toString().substringAfter(": ").trim(), selectedDate)
+        // SAMPLE: Record(0,  "GTA6"     , Category(0,"games", R.drawable.ic_cat_entertainment, false)   , "200", Date(30-11-2023))
+        val RecordName =  etRecorName.text.toString().takeIf { it.isNotBlank() } ?: "Unknown"
+        val record = Record(0, RecordName,  Category(0, "RecordN", 0, false ),  tvResult.text.toString().substringAfter(": ").trim(), selectedDate)
         dataViewModel.addRecord(record)
     }
 
