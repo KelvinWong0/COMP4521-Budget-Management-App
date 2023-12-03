@@ -85,4 +85,11 @@ class GridAdapter(private val listener: CategoryListener): BaseAdapter() {
         return null
     }
 
+    fun clearSelected(){
+        if(selected != -1){
+            selectedView.isChecked = false
+            selected = -1
+        }
+    }
+
 }

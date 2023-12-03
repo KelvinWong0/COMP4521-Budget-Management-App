@@ -57,11 +57,13 @@ class FragmentCategory : Fragment(R.layout.fragment_category), CategoryListener 
             when {
                 checked -> {
 
+
                 }
                 else -> {
 
                 }
             }
+            adapter.clearSelected()
             dataViewModel.readCategoryByType(checked).observe(viewLifecycleOwner, Observer{categories ->
                 adapter.setData(categories)
             })
