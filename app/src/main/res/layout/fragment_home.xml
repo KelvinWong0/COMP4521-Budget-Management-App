@@ -49,6 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textSize="24dp"
                 android:text="Expense\n$0" />
 
             <TextView
@@ -57,6 +58,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="right"
+                android:textSize="24dp"
                 android:text="Income\n$0" />
         </LinearLayout>
 
@@ -65,9 +67,11 @@
             android:layout_width="match_parent"
             android:layout_height="328dp"
             android:gravity="center"
+            android:textSize="32dp"
             android:text="Balance\n$0" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recordList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#00FFFFFF"
