@@ -89,6 +89,9 @@ class EditRecordActivity : AppCompatActivity() {
         dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
         initializeViews()
 
+        dataViewModel.readCategoryByType(false).observe(this, Observer{categories ->
+            gridViewAdapter.setData(categories)
+        })
         //switch icons of Expense or Income
         if(switchCategory != null){
             switchCategory.setOnCheckedChangeListener { _, checked ->
@@ -201,8 +204,8 @@ class EditRecordActivity : AppCompatActivity() {
         Log.d("KYS", switchCategory.toString())
 
         gvCategory = findViewById<GridView>(R.id.gvCategory)
-//        gridViewAdapter = GridAdapter()
-//        gvCategory.adapter = gridViewAdapter
+        gridViewAdapter = GridAdapter()
+        gvCategory.adapter = gridViewAdapter
 //
 //        dataViewModel.readCategoryByType(false).observe(this, Observer{categories ->
 //            gridViewAdapter.setData(categories)
@@ -263,11 +266,10 @@ class EditRecordActivity : AppCompatActivity() {
     }
 
     fun confrimAddRecord(view: View) {
-//        val category = Category(0, "clothings", "@drawables/NO_CREATED", "EXPENSE")
-//        dataViewModel.addCategory(category)
+        val cat = gridViewAdapter.getSelectedCategory().takeIf { it.isNotNull() } ?: Category(0, "RecordN", 0, false )
         // SAMPLE: Record(0,  "GTA6"     , Category(0,"games", R.drawable.ic_cat_entertainment, false)   , "200", Date(30-11-2023))
-        val RecordName =  etRecorName.text.toString().takeIf { it.isNotBlank() } ?: "Unknown"
-        val record = Record(0, RecordName,  Category(0, "RecordN", 0, false ),  tvResult.text.toString().substringAfter(": ").trim(), selectedDate)
+        val RecordName =  etRecorName.text.toString().takeIf { it.isNotBlank() } ?: cat.name
+        val record = Record(0, RecordName,  cat,  tvResult.text.toString().substringAfter(": ").trim(), selectedDate)
         dataViewModel.addRecord(record)
     }
 

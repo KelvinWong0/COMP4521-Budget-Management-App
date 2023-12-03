@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_centerVertical="true"
-            android:checked="true"
+            android:checked="false"
             android:textColor="@color/white"
             android:thumb="@drawable/thumb_selector_small"
             app:switchMinWidth="140dp"
