@@ -22,6 +22,7 @@ class DataViewModel(application: Application): AndroidViewModel(application) {
     val readAllRecord: LiveData<List<Record>>
     val readAllExpense: LiveData<List<Record>>
     val readAllIncome: LiveData<List<Record>>
+    val readRecordsByDate: LiveData<Map<Date, List<Record>>>
 
     val getTotalExpense: LiveData<Int>
     val getTotalIncome: LiveData<Int>
@@ -38,6 +39,7 @@ class DataViewModel(application: Application): AndroidViewModel(application) {
         readAllRecord = recordRepo.readAllData
         readAllExpense = recordRepo.readAllExpense
         readAllIncome = recordRepo.readAllIncome
+        readRecordsByDate = recordRepo.readRecordsByDate
 
         getTotalExpense = recordRepo.getTotalExpense
         getTotalIncome = recordRepo.getTotalIncome
@@ -85,6 +87,7 @@ class DataViewModel(application: Application): AndroidViewModel(application) {
     fun readMonthWithRecords(startOfMonth: Date, startOfNextMonth: Date) = recordRepo.readMonthWithRecords(startOfMonth, startOfNextMonth)
 
     fun sumDayRecordsByType(startOfDay: Date, startOfNextDay: Date, isIncome: Boolean) = recordRepo.sumDayRecordsByType(startOfDay, startOfNextDay,isIncome)
+
 
 
 }

@@ -4,9 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.MapColumn
+import androidx.room.MapInfo
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
+import com.example.compose.data.models.DateWithRecords
 import com.example.compose.data.models.Record
 import java.util.Date
 
@@ -48,5 +52,9 @@ interface RecordDAO{
 
     @Query("SELECT SUM(amount) FROM record_table WHERE category_type = :isIncome")
     fun sumOfRecordsByCategory (isIncome: Boolean): LiveData<Int>
+
+
+    @Query("SELECT date(ra.date/1000, 'unixepoch') as date,  *  FROM record_table ra  inner JOIN  record_table rb  ON date(ra.date/1000, 'unixepoch') = date(rb.date/1000, 'unixepoch')  GROUP BY  date(ra.date/1000, 'unixepoch') ")
+    fun getRecordsByDate(): LiveData<Map<@MapColumn("date") Date, List<Record>>>
 }
 

@@ -21,3 +21,7 @@ data class Record(
     val date: Date,
 )
 
+data class DateWithRecords(
+    @Embedded val records: List<Record>,
+    val date: Date
+)
