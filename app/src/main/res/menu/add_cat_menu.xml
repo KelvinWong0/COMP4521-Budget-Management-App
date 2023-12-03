@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/addCat"
+        android:title="@string/add_cat"
         android:icon="@drawable/ic_check"
         app:showAsAction="always">
 

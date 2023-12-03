@@ -28,7 +28,7 @@ interface RecordDAO{
     suspend fun nukeTable()
 
     @Query("DELETE FROM record_table WHERE categoryId  =  :categoryId")
-    fun deleteRecordsInCategory(categoryId: Int)
+    suspend fun deleteRecordsInCategory(categoryId: Int)
 
     @Query("SELECT * FROM record_table")
     fun getAll(): LiveData<List<Record>>

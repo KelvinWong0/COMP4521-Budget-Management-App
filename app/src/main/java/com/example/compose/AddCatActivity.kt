@@ -99,6 +99,9 @@ class AddCatActivity: AppCompatActivity() {
                 if(type == ""){
                     acCatType.error = "select category type"
                 }
+                if(iconId == null){
+                    Toast.makeText(this, "Please select an icon for cateogry", Toast.LENGTH_LONG).show()
+                }
 
             }
 //            setResult(Activity.RESULT_OK, intent)
