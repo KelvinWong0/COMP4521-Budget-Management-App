@@ -79,9 +79,19 @@ class FragmentReports : Fragment(R.layout.fragment_report){
             var recordList: List<Record>
             var pieSlices:  List<PieChartData.Slice> = emptyList()
             var donutChartData: PieChartData
-            var launchChart: Boolean = false
 
-            dataViewModel.readAllExpense.observe(viewLifecycleOwner, Observer{records ->
+            val calendar = Calendar.getInstance()
+            calendar.set(Calendar.HOUR_OF_DAY, 0); // Set hours to 0
+            calendar.set(Calendar.MINUTE, 0); // Set minutes to 0
+            calendar.set(Calendar.SECOND, 0); // Set seconds to 0
+            calendar.set(Calendar.MILLISECOND, 0); // Set milliseconds to 0
+            calendar.set(Calendar.DAY_OF_MONTH,1)
+            Log.i("Month", calendar.time.toString())
+            val startOfMonth = calendar.time
+            calendar.add(Calendar.MONTH, 1)
+            val startOfNextMonth = calendar.time
+
+            dataViewModel.readMonthWithRecordsByType(startOfMonth, startOfNextMonth ,false).observe(viewLifecycleOwner, Observer{ records ->
                 recordList = records
 
                 pieSlices = recordList.map { Record ->
@@ -99,8 +109,6 @@ class FragmentReports : Fragment(R.layout.fragment_report){
                         ) // Generate a new color if it is already used
                     }
                     usedColors.add(color)
-                    Log.i("Fecthed Record", Record.category.name)
-                    Log.i("RNG Color", color.toString())
                     PieChartData.Slice(Record.category.name, Record.amount.toFloat(), color)
                 }
 
