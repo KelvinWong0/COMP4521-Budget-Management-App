@@ -9,7 +9,7 @@ import com.example.compose.databinding.CustomGridCatBinding
 import com.google.android.material.card.MaterialCardView
 
 
-class GridAdapter(): BaseAdapter() {
+class SimpleGridAdapter(): BaseAdapter() {
     private var categoryList = emptyList<Category>()
     private lateinit var selectedView : MaterialCardView
 
@@ -37,16 +37,7 @@ class GridAdapter(): BaseAdapter() {
             holder.view = itemBinding.root
             holder.view.tag = holder
             itemBinding.gridCat.setOnClickListener{
-                itemBinding.gridCat.isChecked = !(itemBinding.gridCat.isChecked)
-                if(selected == position){
-                    selected = -1
-                }else{
-                    if(selected != -1){
-                        selectedView.isChecked = false
-                    }
-                    selected = position
-                    selectedView = itemBinding.gridCat
-                }
+
             }
         } else {
             holder = convertView.tag as ViewHolder

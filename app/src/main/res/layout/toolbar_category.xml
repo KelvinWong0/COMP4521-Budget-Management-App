@@ -21,7 +21,7 @@
                 app:title="@string/title_category"
                 app:titleCentered="true"
                 app:menu="@menu/fl_category_menu"
-                app:navigationIcon="@drawable/ic_back_arrow" />
+                app:navigationIcon="@drawable/ic_remove_24" />
 
         </com.google.android.material.appbar.AppBarLayout>
 

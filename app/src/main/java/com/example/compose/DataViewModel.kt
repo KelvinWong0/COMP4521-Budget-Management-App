@@ -12,6 +12,7 @@ import com.example.compose.data.RecordRepository
 import com.example.compose.data.models.Category
 import com.example.compose.data.models.Record
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import java.util.Date
 
@@ -22,6 +23,9 @@ class DataViewModel(application: Application): AndroidViewModel(application) {
     val readAllRecord: LiveData<List<Record>>
     val readAllExpense: LiveData<List<Record>>
     val readAllIncome: LiveData<List<Record>>
+
+    val getTotalExpense: LiveData<Int>
+    val getTotalIncome: LiveData<Int>
 
     private val categoryRepo : CategoryRepository
     private val recordRepo : RecordRepository
@@ -35,6 +39,14 @@ class DataViewModel(application: Application): AndroidViewModel(application) {
         readAllRecord = recordRepo.readAllData
         readAllExpense = recordRepo.readAllExpense
         readAllIncome = recordRepo.readAllIncome
+
+        getTotalExpense = recordRepo.getTotalExpense
+        getTotalIncome = recordRepo.getTotalIncome
+
+//        incomeAndExpense = getIncome.asFlow().combine(getExpense.asFlow()){
+//            income, expense ->
+//            income to expense
+//        }.asLiveData()
     }
 
     fun addRecord (record: Record) {
@@ -63,5 +75,6 @@ class DataViewModel(application: Application): AndroidViewModel(application) {
     fun readCategoryByType(isIncome: Boolean) = categoryRepo.readCategoryByType(isIncome)
 
     fun readDatesWithRecordsByType( startOfMonth: Date, startOfNextMonth: Date,isIncome: Boolean) = recordRepo.readAllDateWithRecordsByType(startOfMonth, startOfNextMonth,isIncome)
+
 
 }

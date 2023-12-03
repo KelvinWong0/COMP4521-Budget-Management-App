@@ -2,21 +2,17 @@ package com.example.compose.fragments
 
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView.OnItemClickListener
 import android.widget.GridView
 import android.widget.Toast
 import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.findFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.compose.CategoryListener
 import com.example.compose.DataViewModel
 import com.example.compose.R
 import com.example.compose.data.models.Category
 import com.example.compose.data.models.Record
-import com.example.compose.fragments.list.GridAdapter
-import com.google.android.material.card.MaterialCardView
+import com.example.compose.fragments.list.SimpleGridAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.sql.Date
 
@@ -26,7 +22,7 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
     private lateinit var tvSwitchYes: android.widget.TextView
     private lateinit var tvSwitchNo: android.widget.TextView
     private lateinit var dataViewModel: DataViewModel
-    private lateinit var adapter : GridAdapter
+    private lateinit var adapter : SimpleGridAdapter
 
 
 
@@ -41,7 +37,7 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
         val toptoolbar = view.findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.topAppBar)
 
         val gvCategory = view.findViewById<GridView>(R.id.gvCategory)
-        adapter = GridAdapter()
+        adapter = SimpleGridAdapter()
         gvCategory.adapter = adapter
 
         btn.setOnClickListener{
