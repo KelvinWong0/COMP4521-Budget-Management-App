@@ -31,6 +31,9 @@ import com.example.compose.DataViewModel
 import com.example.compose.R
 import com.example.compose.data.models.Record
 import com.example.compose.fragments.list.ListAdapter
+import java.time.Instant
+import java.util.Calendar
+import java.util.Date
 import java.util.Random
 
 class FragmentReports : Fragment(R.layout.fragment_report){
@@ -151,9 +154,57 @@ class FragmentReports : Fragment(R.layout.fragment_report){
         }
         //show Income chart
         sbtnIncome.setOnClickListener {
-            composeView.setContent {
-                IncomeDountChart(requireContext())
-            }
+            val usedColors = mutableSetOf<Color>()
+            var recordList: List<Record>
+            var pieSlices:  List<PieChartData.Slice> = emptyList()
+            var donutChartData: PieChartData
+            val refDate = Date(Instant.now().toEpochMilli())
+            val calendar = Calendar.getInstance()
+            calendar.set(Calendar.HOUR_OF_DAY, 0); // Set hours to 0
+            calendar.set(Calendar.MINUTE, 0); // Set minutes to 0
+            calendar.set(Calendar.SECOND, 0); // Set seconds to 0
+            calendar.set(Calendar.MILLISECOND, 0); // Set milliseconds to 0
+            calendar.set(Calendar.DAY_OF_MONTH,1)
+            Log.i("Month", calendar.time.toString())
+            val startOfMonth = calendar.time
+            calendar.add(Calendar.MONTH, 1)
+            val startOfNextMonth = calendar.time
+
+            dataViewModel.readDatesWithRecordsByType(startOfMonth, startOfNextMonth ,true).observe(viewLifecycleOwner, Observer{ records ->
+                recordList = records
+                Log.i("Bruh", recordList.toString())
+                pieSlices = recordList.map { Record ->
+                    val random = Random()
+                    var color = Color(
+                        red = random.nextInt(),
+                        green = random.nextInt(),
+                        blue = random.nextInt()
+                    )
+                    while (usedColors.contains(color)) {
+                        color = Color(
+                            red = random.nextInt(),
+                            green = random.nextInt(),
+                            blue = random.nextInt()
+                        ) // Generate a new color if it is already used
+                    }
+                    usedColors.add(color)
+                    Log.i("Fecthed Record", Record.category.name)
+                    Log.i("RNG Color", color.toString())
+                    PieChartData.Slice(Record.category.name, Record.amount.toFloat(), color)
+                }
+
+                donutChartData = PieChartData(
+                    slices = pieSlices,
+                    plotType = PlotType.Donut
+                )
+
+                if(pieSlices.isNotEmpty()){
+                    composeView.setContent {
+                        ExpenseDountChart(requireContext(), donutChartData)
+                    }
+                }
+
+            })
         }
         //show Balance chart
         sbtnBalance.setOnClickListener {

@@ -1,9 +1,7 @@
 package com.example.compose.data
 
 import androidx.lifecycle.LiveData
-import com.example.compose.data.daos.CategoryDAO
 import com.example.compose.data.daos.RecordDAO
-import com.example.compose.data.models.Category
 import com.example.compose.data.models.Record
 import java.util.Date
 
@@ -22,7 +20,7 @@ class RecordRepository(private val recordDAO: RecordDAO) {
         recordDAO.nukeTable()
     }
 
-    fun readAllDateWithRecordsByType(month: Date, isIncome:Boolean){
-        recordDAO.loadAllRecordsinMonthByType(month, isIncome)
+    fun readAllDateWithRecordsByType(startOfMonth: Date, startOfNextMonth: Date, isIncome:Boolean): LiveData<List<Record>>{
+        return recordDAO.loadAllRecordsinMonthByType(startOfMonth, startOfNextMonth, isIncome)
     }
 }
