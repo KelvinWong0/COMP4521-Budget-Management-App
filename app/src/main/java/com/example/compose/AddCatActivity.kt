@@ -4,9 +4,15 @@ import com.example.compose.R
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.widget.AutoCompleteTextView
 import android.widget.GridView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.view.menu.ActionMenuItemView
+import androidx.lifecycle.ViewModelProvider
+import com.example.compose.data.models.Category
 import com.example.compose.fragments.list.ivGridAdapter
+import com.google.android.material.textfield.TextInputEditText
 
 
 class AddCatActivity: AppCompatActivity() {
@@ -57,17 +63,47 @@ class AddCatActivity: AppCompatActivity() {
         R.drawable.ic_cat_workout
     )
 
-
+    private lateinit var dataViewModel: DataViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.add_cat_activity)
+        dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
 
         val toolbar = findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.addCatTopBar)
+        val btn    = toolbar.findViewById<ActionMenuItemView>(R.id.addCat)
+        val tvCatName = findViewById<TextInputEditText>(R.id.catName)
+        val acCatType = findViewById<AutoCompleteTextView>(R.id.catType)
+
         toolbar.setNavigationOnClickListener{
             val intent = Intent()
             setResult(Activity.RESULT_CANCELED, intent)
             finish()
+        }
+
+        btn.setOnClickListener{
+            val name:String = tvCatName.text.toString()
+            val type:String = acCatType.text.toString()
+            val iconId = adapter.getSelectedImageId()
+            tvCatName.error =  null
+            acCatType.error = null
+
+            if(name != "" && type != "" && iconId != null){
+                setResult(Activity.RESULT_OK, intent)
+                dataViewModel.addCategory(Category(0,  name, iconId, type == "Income"))
+                finish()
+            }else{
+                if(name == ""){
+                    tvCatName.error = "fill category name"
+                }
+                if(type == ""){
+                    acCatType.error = "select category type"
+                }
+
+            }
+//            setResult(Activity.RESULT_OK, intent)
+//            dataViewModel.addCategory(Category())
+//            finish()
         }
 
         val gvIcon = findViewById<GridView>(R.id.gvIcon)
