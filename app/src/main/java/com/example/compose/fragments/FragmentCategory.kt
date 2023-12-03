@@ -98,11 +98,11 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
     }
 
     private fun tempDatabaseInsert(){
-//        val record1 = Record(0,  "GTA6"     , Category(0,"games", R.drawable.ic_cat_entertainment, false)   , "200", Date(30-11-2023))
+        val record1 = Record(0,  "GTA6"     , Category(0,"games", R.drawable.ic_cat_entertainment, false)   , "200", Date(30-11-2023))
 //        val record2 = Record(0,  "underwear", Category(0,"clothings", R.drawable.ic_cat_shopping, false)    , "-20", "30-11-2023")
 //        val record3 = Record(0,  "water"    , Category(0,"bill", R.drawable.ic_cat_bills, false)            , "-60", "30-11-2023")
 //        val record4 = Record(0,  "milk"     , Category(0,"grocery", R.drawable.ic_cat_grocery, false)       , "150", "30-11-2023")
-//        dataViewModel.addRecord(record1)
+        dataViewModel.addRecord(record1)
 //        dataViewModel.addRecord(record2)
 //        dataViewModel.addRecord(record3)
 //        dataViewModel.addRecord(record4)
