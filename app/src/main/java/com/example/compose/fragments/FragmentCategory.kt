@@ -21,16 +21,14 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.sql.Date
 
 
-class FragmentCategory : Fragment(R.layout.fragment_category), CategoryListener {
+class FragmentCategory : Fragment(R.layout.fragment_category) {
     private lateinit var switchOnOff: androidx.appcompat.widget.SwitchCompat
     private lateinit var tvSwitchYes: android.widget.TextView
     private lateinit var tvSwitchNo: android.widget.TextView
     private lateinit var dataViewModel: DataViewModel
     private lateinit var adapter : GridAdapter
 
-    override fun onCategoryClicked(catGrid: MaterialCardView) {
-        catGrid.isChecked = !(catGrid.isChecked)
-    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -43,7 +41,7 @@ class FragmentCategory : Fragment(R.layout.fragment_category), CategoryListener 
         val toptoolbar = view.findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.topAppBar)
 
         val gvCategory = view.findViewById<GridView>(R.id.gvCategory)
-        adapter = GridAdapter(this)
+        adapter = GridAdapter()
         gvCategory.adapter = adapter
 
         btn.setOnClickListener{
