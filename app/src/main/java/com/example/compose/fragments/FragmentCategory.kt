@@ -35,6 +35,7 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
         tvSwitchNo = view.findViewById<android.widget.TextView>(R.id.tvSwitchNo)
         val btn    = view.findViewById<ActionMenuItemView>(R.id.fl_category_action)
         val toptoolbar = view.findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.topAppBar)
+        val btn_addrecord = view.findViewById<>()
 
         val gvCategory = view.findViewById<GridView>(R.id.gvCategory)
         adapter = SimpleGridAdapter()
