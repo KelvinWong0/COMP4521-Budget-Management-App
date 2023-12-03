@@ -13,10 +13,9 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
-class SimpleGridAdapter(private val dataViewModel: DataViewModel): BaseAdapter() {
+class SimpleGridAdapter(private val dataViewModel: DataViewModel,  private val deleteMode: Boolean): BaseAdapter() {
     private var categoryList = emptyList<Category>()
     private lateinit var selectedView : MaterialCardView
-    private var deleteMode = false
 
     private var selected: Int = -1
 
@@ -38,16 +37,20 @@ class SimpleGridAdapter(private val dataViewModel: DataViewModel): BaseAdapter()
             CustomGridCatBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         if (convertView == null) {
 
+
             holder = ViewHolder(itemBinding)
             holder.view = itemBinding.root
             holder.view.tag = holder
-            if(deleteMode &&  itemBinding.category!= null){
-                Toast.makeText(holder.view.context, "$deleteMode", Toast.LENGTH_LONG).show()
-                itemBinding.gridCat.setOnClickListener {
+            holder.binding.category = itemBinding.category
 
-                    MaterialAlertDialogBuilder(holder.view.context)
+            if(deleteMode){
+                val view  =  holder.view   as MaterialCardView
+
+                view.setOnClickListener {
+
+                    MaterialAlertDialogBuilder(view.context)
                         .setTitle("Warning")
-                        .setMessage("Delete `${itemBinding.category!!.name}` and it's records?")
+                        .setMessage("Delete `${holder.binding.category?.name}` and it's records?")
                         .setNeutralButton("Cancel") { dialog, which ->
                             // Respond to neutral button press
 
@@ -57,13 +60,33 @@ class SimpleGridAdapter(private val dataViewModel: DataViewModel): BaseAdapter()
 //                }
                         .setPositiveButton("Proceed") { dialog, which ->
                             // Respond to positive button press
-                            dataViewModel.deleteCategory(itemBinding.category!!)
-                            Toast.makeText(holder.view.context, "All record deleted!", Toast.LENGTH_LONG).show()
+                            if(holder.binding.category != null){
+                                dataViewModel.deleteCategory(holder.binding.category!!)
+                                Toast.makeText(holder.view.context, "Category ${holder.binding.category!!.name} is removed!", Toast.LENGTH_LONG).show()
+                            }
                         }
                         .show()
                 }
+            }else{
+//                TODO("open list of record in that category")
+//
+//                holder.view.setOnClickListener {
+//                    Toast.makeText(holder.view.context, "${holder.binding.category}", Toast.LENGTH_LONG).show()
+////                    Toast.makeText(holder.view.context, "${itemBinding.category}", Toast.LENGTH_LONG).show()
+//                    val view = it as MaterialCardView
+//                    view.isChecked = !(view.isChecked)
+//                    if(selected == position){
+//                        selected = -1
+//                    }else{
+//                        if(selected != -1){
+//                            selectedView.isChecked = false
+//                        }
+//                        selected = position
+//                        selectedView = view
+//                    }
+//
+//                }
             }
-            Toast.makeText(holder.view.context, "All record deleted!", Toast.LENGTH_LONG).show()
         } else {
             holder = convertView.tag as ViewHolder
         }
@@ -100,11 +123,6 @@ class SimpleGridAdapter(private val dataViewModel: DataViewModel): BaseAdapter()
             selectedView.isChecked = false
             selected = -1
         }
-    }
-
-    fun switchMode(){
-        deleteMode = !deleteMode
-        notifyDataSetChanged()
     }
 
 }

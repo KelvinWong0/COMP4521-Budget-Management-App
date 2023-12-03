@@ -31,6 +31,7 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
     private lateinit var adapter : SimpleGridAdapter
     private lateinit var launcher: ActivityResultLauncher<Intent>
     private lateinit var categoryList: List<Category>
+    private var gridDeleteMode: Boolean = false
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,7 +46,7 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
         val btnSort = view.findViewById<Switch>(R.id.btnSort)
 
         val gvCategory = view.findViewById<GridView>(R.id.gvCategory)
-        adapter = SimpleGridAdapter(dataViewModel)
+        adapter = SimpleGridAdapter(dataViewModel, gridDeleteMode)
         gvCategory.adapter = adapter
 
         launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -100,8 +101,18 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
 
 
         toptoolbar.setNavigationOnClickListener{
-            adapter.switchMode()
+            gridDeleteMode = !gridDeleteMode
+            if(gridDeleteMode){
+                toptoolbar.setNavigationIcon(R.drawable.ic_view)
+            }else{
+                toptoolbar.setNavigationIcon(R.drawable.ic_delete_24)
+            }
+            adapter = SimpleGridAdapter(dataViewModel, gridDeleteMode)
+            gvCategory.adapter = adapter
+            adapter.setData(categoryList)
         }
+
+
 
 //        gvCategory.onItemClickListener = OnItemClickListener { parent, view, position, id -> //here you can use the position to determine what checkbox to check
 //            //this assumes that you have an array of your checkboxes as well. called checkbox
