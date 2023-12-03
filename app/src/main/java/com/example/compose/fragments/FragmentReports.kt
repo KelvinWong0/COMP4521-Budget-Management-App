@@ -259,9 +259,12 @@ class FragmentReports : Fragment(R.layout.fragment_report){
                         )
                     }
                     lineChartData = list
-                    composeView.setContent {
-                        Linechart(lineChartData)
+                    if(lineChartData.isNotEmpty()){
+                        composeView.setContent {
+                            Linechart(lineChartData)
+                        }
                     }
+
 
                 })
 
