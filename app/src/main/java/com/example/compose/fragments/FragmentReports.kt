@@ -45,6 +45,7 @@ import com.example.compose.R
 import com.example.compose.data.models.Record
 import com.example.compose.fragments.list.ListAdapter
 import java.util.Calendar
+import java.util.Date
 import java.util.Random
 
 class FragmentReports : Fragment(R.layout.fragment_report){
@@ -192,14 +193,14 @@ class FragmentReports : Fragment(R.layout.fragment_report){
             calendar.set(Calendar.SECOND, 0); // Set seconds to 0
             calendar.set(Calendar.MILLISECOND, 0); // Set milliseconds to 0
             calendar.set(Calendar.DAY_OF_MONTH,1)
-            Log.i("Month", calendar.time.toString())
+            //Log.i("Month", calendar.time.toString())
             val startOfMonth = calendar.time
             calendar.add(Calendar.MONTH, 1)
             val startOfNextMonth = calendar.time
 
             dataViewModel.readMonthWithRecordsByType(startOfMonth, startOfNextMonth ,true).observe(viewLifecycleOwner, Observer{ records ->
                 recordList = records
-                Log.i("Bruh", recordList.toString())
+                //Log.i("Bruh", recordList.toString())
                 pieSlices = recordList.map { Record ->
                     val random = Random()
                     var color = Color(
@@ -234,8 +235,7 @@ class FragmentReports : Fragment(R.layout.fragment_report){
         //show Balance chart
         sbtnBalance.setOnClickListener {
             composeView.setContent {
-                var lineChartData: List<Point>
-                val list = arrayListOf<Point>()
+                var lineChartData = mutableListOf<Point>()
 
                 val calendar = Calendar.getInstance()
                 calendar.set(Calendar.HOUR_OF_DAY, 0); // Set hours to 0
@@ -243,24 +243,52 @@ class FragmentReports : Fragment(R.layout.fragment_report){
                 calendar.set(Calendar.SECOND, 0); // Set seconds to 0
                 calendar.set(Calendar.MILLISECOND, 0); // Set milliseconds to 0
                 calendar.set(Calendar.DAY_OF_MONTH,1)
+                val startOfMonth = calendar.time
+                calendar.add(Calendar.MONTH, 1)
+                val startOfNextMonth = calendar.time
 
-                var balance = 0.0
-                dataViewModel.readAllRecord.observe(viewLifecycleOwner, Observer{records ->
-                    for( (index, record) in records.withIndex()){
+                val balance = 0.0
+                dataViewModel.readMonthWithRecords(startOfMonth, startOfNextMonth).observe(viewLifecycleOwner, Observer{records ->
+
+                    val list = mutableListOf<Pair<Int, Float>>()
+
+                    for( record in records){
+                        calendar.time = record.date
+                        val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+
                         val amount = if (record.category.type) {
-                            balance += record.amount.toFloat()
+                            +record.amount.toFloat()
                         } else {
-                            balance -= record.amount.toFloat()
+                            -record.amount.toFloat()
                         }
-                        list.add(
-                            Point(
-                                index.toFloat(),
-                                balance.toFloat()// Income - expense
-                            )
-                        )
+
+                        val existingEntry = list.find { it.first == dayOfMonth }
+                        if (existingEntry != null) {
+                            val updatedAmount = existingEntry.second + amount
+                            list[list.indexOf(existingEntry)] = Pair(dayOfMonth, updatedAmount)
+                        } else {
+                            list.add(Pair(dayOfMonth, amount))
+                        }
                     }
-                    lineChartData = list
+
+                    list.sortBy { it.first }
+
+//                    val lineChartData = list.map { (day, amount) ->
+//                        Point(day.toFloat(), amount)
+//                    }
+
+//                    lineChartData = list.map { (day, amount) ->
+//                        Point(day.toFloat(), amount)
+//                    }
+                    var cumulativeBalance = balance
+
+                    for ((day, amount) in list) {
+                        cumulativeBalance += amount
+                        lineChartData.add(Point(day.toFloat(), cumulativeBalance.toFloat()))
+                    }
+
                     if(lineChartData.isNotEmpty()){
+                        Log.i("DLLM", lineChartData.toString())
                         composeView.setContent {
                             Linechart(lineChartData)
                         }
@@ -269,33 +297,6 @@ class FragmentReports : Fragment(R.layout.fragment_report){
 
                 })
 
-//                for (index in 0 until 31) {
-//                    val startOfDay = calendar.time
-//                    calendar.add(Calendar.DATE, 1)
-//                    val startOfNextDay = calendar.time
-//                    var dailyExpense = 0
-//                    var dailyIncome = 0
-//                    dataViewModel.sumDayRecordsByType(startOfDay, startOfNextDay ,true).observe(viewLifecycleOwner, Observer{ records -> Log.i("KYS", records.toString())})
-//                    dataViewModel.sumDayRecordsByType(startOfDay, startOfNextDay ,false).observe(viewLifecycleOwner, Observer{ sum_record ->
-//                        Log.i("Bruh", sum_record.toString())
-//                        if(sum_record != null){
-//                            dailyExpense = sum_record
-//                        }
-//                    })
-//                    dataViewModel.sumDayRecordsByType(startOfDay, startOfNextDay ,true).observe(viewLifecycleOwner, Observer{ sum_record ->
-//                        if(sum_record != null){
-//                            dailyIncome = sum_record
-//                        }
-//                    })
-//                    Log.i("Index", index.toString())
-//                    Log.i("SUM",  dailyIncome.toString() +"-"+ dailyExpense.toString())
-//                    list.add(
-//                        Point(
-//                            index.toFloat(),
-//                            (dailyIncome-dailyExpense).toFloat()// Income - expense
-//                        )
-//                    )
-//                }
 
             }
         }
@@ -389,8 +390,15 @@ class FragmentReports : Fragment(R.layout.fragment_report){
         )
     }
 
-
-
+    private fun trimTimeToDate(date: Date): Date {
+        val calendar = Calendar.getInstance()
+        calendar.time = date
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+        return calendar.time
+    }
 
 
 

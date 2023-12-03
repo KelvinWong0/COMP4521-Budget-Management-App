@@ -75,6 +75,8 @@ class DataViewModel(application: Application): AndroidViewModel(application) {
 
     fun readMonthWithRecordsByType(startOfMonth: Date, startOfNextMonth: Date, isIncome: Boolean) = recordRepo.readMonthWithRecordsByType(startOfMonth, startOfNextMonth,isIncome)
 
+    fun readMonthWithRecords(startOfMonth: Date, startOfNextMonth: Date) = recordRepo.readMonthWithRecords(startOfMonth, startOfNextMonth)
+
     fun sumDayRecordsByType(startOfDay: Date, startOfNextDay: Date, isIncome: Boolean) = recordRepo.sumDayRecordsByType(startOfDay, startOfNextDay,isIncome)
 
 

@@ -24,6 +24,10 @@ class RecordRepository(private val recordDAO: RecordDAO) {
         return recordDAO.loadAllRecordsinMonthByType(startOfMonth, startOfNextMonth, isIncome)
     }
 
+    fun readMonthWithRecords(startOfMonth: Date, startOfNextMonth: Date): LiveData<List<Record>>{
+        return recordDAO.loadAllRecordsinMonth(startOfMonth, startOfNextMonth)
+    }
+
     fun sumDayRecordsByType(startOfDay: Date, startOfNextDay: Date, isIncome:Boolean): LiveData<Int>{
         return recordDAO.sumAllRecordsinDayByType(startOfDay, startOfNextDay, isIncome)
     }

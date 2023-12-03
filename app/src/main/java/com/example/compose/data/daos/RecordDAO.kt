@@ -39,9 +39,12 @@ interface RecordDAO{
 
     @Query("SELECT * FROM record_table WHERE category_type LIKE :isIncome AND date >= :startOfMonth AND date < :startOfNextMonth")
     fun loadAllRecordsinMonthByType(startOfMonth: Date, startOfNextMonth: Date, isIncome: Boolean): LiveData<List<Record>>
+    @Query("SELECT * FROM record_table WHERE date >= :startOfMonth AND date < :startOfNextMonth")
+    fun loadAllRecordsinMonth(startOfMonth: Date, startOfNextMonth: Date): LiveData<List<Record>>
+
     @Query("SELECT SUM(CASE WHEN category_type = :isIncome THEN amount ELSE -amount END) FROM record_table WHERE date >= :startOfDay AND date < :startOfNextDay GROUP BY date")
     //@Query("SELECT SUM(amount) FROM record_table WHERE category_type = :isIncome AND date >= :startOfDay AND date < :startOfNextDay")
-    fun sumAllRecordsinDayByType(startOfDay: Date, startOfNextDay: Date, isIncome: Boolean): LiveData<Int>
+    fun sumAllRecordsinDayByType(startOfDay: Date, startOfNextDay: Date, isIncome: Boolean): LiveData<Int>//not working
 
     @Query("SELECT SUM(amount) FROM record_table WHERE category_type = :isIncome")
     fun sumOfRecordsByCategory (isIncome: Boolean): LiveData<Int>
