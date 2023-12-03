@@ -1,9 +1,6 @@
 package com.example.compose
 
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
@@ -13,47 +10,38 @@ import android.widget.GridView
 import android.widget.ImageButton
 import android.widget.Spinner
 import android.widget.TextView
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerState
+import androidx.compose.material3.DisplayMode
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import co.yml.charts.common.extensions.isNotNull
 import com.example.compose.API.ApiRequest
 import com.example.compose.data.models.Category
 import com.example.compose.data.models.Record
-import com.example.compose.databinding.EditRecordBinding
+import com.example.compose.fragments.list.GridAdapter
 import com.google.android.material.button.MaterialButton
 import com.google.gson.Gson
 import java.io.InputStreamReader
 import java.net.URL
-import javax.net.ssl.HttpsURLConnection
-
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerColors
-import androidx.compose.material3.DatePickerDefaults
-import androidx.compose.material3.DatePickerState
-import androidx.compose.material3.DisplayMode
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import androidx.lifecycle.Observer
-import co.yml.charts.common.extensions.isNotNull
-import com.example.compose.fragments.list.GridAdapter
-import java.util.Date
 import java.text.SimpleDateFormat
 import java.time.Instant
-import java.time.LocalDateTime
+import java.util.Date
 import java.util.Locale
+import javax.net.ssl.HttpsURLConnection
 
 class EditRecordActivity : AppCompatActivity() {
 
@@ -266,7 +254,7 @@ class EditRecordActivity : AppCompatActivity() {
     }
 
     fun confrimAddRecord(view: View) {
-        val cat = gridViewAdapter.getSelectedCategory().takeIf { it.isNotNull() } ?: Category(0, "RecordN", 0, false )
+        val cat = gridViewAdapter.getSelectedCategory().takeIf { it.isNotNull() } ?: Category(0, "Others", 0, false )
         // SAMPLE: Record(0,  "GTA6"     , Category(0,"games", R.drawable.ic_cat_entertainment, false)   , "200", Date(30-11-2023))
         val RecordName =  etRecorName.text.toString().takeIf { it.isNotBlank() } ?: cat.name
         val record = Record(0, RecordName,  cat,  tvResult.text.toString().substringAfter(": ").trim(), selectedDate)
