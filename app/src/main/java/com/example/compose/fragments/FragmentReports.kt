@@ -5,7 +5,10 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -45,7 +48,9 @@ import com.example.compose.DataViewModel
 import com.example.compose.R
 import com.example.compose.data.models.Record
 import com.example.compose.fragments.list.ListAdapter
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 import java.util.Random
 
 class FragmentReports : Fragment(R.layout.fragment_report){
@@ -72,63 +77,52 @@ class FragmentReports : Fragment(R.layout.fragment_report){
         val sbtnExpense = view.findViewById<Button>(R.id.btn_report_cat_1)
         val sbtnIncome = view.findViewById<Button>((R.id.btn_report_cat_2))
         val sbtnBalance = view.findViewById<Button>(R.id.btn_report_cat_3)
-
         val composeView = view.findViewById<ComposeView>(R.id.composeViewChart)
-        //Default show Expense chart
+
+        var selectedMonth: Int = 0
+
+        // Month Picker
+        val sp = view.findViewById<Spinner>(R.id.spMonthSelect)
+        val adapter: ArrayAdapter<CharSequence> = ArrayAdapter.createFromResource(
+            view.context,
+            R.array.month_code,
+            android.R.layout.simple_spinner_item
+        )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        sp.adapter = adapter
+        val calendar = Calendar.getInstance()
+        val monthAbbreviation = SimpleDateFormat("MMM", Locale.getDefault()).format(calendar.time)
+        val itemCount: Int = adapter.count
+
+        for (i in 0 until itemCount) {
+            val item: CharSequence? = adapter.getItem(i)
+            if (item != null && item.toString() == monthAbbreviation) {
+                sp.setSelection(i)
+                selectedMonth = i
+                break
+            }
+        }
+
+        //Log.i("Initial Month", selectedMonth)
+        //sp.setSelection()
+        sp.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val selectedItem = parent?.getItemAtPosition(position) as String
+                selectedMonth = position // Update the selected currency code
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+        }
+
+        //Default
         composeView.setContent {
-//            val usedColors = mutableSetOf<Color>()
-//            var recordList: List<Record>
-//            var pieSlices:  List<PieChartData.Slice> = emptyList()
-//            var donutChartData: PieChartData
-//
-//            val calendar = Calendar.getInstance()
-//            calendar.set(Calendar.HOUR_OF_DAY, 0); // Set hours to 0
-//            calendar.set(Calendar.MINUTE, 0); // Set minutes to 0
-//            calendar.set(Calendar.SECOND, 0); // Set seconds to 0
-//            calendar.set(Calendar.MILLISECOND, 0); // Set milliseconds to 0
-//            calendar.set(Calendar.DAY_OF_MONTH,1)
-//            Log.i("Month", calendar.time.toString())
-//            val startOfMonth = calendar.time
-//            calendar.add(Calendar.MONTH, 1)
-//            val startOfNextMonth = calendar.time
-//
-//            dataViewModel.readMonthWithRecordsByType(startOfMonth, startOfNextMonth ,false).observe(viewLifecycleOwner, Observer{ records ->
-//                recordList = records
-//
-//                pieSlices = recordList.map { Record ->
-//                    val random = Random()
-//                    var color = Color(
-//                        red = random.nextInt(),
-//                        green = random.nextInt(),
-//                        blue = random.nextInt()
-//                    )
-//                    while (usedColors.contains(color)) {
-//                        color = Color(
-//                            red = random.nextInt(),
-//                            green = random.nextInt(),
-//                            blue = random.nextInt()
-//                        ) // Generate a new color if it is already used
-//                    }
-//                    usedColors.add(color)
-//                    PieChartData.Slice(Record.category.name, Record.amount.toFloat(), color)
-//                }
-//
-//                donutChartData = PieChartData(
-//                    slices = pieSlices,
-//                    plotType = PlotType.Donut
-//                )
-//
-//                if(pieSlices.isNotEmpty()){
-//                    composeView.setContent {
-//                        DountChart(requireContext(), donutChartData)
-//                    }
-//                }else{
-//                    composeView.setContent {
-//                        errorShowCharts("Too few records to generate Pie Chart")
-//                    }
-//                }
-//
-//            })
             errorShowCharts("Please select the chart to display")
         }
         // Switch between Charts
@@ -139,12 +133,14 @@ class FragmentReports : Fragment(R.layout.fragment_report){
             var pieSlices:  List<PieChartData.Slice> = emptyList()
             var donutChartData: PieChartData
 
-            val calendar = Calendar.getInstance()
-            calendar.set(Calendar.HOUR_OF_DAY, 0); // Set hours to 0
-            calendar.set(Calendar.MINUTE, 0); // Set minutes to 0
-            calendar.set(Calendar.SECOND, 0); // Set seconds to 0
-            calendar.set(Calendar.MILLISECOND, 0); // Set milliseconds to 0
-            calendar.set(Calendar.DAY_OF_MONTH,1)
+            val now = Calendar.getInstance()
+            val calendar = setCalendarMonth(now, selectedMonth)
+            //calendar.set(Calendar.MONTH, Calendar.JANUARY)
+//            calendar.set(Calendar.HOUR_OF_DAY, 0); // Set hours to 0
+//            calendar.set(Calendar.MINUTE, 0); // Set minutes to 0
+//            calendar.set(Calendar.SECOND, 0); // Set seconds to 0
+//            calendar.set(Calendar.MILLISECOND, 0); // Set milliseconds to 0
+//            calendar.set(Calendar.DAY_OF_MONTH,1)
             Log.i("Month", calendar.time.toString())
             val startOfMonth = calendar.time
             calendar.add(Calendar.MONTH, 1)
@@ -196,12 +192,13 @@ class FragmentReports : Fragment(R.layout.fragment_report){
             var pieSlices:  List<PieChartData.Slice> = emptyList()
             var donutChartData: PieChartData
 
-            val calendar = Calendar.getInstance()
-            calendar.set(Calendar.HOUR_OF_DAY, 0); // Set hours to 0
-            calendar.set(Calendar.MINUTE, 0); // Set minutes to 0
-            calendar.set(Calendar.SECOND, 0); // Set seconds to 0
-            calendar.set(Calendar.MILLISECOND, 0); // Set milliseconds to 0
-            calendar.set(Calendar.DAY_OF_MONTH,1)
+            val now = Calendar.getInstance()
+            val calendar = setCalendarMonth(now, selectedMonth)
+//            calendar.set(Calendar.HOUR_OF_DAY, 0); // Set hours to 0
+//            calendar.set(Calendar.MINUTE, 0); // Set minutes to 0
+//            calendar.set(Calendar.SECOND, 0); // Set seconds to 0
+//            calendar.set(Calendar.MILLISECOND, 0); // Set milliseconds to 0
+//            calendar.set(Calendar.DAY_OF_MONTH,1)
             //Log.i("Month", calendar.time.toString())
             val startOfMonth = calendar.time
             calendar.add(Calendar.MONTH, 1)
@@ -250,12 +247,13 @@ class FragmentReports : Fragment(R.layout.fragment_report){
             composeView.setContent {
                 var lineChartData = mutableListOf<Point>()
 
-                val calendar = Calendar.getInstance()
-                calendar.set(Calendar.HOUR_OF_DAY, 0); // Set hours to 0
-                calendar.set(Calendar.MINUTE, 0); // Set minutes to 0
-                calendar.set(Calendar.SECOND, 0); // Set seconds to 0
-                calendar.set(Calendar.MILLISECOND, 0); // Set milliseconds to 0
-                calendar.set(Calendar.DAY_OF_MONTH,1)
+                val now = Calendar.getInstance()
+                val calendar = setCalendarMonth(now, selectedMonth)
+//                calendar.set(Calendar.HOUR_OF_DAY, 0); // Set hours to 0
+//                calendar.set(Calendar.MINUTE, 0); // Set minutes to 0
+//                calendar.set(Calendar.SECOND, 0); // Set seconds to 0
+//                calendar.set(Calendar.MILLISECOND, 0); // Set milliseconds to 0
+//                calendar.set(Calendar.DAY_OF_MONTH,1)
                 val startOfMonth = calendar.time
                 calendar.add(Calendar.MONTH, 1)
                 val startOfNextMonth = calendar.time
@@ -410,6 +408,16 @@ class FragmentReports : Fragment(R.layout.fragment_report){
     @Composable
     private fun errorShowCharts(msg: String){
         Text(text = msg)
+    }
+
+    private fun setCalendarMonth(calendar: Calendar, selectedMonth: Int): Calendar{
+        calendar.set(Calendar.MONTH, selectedMonth)
+        calendar.set(Calendar.DAY_OF_MONTH, 1)
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+        return calendar
     }
 
 
