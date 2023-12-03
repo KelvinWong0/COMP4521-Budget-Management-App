@@ -200,12 +200,12 @@ class EditRecordActivity : AppCompatActivity() {
         Log.d("KYS", switchCategory.toString())
 
         gvCategory = findViewById<GridView>(R.id.gvCategory)
-        gridViewAdapter = GridAdapter()
-        gvCategory.adapter = gridViewAdapter
-
-        dataViewModel.readCategoryByType(false).observe(this, Observer{categories ->
-            gridViewAdapter.setData(categories)
-        })
+//        gridViewAdapter = GridAdapter()
+//        gvCategory.adapter = gridViewAdapter
+//
+//        dataViewModel.readCategoryByType(false).observe(this, Observer{categories ->
+//            gridViewAdapter.setData(categories)
+//        })
     }
 
     fun numberAction(view: View)

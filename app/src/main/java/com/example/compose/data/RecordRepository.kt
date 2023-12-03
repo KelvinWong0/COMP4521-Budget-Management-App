@@ -23,6 +23,6 @@ class RecordRepository(private val recordDAO: RecordDAO) {
     }
 
     fun readAllDateWithRecordsByType(month: Date, isIncome:Boolean){
-        recordDAO.loadAllRecordsDatedByType(month, isIncome)
+        recordDAO.loadAllRecordsinMonthByType(month, isIncome)
     }
 }

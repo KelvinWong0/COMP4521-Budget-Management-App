@@ -129,6 +129,7 @@
             android:horizontalSpacing="10dp"
             android:padding="16dp"
             android:numColumns="4"
+            android:choiceMode="singleChoice"
             app:orientation="vertical">
 
             <!-- Add grid rows dynamically based on available categories -->

@@ -33,7 +33,9 @@ interface RecordDAO{
     @Query("SELECT * FROM record_table WHERE category_type LIKE :isIncome")
     fun loadAllByType(isIncome : Boolean): LiveData<List<Record>>
 
-    @Query("SELECT * FROM record_table WHERE category_type LIKE :isIncome AND :month LIKE date")
-    fun loadAllRecordsDatedByType(month: Date, isIncome: Boolean): LiveData<List<Record>>
+    @Query("SELECT * FROM record_table WHERE category_type LIKE :isIncome AND strftime('%Y-%m', date / 1000, 'unixepoch')  LIKE  :month")
+    fun loadAllRecordsinMonthByType(month: Date, isIncome: Boolean): LiveData<List<Record>>
+
+
 }
 

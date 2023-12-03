@@ -10,21 +10,27 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.findFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.compose.CategoryListener
 import com.example.compose.DataViewModel
 import com.example.compose.R
 import com.example.compose.data.models.Category
 import com.example.compose.data.models.Record
 import com.example.compose.fragments.list.GridAdapter
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.sql.Date
 
 
-class FragmentCategory : Fragment(R.layout.fragment_category) {
+class FragmentCategory : Fragment(R.layout.fragment_category), CategoryListener {
     private lateinit var switchOnOff: androidx.appcompat.widget.SwitchCompat
     private lateinit var tvSwitchYes: android.widget.TextView
     private lateinit var tvSwitchNo: android.widget.TextView
     private lateinit var dataViewModel: DataViewModel
     private lateinit var adapter : GridAdapter
+
+    override fun onCategoryClicked(catGrid: MaterialCardView) {
+        catGrid.isChecked = !(catGrid.isChecked)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,7 +43,7 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
         val toptoolbar = view.findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.topAppBar)
 
         val gvCategory = view.findViewById<GridView>(R.id.gvCategory)
-        adapter = GridAdapter()
+        adapter = GridAdapter(this)
         gvCategory.adapter = adapter
 
         btn.setOnClickListener{
