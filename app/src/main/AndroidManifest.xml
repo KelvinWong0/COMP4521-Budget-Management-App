@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Compose"
         tools:targetApi="31">
         <activity
+            android:name=".AddCatActivity"
+            android:exported="false" />
+        <activity
             android:name=".EditRecordActivity"
             android:exported="false" />
         <activity

@@ -1,13 +1,18 @@
 package com.example.compose.fragments
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.GridView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.compose.AddCatActivity
 import com.example.compose.DataViewModel
 import com.example.compose.R
 import com.example.compose.data.models.Category
@@ -23,6 +28,7 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
     private lateinit var tvSwitchNo: android.widget.TextView
     private lateinit var dataViewModel: DataViewModel
     private lateinit var adapter : SimpleGridAdapter
+    private lateinit var launcher: ActivityResultLauncher<Intent>
 
 
 
@@ -35,14 +41,24 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
         tvSwitchNo = view.findViewById<android.widget.TextView>(R.id.tvSwitchNo)
         val btn    = view.findViewById<ActionMenuItemView>(R.id.fl_category_action)
         val toptoolbar = view.findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.topAppBar)
-        val btn_addrecord = view.findViewById<>()
 
         val gvCategory = view.findViewById<GridView>(R.id.gvCategory)
         adapter = SimpleGridAdapter()
         gvCategory.adapter = adapter
 
+        launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                // Handle the result here
+                val data: Intent? = result.data
+                // ...
+            }
+        }
+
+
         btn.setOnClickListener{
-            tempDatabaseInsert()
+            Intent(requireContext(), AddCatActivity::class.java).also{
+                launcher.launch(it)
+            }
         }
         dataViewModel.readCategoryByType(false).observe(viewLifecycleOwner, Observer{categories ->
             adapter.setData(categories)
