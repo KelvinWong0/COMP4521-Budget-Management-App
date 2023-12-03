@@ -47,6 +47,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Observer
+import co.yml.charts.common.extensions.isNotNull
 import com.example.compose.fragments.list.GridAdapter
 import java.util.Date
 import java.text.SimpleDateFormat
@@ -251,9 +252,14 @@ class EditRecordActivity : AppCompatActivity() {
 
     fun equalsAction(view: View)
     {
-        val result = calculateResults().toDouble()
+
+        var num_result: Double = 0.0
+        val result = calculateResults()
+        if (result!=""){
+            num_result = result.toDouble()
+        }
 //        tvResult.text = String.format("%s to HKD: %.2f", selectedCurrencyCode, result)
-        tvResult.text = String.format("HKD: %.2f", result)
+        tvResult.text = String.format("HKD: %.2f", num_result)
     }
 
     fun confrimAddRecord(view: View) {
@@ -269,10 +275,8 @@ class EditRecordActivity : AppCompatActivity() {
     {
         val digitsOperators = digitsOperators()
         if(digitsOperators.isEmpty()) return ""
-
         val timesDivision = timesDivisionCalculate(digitsOperators)
         if(timesDivision.isEmpty()) return ""
-
         val result = addSubtractCalculate(timesDivision) / convertRates //Other currency to HKD
         return result.toString()
     }
@@ -312,37 +316,34 @@ class EditRecordActivity : AppCompatActivity() {
         val newList = mutableListOf<Any>()
         var restartIndex = passedList.size
 
-        for(i in passedList.indices)
-        {
-            if(passedList[i] is Char && i != passedList.lastIndex && i < restartIndex)
-            {
-                val operator = passedList[i]
-                val prevDigit = passedList[i - 1] as Float
-                val nextDigit = passedList[i + 1] as Float
-                when(operator)
-                {
-                    'X' ->
-                    {
-                        newList.add(prevDigit * nextDigit)
-                        restartIndex = i + 1
-                    }
-                    "@string/cal_num_divide"->
-                    {
-                        newList.add(prevDigit / nextDigit)
-                        restartIndex = i + 1
-                    }
-                    else ->
-                    {
-                        newList.add(prevDigit)
-                        newList.add(operator)
+        if(passedList.isNotNull()) {
+            for (i in passedList.indices) {
+                if (passedList[i] is Char && i != passedList.lastIndex && i < restartIndex) {
+                    val operator = passedList[i]
+                    val prevDigit = passedList[i - 1] as Float
+                    val nextDigit = passedList[i + 1] as Float
+                    when (operator) {
+                        'X' -> {
+                            newList.add(prevDigit * nextDigit)
+                            restartIndex = i + 1
+                        }
+
+                        "@string/cal_num_divide" -> {
+                            newList.add(prevDigit / nextDigit)
+                            restartIndex = i + 1
+                        }
+
+                        else -> {
+                            newList.add(prevDigit)
+                            newList.add(operator)
+                        }
                     }
                 }
+
+                if (i > restartIndex)
+                    newList.add(passedList[i])
             }
-
-            if(i > restartIndex)
-                newList.add(passedList[i])
         }
-
         return newList
     }
 
@@ -350,15 +351,17 @@ class EditRecordActivity : AppCompatActivity() {
     {
         val list = mutableListOf<Any>()
         var currentDigit = ""
-        for(character in tvSolution.text)
-        {
-            if(character.isDigit() || character == '.')
-                currentDigit += character
-            else
+        if(tvSolution.text != ""){
+            for(character in tvSolution.text)
             {
-                list.add(currentDigit.toFloat())
-                currentDigit = ""
-                list.add(character)
+                if(character.isDigit() || character == '.')
+                    currentDigit += character
+                else
+                {
+                    list.add(currentDigit.toFloat())
+                    currentDigit = ""
+                    list.add(character)
+                }
             }
         }
 
