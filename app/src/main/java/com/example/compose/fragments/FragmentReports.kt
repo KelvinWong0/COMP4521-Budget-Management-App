@@ -11,12 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
@@ -72,7 +67,7 @@ class FragmentReports : Fragment(R.layout.fragment_report){
             var donutChartData: PieChartData
             var launchChart: Boolean = false
 
-            dataViewModel.readAllRecord.observe(viewLifecycleOwner, Observer{records ->
+            dataViewModel.readAllExpense.observe(viewLifecycleOwner, Observer{records ->
                 recordList = records
 
                 pieSlices = recordList.map { Record ->
@@ -102,7 +97,7 @@ class FragmentReports : Fragment(R.layout.fragment_report){
 
                 if(pieSlices.isNotEmpty()){
                     composeView.setContent {
-                        TestDountChart(requireContext(), donutChartData)
+                        ExpenseDountChart(requireContext(), donutChartData)
                     }
                 }
 
@@ -117,7 +112,7 @@ class FragmentReports : Fragment(R.layout.fragment_report){
             var donutChartData: PieChartData
             var launchChart: Boolean = false
 
-            dataViewModel.readAllRecord.observe(viewLifecycleOwner, Observer{records ->
+            dataViewModel.readAllExpense.observe(viewLifecycleOwner, Observer{records ->
                 recordList = records
 
                 pieSlices = recordList.map { Record ->
@@ -147,7 +142,7 @@ class FragmentReports : Fragment(R.layout.fragment_report){
 
                 if(pieSlices.isNotEmpty()){
                     composeView.setContent {
-                        TestDountChart(requireContext(), donutChartData)
+                        ExpenseDountChart(requireContext(), donutChartData)
                     }
                 }
 
@@ -170,7 +165,7 @@ class FragmentReports : Fragment(R.layout.fragment_report){
     }
 
     @Composable
-    private fun TestDountChart(context: Context, donutChartData: PieChartData){
+    private fun ExpenseDountChart(context: Context, donutChartData: PieChartData){
 
         val scope = rememberCoroutineScope()
 

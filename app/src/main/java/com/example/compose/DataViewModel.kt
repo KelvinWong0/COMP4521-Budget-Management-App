@@ -20,6 +20,9 @@ class DataViewModel(application: Application): AndroidViewModel(application) {
 
     val readAllCategory: LiveData<List<Category>>
     val readAllRecord: LiveData<List<Record>>
+    val readAllExpense: LiveData<List<Record>>
+    val readAllIncome: LiveData<List<Record>>
+
     private val categoryRepo : CategoryRepository
     private val recordRepo : RecordRepository
 
@@ -30,6 +33,8 @@ class DataViewModel(application: Application): AndroidViewModel(application) {
         recordRepo = RecordRepository(recordDao)
         readAllCategory = categoryRepo.readAllData
         readAllRecord = recordRepo.readAllData
+        readAllExpense = recordRepo.readAllExpense
+        readAllIncome = recordRepo.readAllIncome
     }
 
     fun addRecord (record: Record) {

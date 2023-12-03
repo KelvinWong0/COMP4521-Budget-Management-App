@@ -11,6 +11,8 @@ import java.util.Date
 class RecordRepository(private val recordDAO: RecordDAO) {
 
     val readAllData : LiveData<List<Record>>  = recordDAO.getAll()
+    val readAllExpense: LiveData<List<Record>>  = recordDAO.loadAllByType(false)
+    val readAllIncome: LiveData<List<Record>>  = recordDAO.loadAllByType(true)
 
     suspend fun insertRecord(record: Record){
         recordDAO.addRecord(record)
