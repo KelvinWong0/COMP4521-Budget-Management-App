@@ -47,7 +47,7 @@ class FragmentRecord: Fragment(R.layout.fragment_record){
 
         dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
         dataViewModel.readAllRecord.observe(viewLifecycleOwner, Observer{records ->
-            adapter.setData(records.sortedBy { it.date })
+            adapter.setData(records.sortedBy { it.date }.reversed())
         })
     }
 }

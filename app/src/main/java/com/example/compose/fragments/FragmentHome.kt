@@ -77,7 +77,7 @@ class FragmentHome: Fragment(R.layout.fragment_home) {
         rvRecord.layoutManager = LinearLayoutManager(requireContext())
 
         dataViewModel.readAllRecord.observe(viewLifecycleOwner, Observer{records ->
-            adapter.setData(records.sortedBy { it.date })
+            adapter.setData(records.sortedBy { it.date }.reversed())
         })
 
 
