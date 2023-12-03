@@ -244,13 +244,34 @@ class FragmentReports : Fragment(R.layout.fragment_report){
                 calendar.set(Calendar.MILLISECOND, 0); // Set milliseconds to 0
                 calendar.set(Calendar.DAY_OF_MONTH,1)
 
-                for (index in 0 until 31) {
-                    val startOfDay = calendar.time
-                    calendar.add(Calendar.DATE, 1)
-                    val startOfNextDay = calendar.time
-                    var dailyExpense = 0
-                    var dailyIncome = 0
-                    dataViewModel.sumDayRecordsByType(startOfDay, startOfNextDay ,true).observe(viewLifecycleOwner, Observer{ records -> Log.i("KYS", records.toString())})
+                dataViewModel.readAllRecord.observe(viewLifecycleOwner, Observer{records ->
+                    for( (index, record) in records.withIndex()){
+                        val amount = if (record.category.type) {
+                            record.amount.toFloat()
+                        } else {
+                            -record.amount.toFloat()
+                        }
+                        list.add(
+                            Point(
+                                index.toFloat(),
+                                amount// Income - expense
+                            )
+                        )
+                    }
+                    lineChartData = list
+                    composeView.setContent {
+                        Linechart(lineChartData)
+                    }
+
+                })
+
+//                for (index in 0 until 31) {
+//                    val startOfDay = calendar.time
+//                    calendar.add(Calendar.DATE, 1)
+//                    val startOfNextDay = calendar.time
+//                    var dailyExpense = 0
+//                    var dailyIncome = 0
+//                    dataViewModel.sumDayRecordsByType(startOfDay, startOfNextDay ,true).observe(viewLifecycleOwner, Observer{ records -> Log.i("KYS", records.toString())})
 //                    dataViewModel.sumDayRecordsByType(startOfDay, startOfNextDay ,false).observe(viewLifecycleOwner, Observer{ sum_record ->
 //                        Log.i("Bruh", sum_record.toString())
 //                        if(sum_record != null){
@@ -262,17 +283,16 @@ class FragmentReports : Fragment(R.layout.fragment_report){
 //                            dailyIncome = sum_record
 //                        }
 //                    })
-                    Log.i("Index", index.toString())
-                    Log.i("SUM",  dailyIncome.toString() +"-"+ dailyExpense.toString())
-                    list.add(
-                        Point(
-                            index.toFloat(),
-                            (dailyIncome-dailyExpense).toFloat()// Income - expense
-                        )
-                    )
-                }
-                lineChartData = list
-                Linechart(lineChartData)
+//                    Log.i("Index", index.toString())
+//                    Log.i("SUM",  dailyIncome.toString() +"-"+ dailyExpense.toString())
+//                    list.add(
+//                        Point(
+//                            index.toFloat(),
+//                            (dailyIncome-dailyExpense).toFloat()// Income - expense
+//                        )
+//                    )
+//                }
+
             }
         }
         dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
