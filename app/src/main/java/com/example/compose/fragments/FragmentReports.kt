@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -45,7 +46,6 @@ import com.example.compose.R
 import com.example.compose.data.models.Record
 import com.example.compose.fragments.list.ListAdapter
 import java.util.Calendar
-import java.util.Date
 import java.util.Random
 
 class FragmentReports : Fragment(R.layout.fragment_report){
@@ -76,55 +76,60 @@ class FragmentReports : Fragment(R.layout.fragment_report){
         val composeView = view.findViewById<ComposeView>(R.id.composeViewChart)
         //Default show Expense chart
         composeView.setContent {
-            val usedColors = mutableSetOf<Color>()
-            var recordList: List<Record>
-            var pieSlices:  List<PieChartData.Slice> = emptyList()
-            var donutChartData: PieChartData
-
-            val calendar = Calendar.getInstance()
-            calendar.set(Calendar.HOUR_OF_DAY, 0); // Set hours to 0
-            calendar.set(Calendar.MINUTE, 0); // Set minutes to 0
-            calendar.set(Calendar.SECOND, 0); // Set seconds to 0
-            calendar.set(Calendar.MILLISECOND, 0); // Set milliseconds to 0
-            calendar.set(Calendar.DAY_OF_MONTH,1)
-            Log.i("Month", calendar.time.toString())
-            val startOfMonth = calendar.time
-            calendar.add(Calendar.MONTH, 1)
-            val startOfNextMonth = calendar.time
-
-            dataViewModel.readMonthWithRecordsByType(startOfMonth, startOfNextMonth ,false).observe(viewLifecycleOwner, Observer{ records ->
-                recordList = records
-
-                pieSlices = recordList.map { Record ->
-                    val random = Random()
-                    var color = Color(
-                        red = random.nextInt(),
-                        green = random.nextInt(),
-                        blue = random.nextInt()
-                    )
-                    while (usedColors.contains(color)) {
-                        color = Color(
-                            red = random.nextInt(),
-                            green = random.nextInt(),
-                            blue = random.nextInt()
-                        ) // Generate a new color if it is already used
-                    }
-                    usedColors.add(color)
-                    PieChartData.Slice(Record.category.name, Record.amount.toFloat(), color)
-                }
-
-                donutChartData = PieChartData(
-                    slices = pieSlices,
-                    plotType = PlotType.Donut
-                )
-
-                if(pieSlices.isNotEmpty()){
-                    composeView.setContent {
-                        DountChart(requireContext(), donutChartData)
-                    }
-                }
-
-            })
+//            val usedColors = mutableSetOf<Color>()
+//            var recordList: List<Record>
+//            var pieSlices:  List<PieChartData.Slice> = emptyList()
+//            var donutChartData: PieChartData
+//
+//            val calendar = Calendar.getInstance()
+//            calendar.set(Calendar.HOUR_OF_DAY, 0); // Set hours to 0
+//            calendar.set(Calendar.MINUTE, 0); // Set minutes to 0
+//            calendar.set(Calendar.SECOND, 0); // Set seconds to 0
+//            calendar.set(Calendar.MILLISECOND, 0); // Set milliseconds to 0
+//            calendar.set(Calendar.DAY_OF_MONTH,1)
+//            Log.i("Month", calendar.time.toString())
+//            val startOfMonth = calendar.time
+//            calendar.add(Calendar.MONTH, 1)
+//            val startOfNextMonth = calendar.time
+//
+//            dataViewModel.readMonthWithRecordsByType(startOfMonth, startOfNextMonth ,false).observe(viewLifecycleOwner, Observer{ records ->
+//                recordList = records
+//
+//                pieSlices = recordList.map { Record ->
+//                    val random = Random()
+//                    var color = Color(
+//                        red = random.nextInt(),
+//                        green = random.nextInt(),
+//                        blue = random.nextInt()
+//                    )
+//                    while (usedColors.contains(color)) {
+//                        color = Color(
+//                            red = random.nextInt(),
+//                            green = random.nextInt(),
+//                            blue = random.nextInt()
+//                        ) // Generate a new color if it is already used
+//                    }
+//                    usedColors.add(color)
+//                    PieChartData.Slice(Record.category.name, Record.amount.toFloat(), color)
+//                }
+//
+//                donutChartData = PieChartData(
+//                    slices = pieSlices,
+//                    plotType = PlotType.Donut
+//                )
+//
+//                if(pieSlices.isNotEmpty()){
+//                    composeView.setContent {
+//                        DountChart(requireContext(), donutChartData)
+//                    }
+//                }else{
+//                    composeView.setContent {
+//                        errorShowCharts("Too few records to generate Pie Chart")
+//                    }
+//                }
+//
+//            })
+            errorShowCharts("Please select the chart to display")
         }
         // Switch between Charts
         //show Expense chart
@@ -174,6 +179,10 @@ class FragmentReports : Fragment(R.layout.fragment_report){
                 if(pieSlices.isNotEmpty()){
                     composeView.setContent {
                         DountChart(requireContext(), donutChartData)
+                    }
+                }else{
+                    composeView.setContent {
+                        errorShowCharts("Too few records to generate Pie Chart")
                     }
                 }
 
@@ -227,6 +236,10 @@ class FragmentReports : Fragment(R.layout.fragment_report){
                 if(pieSlices.isNotEmpty()){
                     composeView.setContent {
                         DountChart(requireContext(), donutChartData)
+                    }
+                }else{
+                    composeView.setContent {
+                        errorShowCharts("Too few records to generate Pie Chart")
                     }
                 }
 
@@ -287,10 +300,14 @@ class FragmentReports : Fragment(R.layout.fragment_report){
                         lineChartData.add(Point(day.toFloat(), cumulativeBalance.toFloat()))
                     }
 
-                    if(lineChartData.isNotEmpty()){
+                    if(lineChartData.isNotEmpty() && lineChartData.size >=4){
                         Log.i("DLLM", lineChartData.toString())
                         composeView.setContent {
                             Linechart(lineChartData)
+                        }
+                    }else{
+                        composeView.setContent {
+                            errorShowCharts("Too few records(min: records on 4 different dates) to generate Line Chart")
                         }
                     }
 
@@ -390,15 +407,11 @@ class FragmentReports : Fragment(R.layout.fragment_report){
         )
     }
 
-    private fun trimTimeToDate(date: Date): Date {
-        val calendar = Calendar.getInstance()
-        calendar.time = date
-        calendar.set(Calendar.HOUR_OF_DAY, 0)
-        calendar.set(Calendar.MINUTE, 0)
-        calendar.set(Calendar.SECOND, 0)
-        calendar.set(Calendar.MILLISECOND, 0)
-        return calendar.time
+    @Composable
+    private fun errorShowCharts(msg: String){
+        Text(text = msg)
     }
+
 
 
 
