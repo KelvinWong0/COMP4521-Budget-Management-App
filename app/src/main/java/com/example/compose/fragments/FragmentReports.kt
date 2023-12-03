@@ -65,11 +65,51 @@ class FragmentReports : Fragment(R.layout.fragment_report){
 
         val composeView = view.findViewById<ComposeView>(R.id.composeViewChart)
         //Default show Expense chart
-//        composeView.setContent {
-//            //Text(text = "Compose created")
-//            TestDountChart(requireContext())
-//        }
+        composeView.setContent {
+            val usedColors = mutableSetOf<Color>()
+            var recordList: List<Record>
+            var pieSlices:  List<PieChartData.Slice> = emptyList()
+            var donutChartData: PieChartData
+            var launchChart: Boolean = false
+
+            dataViewModel.readAllRecord.observe(viewLifecycleOwner, Observer{records ->
+                recordList = records
+
+                pieSlices = recordList.map { Record ->
+                    val random = Random()
+                    var color = Color(
+                        red = random.nextInt(),
+                        green = random.nextInt(),
+                        blue = random.nextInt()
+                    )
+                    while (usedColors.contains(color)) {
+                        color = Color(
+                            red = random.nextInt(),
+                            green = random.nextInt(),
+                            blue = random.nextInt()
+                        ) // Generate a new color if it is already used
+                    }
+                    usedColors.add(color)
+                    Log.i("Fecthed Record", Record.category.name)
+                    Log.i("RNG Color", color.toString())
+                    PieChartData.Slice(Record.category.name, Record.amount.toFloat(), color)
+                }
+
+                donutChartData = PieChartData(
+                    slices = pieSlices,
+                    plotType = PlotType.Donut
+                )
+
+                if(pieSlices.isNotEmpty()){
+                    composeView.setContent {
+                        TestDountChart(requireContext(), donutChartData)
+                    }
+                }
+
+            })
+        }
         // Switch between Charts
+        //show Expense chart
         sbtnExpense.setOnClickListener {
             val usedColors = mutableSetOf<Color>()
             var recordList: List<Record>
@@ -105,17 +145,22 @@ class FragmentReports : Fragment(R.layout.fragment_report){
                     plotType = PlotType.Donut
                 )
 
-                composeView.setContent {
-                    TestDountChart(requireContext(), donutChartData)
+                if(pieSlices.isNotEmpty()){
+                    composeView.setContent {
+                        TestDountChart(requireContext(), donutChartData)
+                    }
                 }
+
             })
 
         }
+        //show Income chart
         sbtnIncome.setOnClickListener {
             composeView.setContent {
                 IncomeDountChart(requireContext())
             }
         }
+        //show Balance chart
         sbtnBalance.setOnClickListener {
             composeView.setContent {
                 IncomeDountChart(requireContext())
