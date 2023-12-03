@@ -244,24 +244,28 @@ class FragmentReports : Fragment(R.layout.fragment_report){
                 calendar.set(Calendar.MILLISECOND, 0); // Set milliseconds to 0
                 calendar.set(Calendar.DAY_OF_MONTH,1)
 
+                var balance = 0.0
                 dataViewModel.readAllRecord.observe(viewLifecycleOwner, Observer{records ->
                     for( (index, record) in records.withIndex()){
                         val amount = if (record.category.type) {
-                            record.amount.toFloat()
+                            balance += record.amount.toFloat()
                         } else {
-                            -record.amount.toFloat()
+                            balance -= record.amount.toFloat()
                         }
                         list.add(
                             Point(
                                 index.toFloat(),
-                                amount// Income - expense
+                                balance.toFloat()// Income - expense
                             )
                         )
                     }
                     lineChartData = list
-                    composeView.setContent {
-                        Linechart(lineChartData)
+                    if(lineChartData.isNotEmpty()){
+                        composeView.setContent {
+                            Linechart(lineChartData)
+                        }
                     }
+
 
                 })
 
