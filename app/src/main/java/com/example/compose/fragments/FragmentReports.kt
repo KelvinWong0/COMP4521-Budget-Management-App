@@ -20,9 +20,22 @@ import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import co.yml.charts.axis.AxisData
 import co.yml.charts.common.components.Legends
+import co.yml.charts.common.extensions.formatToSinglePrecision
 import co.yml.charts.common.model.PlotType
+import co.yml.charts.common.model.Point
 import co.yml.charts.common.utils.DataUtils
+import co.yml.charts.ui.linechart.LineChart
+import co.yml.charts.ui.linechart.model.GridLines
+import co.yml.charts.ui.linechart.model.IntersectionPoint
+import co.yml.charts.ui.linechart.model.Line
+import co.yml.charts.ui.linechart.model.LineChartData
+import co.yml.charts.ui.linechart.model.LinePlotData
+import co.yml.charts.ui.linechart.model.LineStyle
+import co.yml.charts.ui.linechart.model.SelectionHighlightPoint
+import co.yml.charts.ui.linechart.model.SelectionHighlightPopUp
+import co.yml.charts.ui.linechart.model.ShadowUnderLine
 import co.yml.charts.ui.piechart.charts.DonutPieChart
 import co.yml.charts.ui.piechart.models.PieChartConfig
 import co.yml.charts.ui.piechart.models.PieChartData
@@ -100,7 +113,7 @@ class FragmentReports : Fragment(R.layout.fragment_report){
 
                 if(pieSlices.isNotEmpty()){
                     composeView.setContent {
-                        ExpenseDountChart(requireContext(), donutChartData)
+                        DountChart(requireContext(), donutChartData)
                     }
                 }
 
@@ -113,9 +126,19 @@ class FragmentReports : Fragment(R.layout.fragment_report){
             var recordList: List<Record>
             var pieSlices:  List<PieChartData.Slice> = emptyList()
             var donutChartData: PieChartData
-            var launchChart: Boolean = false
 
-            dataViewModel.readAllExpense.observe(viewLifecycleOwner, Observer{records ->
+            val calendar = Calendar.getInstance()
+            calendar.set(Calendar.HOUR_OF_DAY, 0); // Set hours to 0
+            calendar.set(Calendar.MINUTE, 0); // Set minutes to 0
+            calendar.set(Calendar.SECOND, 0); // Set seconds to 0
+            calendar.set(Calendar.MILLISECOND, 0); // Set milliseconds to 0
+            calendar.set(Calendar.DAY_OF_MONTH,1)
+            Log.i("Month", calendar.time.toString())
+            val startOfMonth = calendar.time
+            calendar.add(Calendar.MONTH, 1)
+            val startOfNextMonth = calendar.time
+
+            dataViewModel.readDatesWithRecordsByType(startOfMonth, startOfNextMonth ,false).observe(viewLifecycleOwner, Observer{records ->
                 recordList = records
 
                 pieSlices = recordList.map { Record ->
@@ -145,7 +168,7 @@ class FragmentReports : Fragment(R.layout.fragment_report){
 
                 if(pieSlices.isNotEmpty()){
                     composeView.setContent {
-                        ExpenseDountChart(requireContext(), donutChartData)
+                        DountChart(requireContext(), donutChartData)
                     }
                 }
 
@@ -188,8 +211,6 @@ class FragmentReports : Fragment(R.layout.fragment_report){
                         ) // Generate a new color if it is already used
                     }
                     usedColors.add(color)
-                    Log.i("Fecthed Record", Record.category.name)
-                    Log.i("RNG Color", color.toString())
                     PieChartData.Slice(Record.category.name, Record.amount.toFloat(), color)
                 }
 
@@ -200,7 +221,7 @@ class FragmentReports : Fragment(R.layout.fragment_report){
 
                 if(pieSlices.isNotEmpty()){
                     composeView.setContent {
-                        ExpenseDountChart(requireContext(), donutChartData)
+                        DountChart(requireContext(), donutChartData)
                     }
                 }
 
@@ -209,14 +230,26 @@ class FragmentReports : Fragment(R.layout.fragment_report){
         //show Balance chart
         sbtnBalance.setOnClickListener {
             composeView.setContent {
-                IncomeDountChart(requireContext())
+                var lineChartData: List<Point>
+
+                val list = arrayListOf<Point>()
+                for (index in 0 until 31) {
+                    list.add(
+                        Point(
+                            index.toFloat(),
+                            (-1000 until 1000).random().toFloat()// Income - expense
+                        )
+                    )
+                }
+                lineChartData = list
+                Linechart(lineChartData)
             }
         }
         dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
     }
 
     @Composable
-    private fun ExpenseDountChart(context: Context, donutChartData: PieChartData){
+    private fun DountChart(context: Context, donutChartData: PieChartData){
 
         val scope = rememberCoroutineScope()
 
@@ -258,51 +291,53 @@ class FragmentReports : Fragment(R.layout.fragment_report){
     }
 
     @Composable
-    private fun IncomeDountChart(context: Context){
-
-        val scope = rememberCoroutineScope()
-        //val data = DataUtils.getDonutChartData()
-        val donutChartData = PieChartData(
-            slices = listOf(
-                PieChartData.Slice("CAT 1", 30f, Color(0xFF5F0A87)),
-                PieChartData.Slice("CAT 2", 20f, Color(0xFF20BF55)),
-                PieChartData.Slice("CAT 3", 40f,  Color(0xFFEC9F05)),
-                PieChartData.Slice("CAT 4", 10f, Color(0xFFF53844))
+    private fun Linechart(pointsData: List<Point>) {
+        val steps = 5
+        val xAxisData = AxisData.Builder()
+            .axisStepSize(30.dp)
+            .topPadding(105.dp)
+            .steps(pointsData.size - 1)
+            .labelData { i -> pointsData[i].x.toInt().toString() }
+            .labelAndAxisLinePadding(15.dp)
+            .build()
+        val yAxisData = AxisData.Builder()
+            .steps(steps)
+            .labelAndAxisLinePadding(20.dp)
+            .labelData { i ->
+                // Add yMin to get the negative axis values to the scale
+                val yMin = pointsData.minOf { it.y }
+                val yMax = pointsData.maxOf { it.y }
+                val yScale = (yMax - yMin) / steps
+                ((i * yScale) + yMin).formatToSinglePrecision()
+            }.build()
+        val data = LineChartData(
+            linePlotData = LinePlotData(
+                lines = listOf(
+                    Line(
+                        dataPoints = pointsData,
+                        LineStyle(),
+                        IntersectionPoint(),
+                        SelectionHighlightPoint(),
+                        ShadowUnderLine(),
+                        SelectionHighlightPopUp()
+                    )
+                )
             ),
-            plotType = PlotType.Donut
+            xAxisData = xAxisData,
+            yAxisData = yAxisData,
+            gridLines = GridLines()
         )
-        // Sum of all the values
-        val sumOfValues = donutChartData.totalLength
-
-        // Calculate each proportion value
-        val proportions = donutChartData.slices.proportion(sumOfValues)
-        val pieChartConfig =
-            PieChartConfig(
-                labelVisible = true,
-                strokeWidth = 120f,
-                labelColor = Color.Black,
-                activeSliceAlpha = .9f,
-                isEllipsizeEnabled = true,
-                labelTypeface = Typeface.defaultFromStyle(Typeface.BOLD),
-                isAnimationEnable = true,
-                chartPadding = 25,
-                labelFontSize = 42.sp,
-            )
-        Column(
+        LineChart(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(500.dp)
-        ) {
-            Legends(legendsConfig = DataUtils.getLegendsConfigFromPieChartData(pieChartData = donutChartData, 3))
-            DonutPieChart(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(400.dp),
-                donutChartData,
-                pieChartConfig
-            ) { slice ->
-                Toast.makeText(context, slice.label, Toast.LENGTH_SHORT).show()
-            }
-        }
+                .height(300.dp),
+            lineChartData = data
+        )
     }
+
+
+
+
+
+
 }

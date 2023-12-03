@@ -36,6 +36,9 @@ interface RecordDAO{
     @Query("SELECT * FROM record_table WHERE category_type LIKE :isIncome AND date >= :startOfMonth AND date < :startOfNextMonth")
     fun loadAllRecordsinMonthByType(startOfMonth: Date, startOfNextMonth: Date, isIncome: Boolean): LiveData<List<Record>>
 
+    @Query("SELECT * FROM record_table WHERE category_type LIKE :isIncome AND date >= :startOfDay AND date < :startOfNextDay")
+    fun loadAllRecordsinDayByType(startOfDay: Date, startOfNextDay: Date, isIncome: Boolean): LiveData<List<Record>>
+
 
 }
 
