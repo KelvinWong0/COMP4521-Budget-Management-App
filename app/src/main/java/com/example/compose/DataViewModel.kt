@@ -12,7 +12,6 @@ import com.example.compose.data.RecordRepository
 import com.example.compose.data.models.Category
 import com.example.compose.data.models.Record
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import java.util.Date
 
@@ -74,7 +73,9 @@ class DataViewModel(application: Application): AndroidViewModel(application) {
 
     fun readCategoryByType(isIncome: Boolean) = categoryRepo.readCategoryByType(isIncome)
 
-    fun readDatesWithRecordsByType( startOfMonth: Date, startOfNextMonth: Date,isIncome: Boolean) = recordRepo.readAllDateWithRecordsByType(startOfMonth, startOfNextMonth,isIncome)
+    fun readMonthWithRecordsByType(startOfMonth: Date, startOfNextMonth: Date, isIncome: Boolean) = recordRepo.readMonthWithRecordsByType(startOfMonth, startOfNextMonth,isIncome)
+
+    fun sumDayRecordsByType(startOfDay: Date, startOfNextDay: Date, isIncome: Boolean) = recordRepo.sumDayRecordsByType(startOfDay, startOfNextDay,isIncome)
 
 
 }

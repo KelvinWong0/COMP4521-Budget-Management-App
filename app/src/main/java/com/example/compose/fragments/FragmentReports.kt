@@ -44,9 +44,7 @@ import com.example.compose.DataViewModel
 import com.example.compose.R
 import com.example.compose.data.models.Record
 import com.example.compose.fragments.list.ListAdapter
-import java.time.Instant
 import java.util.Calendar
-import java.util.Date
 import java.util.Random
 
 class FragmentReports : Fragment(R.layout.fragment_report){
@@ -138,7 +136,7 @@ class FragmentReports : Fragment(R.layout.fragment_report){
             calendar.add(Calendar.MONTH, 1)
             val startOfNextMonth = calendar.time
 
-            dataViewModel.readDatesWithRecordsByType(startOfMonth, startOfNextMonth ,false).observe(viewLifecycleOwner, Observer{records ->
+            dataViewModel.readMonthWithRecordsByType(startOfMonth, startOfNextMonth ,false).observe(viewLifecycleOwner, Observer{ records ->
                 recordList = records
 
                 pieSlices = recordList.map { Record ->
@@ -156,8 +154,6 @@ class FragmentReports : Fragment(R.layout.fragment_report){
                         ) // Generate a new color if it is already used
                     }
                     usedColors.add(color)
-                    Log.i("Fecthed Record", Record.category.name)
-                    Log.i("RNG Color", color.toString())
                     PieChartData.Slice(Record.category.name, Record.amount.toFloat(), color)
                 }
 
@@ -181,7 +177,7 @@ class FragmentReports : Fragment(R.layout.fragment_report){
             var recordList: List<Record>
             var pieSlices:  List<PieChartData.Slice> = emptyList()
             var donutChartData: PieChartData
-            val refDate = Date(Instant.now().toEpochMilli())
+
             val calendar = Calendar.getInstance()
             calendar.set(Calendar.HOUR_OF_DAY, 0); // Set hours to 0
             calendar.set(Calendar.MINUTE, 0); // Set minutes to 0
@@ -193,7 +189,7 @@ class FragmentReports : Fragment(R.layout.fragment_report){
             calendar.add(Calendar.MONTH, 1)
             val startOfNextMonth = calendar.time
 
-            dataViewModel.readDatesWithRecordsByType(startOfMonth, startOfNextMonth ,true).observe(viewLifecycleOwner, Observer{ records ->
+            dataViewModel.readMonthWithRecordsByType(startOfMonth, startOfNextMonth ,true).observe(viewLifecycleOwner, Observer{ records ->
                 recordList = records
                 Log.i("Bruh", recordList.toString())
                 pieSlices = recordList.map { Record ->
@@ -231,13 +227,39 @@ class FragmentReports : Fragment(R.layout.fragment_report){
         sbtnBalance.setOnClickListener {
             composeView.setContent {
                 var lineChartData: List<Point>
-
                 val list = arrayListOf<Point>()
+
+                val calendar = Calendar.getInstance()
+                calendar.set(Calendar.HOUR_OF_DAY, 0); // Set hours to 0
+                calendar.set(Calendar.MINUTE, 0); // Set minutes to 0
+                calendar.set(Calendar.SECOND, 0); // Set seconds to 0
+                calendar.set(Calendar.MILLISECOND, 0); // Set milliseconds to 0
+                calendar.set(Calendar.DAY_OF_MONTH,1)
+
                 for (index in 0 until 31) {
+                    val startOfDay = calendar.time
+                    calendar.add(Calendar.DATE, 1)
+                    val startOfNextDay = calendar.time
+                    var dailyExpense = 0
+                    var dailyIncome = 0
+                    dataViewModel.sumDayRecordsByType(startOfDay, startOfNextDay ,true).observe(viewLifecycleOwner, Observer{ records -> Log.i("KYS", records.toString())})
+//                    dataViewModel.sumDayRecordsByType(startOfDay, startOfNextDay ,false).observe(viewLifecycleOwner, Observer{ sum_record ->
+//                        Log.i("Bruh", sum_record.toString())
+//                        if(sum_record != null){
+//                            dailyExpense = sum_record
+//                        }
+//                    })
+//                    dataViewModel.sumDayRecordsByType(startOfDay, startOfNextDay ,true).observe(viewLifecycleOwner, Observer{ sum_record ->
+//                        if(sum_record != null){
+//                            dailyIncome = sum_record
+//                        }
+//                    })
+                    Log.i("Index", index.toString())
+                    Log.i("SUM",  dailyIncome.toString() +"-"+ dailyExpense.toString())
                     list.add(
                         Point(
                             index.toFloat(),
-                            (-1000 until 1000).random().toFloat()// Income - expense
+                            (dailyIncome-dailyExpense).toFloat()// Income - expense
                         )
                     )
                 }

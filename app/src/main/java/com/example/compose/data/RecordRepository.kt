@@ -3,7 +3,6 @@ package com.example.compose.data
 import androidx.lifecycle.LiveData
 import com.example.compose.data.daos.RecordDAO
 import com.example.compose.data.models.Record
-import kotlinx.coroutines.flow.Flow
 import java.util.Date
 
 
@@ -21,8 +20,12 @@ class RecordRepository(private val recordDAO: RecordDAO) {
         recordDAO.nukeTable()
     }
 
-    fun readAllDateWithRecordsByType(startOfMonth: Date, startOfNextMonth: Date, isIncome:Boolean): LiveData<List<Record>>{
+    fun readMonthWithRecordsByType(startOfMonth: Date, startOfNextMonth: Date, isIncome:Boolean): LiveData<List<Record>>{
         return recordDAO.loadAllRecordsinMonthByType(startOfMonth, startOfNextMonth, isIncome)
+    }
+
+    fun sumDayRecordsByType(startOfDay: Date, startOfNextDay: Date, isIncome:Boolean): LiveData<Int>{
+        return recordDAO.sumAllRecordsinDayByType(startOfDay, startOfNextDay, isIncome)
     }
 
     val getTotalExpense: LiveData<Int> = recordDAO.sumOfRecordsByCategory(false)

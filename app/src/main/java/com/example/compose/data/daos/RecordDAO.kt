@@ -7,9 +7,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.example.compose.data.models.Category
 import com.example.compose.data.models.Record
-import kotlinx.coroutines.flow.Flow
 import java.util.Date
 
 @Dao
@@ -41,10 +39,9 @@ interface RecordDAO{
 
     @Query("SELECT * FROM record_table WHERE category_type LIKE :isIncome AND date >= :startOfMonth AND date < :startOfNextMonth")
     fun loadAllRecordsinMonthByType(startOfMonth: Date, startOfNextMonth: Date, isIncome: Boolean): LiveData<List<Record>>
-
-    @Query("SELECT * FROM record_table WHERE category_type LIKE :isIncome AND date >= :startOfDay AND date < :startOfNextDay")
-    fun loadAllRecordsinDayByType(startOfDay: Date, startOfNextDay: Date, isIncome: Boolean): LiveData<List<Record>>
-
+    @Query("SELECT SUM(CASE WHEN category_type = :isIncome THEN amount ELSE -amount END) FROM record_table WHERE date >= :startOfDay AND date < :startOfNextDay GROUP BY date")
+    //@Query("SELECT SUM(amount) FROM record_table WHERE category_type = :isIncome AND date >= :startOfDay AND date < :startOfNextDay")
+    fun sumAllRecordsinDayByType(startOfDay: Date, startOfNextDay: Date, isIncome: Boolean): LiveData<Int>
 
     @Query("SELECT SUM(amount) FROM record_table WHERE category_type = :isIncome")
     fun sumOfRecordsByCategory (isIncome: Boolean): LiveData<Int>
