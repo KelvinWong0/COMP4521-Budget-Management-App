@@ -48,6 +48,7 @@
     <string name="category_sort_btn_text">Auto Sort</string>
     <string name="cat_activity_title">Add Category</string>
     <string name="add_cat_label_1">Category Name</string>
+    <string name="add_cat">Add category</string>
     <string-array name="currency_code">
         <item>HKD</item>
         <item>JPY</item>

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.GridView
+import android.widget.Switch
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -29,21 +30,22 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
     private lateinit var dataViewModel: DataViewModel
     private lateinit var adapter : SimpleGridAdapter
     private lateinit var launcher: ActivityResultLauncher<Intent>
-
+    private lateinit var categoryList: List<Category>
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
-
         switchOnOff = view.findViewById<androidx.appcompat.widget.SwitchCompat>(R.id.switchOnOff)
+        switchOnOff.isChecked = false
         tvSwitchYes = view.findViewById<android.widget.TextView>(R.id.tvSwitchYes)
         tvSwitchNo = view.findViewById<android.widget.TextView>(R.id.tvSwitchNo)
         val btn    = view.findViewById<ActionMenuItemView>(R.id.fl_category_action)
         val toptoolbar = view.findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.topAppBar)
+        val btnSort = view.findViewById<Switch>(R.id.btnSort)
 
         val gvCategory = view.findViewById<GridView>(R.id.gvCategory)
-        adapter = SimpleGridAdapter()
+        adapter = SimpleGridAdapter(dataViewModel)
         gvCategory.adapter = adapter
 
         launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -54,6 +56,17 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
             }
         }
 
+        btnSort.setOnCheckedChangeListener { _, isChecked ->
+            when{
+                isChecked -> {
+                    adapter.setData(categoryList.sortedBy { it.name })
+                }
+                else -> {
+                    adapter.setData(categoryList)
+                }
+            }
+        }
+
 
         btn.setOnClickListener{
             Intent(requireContext(), AddCatActivity::class.java).also{
@@ -61,6 +74,7 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
             }
         }
         dataViewModel.readCategoryByType(false).observe(viewLifecycleOwner, Observer{categories ->
+            categoryList = categories
             adapter.setData(categories)
         })
 
@@ -76,29 +90,17 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
             }
             adapter.clearSelected()
             dataViewModel.readCategoryByType(checked).observe(viewLifecycleOwner, Observer{categories ->
+                categoryList = categories
                 adapter.setData(categories)
             })
         }
 
 
 
-        toptoolbar.setNavigationOnClickListener{
-            MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Warning")
-                .setMessage("Delete all record?")
-                .setNeutralButton("Cancel") { dialog, which ->
-                    // Respond to neutral button press
 
-                }
-//                .setNegativeButton(resources.getString(R.string.decline)) { dialog, which ->
-//                    // Respond to negative button press
-//                }
-                .setPositiveButton("Proceed") { dialog, which ->
-                    // Respond to positive button press
-                    dataViewModel.clearRecordTable()
-                    Toast.makeText(activity?.applicationContext, "All record deleted!", Toast.LENGTH_LONG).show()
-                }
-                .show()
+
+        toptoolbar.setNavigationOnClickListener{
+            adapter.switchMode()
         }
 
 //        gvCategory.onItemClickListener = OnItemClickListener { parent, view, position, id -> //here you can use the position to determine what checkbox to check

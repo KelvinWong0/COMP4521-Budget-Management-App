@@ -20,6 +20,10 @@ class RecordRepository(private val recordDAO: RecordDAO) {
         recordDAO.nukeTable()
     }
 
+    suspend fun deleteRecordsInCategory(categoryId: Int){
+        recordDAO.deleteRecordsInCategory(categoryId)
+    }
+
     fun readMonthWithRecordsByType(startOfMonth: Date, startOfNextMonth: Date, isIncome:Boolean): LiveData<List<Record>>{
         return recordDAO.loadAllRecordsinMonthByType(startOfMonth, startOfNextMonth, isIncome)
     }

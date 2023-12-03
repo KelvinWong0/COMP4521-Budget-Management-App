@@ -33,4 +33,5 @@ class ListAdapter: RecyclerView.Adapter<com.example.compose.fragments.list.ListA
         this.recordList = records
         notifyDataSetChanged()
     }
+
 }

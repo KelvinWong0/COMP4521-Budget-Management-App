@@ -71,6 +71,13 @@ class DataViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
+    fun deleteCategory (category: Category){
+        viewModelScope.launch(Dispatchers.IO) {
+            categoryRepo.deleteCategory(category)
+            recordRepo.deleteRecordsInCategory(category.categoryId)
+        }
+    }
+
     fun readCategoryByType(isIncome: Boolean) = categoryRepo.readCategoryByType(isIncome)
 
     fun readMonthWithRecordsByType(startOfMonth: Date, startOfNextMonth: Date, isIncome: Boolean) = recordRepo.readMonthWithRecordsByType(startOfMonth, startOfNextMonth,isIncome)
