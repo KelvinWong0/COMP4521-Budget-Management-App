@@ -7,6 +7,7 @@
         <variable name="category" type="com.example.compose.data.models.Category"/>
     </data>
 
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/gridCat"
         app:strokeColor="@color/black"

@@ -1,31 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable name="record" type="com.example.compose.data.models.Record"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:padding="24sp">
+        android:padding="4sp">
 
         <TextView
             android:id="@+id/record_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:text="@{record.category.name}"
+            android:layout_marginStart="44dp"
+            android:text="@{record.recordName != null? record.recordName: record.category.name}"
             android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/record_ic"
             app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/record_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="44dp"
+            android:text="@{record.date.toString().substring(4, 10)}"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/record_ic"
+            app:layout_constraintTop_toTopOf="@id/record_name"
+            app:layout_constraintVertical_bias="1" />
 
         <ImageView
             android:id="@+id/record_ic"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="16dp"
+            android:layout_marginVertical="6sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -38,10 +49,13 @@
             android:layout_marginEnd="16dp"
             android:textStyle="bold"
             android:textSize="24sp"
-            android:text="@{record.amount}"
+            android:text="@{`$ `  + ((record.category.type==true)? record.amount:`-`+record.amount)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

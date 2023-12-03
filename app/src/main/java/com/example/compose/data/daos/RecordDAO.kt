@@ -7,7 +7,9 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import com.example.compose.data.models.Category
 import com.example.compose.data.models.Record
+import kotlinx.coroutines.flow.Flow
 import java.util.Date
 
 @Dao
@@ -27,11 +29,15 @@ interface RecordDAO{
     @Query("DELETE FROM record_table")
     suspend fun nukeTable()
 
+    @Query("DELETE FROM record_table WHERE categoryId  =  :categoryId")
+    fun deleteRecordsInCategory(categoryId: Int)
+
     @Query("SELECT * FROM record_table")
     fun getAll(): LiveData<List<Record>>
 
-    @Query("SELECT * FROM record_table WHERE category_type LIKE :isIncome")
+    @Query("SELECT * FROM record_table WHERE category_type = :isIncome")
     fun loadAllByType(isIncome : Boolean): LiveData<List<Record>>
+
 
     @Query("SELECT * FROM record_table WHERE category_type LIKE :isIncome AND date >= :startOfMonth AND date < :startOfNextMonth")
     fun loadAllRecordsinMonthByType(startOfMonth: Date, startOfNextMonth: Date, isIncome: Boolean): LiveData<List<Record>>
@@ -40,5 +46,7 @@ interface RecordDAO{
     fun loadAllRecordsinDayByType(startOfDay: Date, startOfNextDay: Date, isIncome: Boolean): LiveData<List<Record>>
 
 
+    @Query("SELECT SUM(amount) FROM record_table WHERE category_type = :isIncome")
+    fun sumOfRecordsByCategory (isIncome: Boolean): LiveData<Int>
 }
 
