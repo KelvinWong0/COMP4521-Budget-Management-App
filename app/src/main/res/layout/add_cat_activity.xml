@@ -66,6 +66,7 @@
                 android:hint="@string/add_cat_label_1">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/catName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     />
@@ -79,10 +80,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <AutoCompleteTextView
+                    android:id="@+id/catType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
-                    android:padding="16dp"
                     android:hint="Select category"
 
                     app:simpleItems="@array/category_type" />
