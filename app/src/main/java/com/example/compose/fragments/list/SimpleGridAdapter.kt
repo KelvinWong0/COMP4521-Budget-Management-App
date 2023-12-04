@@ -1,19 +1,21 @@
 package com.example.compose.fragments.list
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import com.example.compose.DataViewModel
 import com.example.compose.data.models.Category
 import com.example.compose.databinding.CustomGridCatBinding
+import com.example.compose.CatRecordActivity
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
-class SimpleGridAdapter(private val dataViewModel: DataViewModel,  private val deleteMode: Boolean): BaseAdapter() {
+class SimpleGridAdapter(private val context: Context ,private val dataViewModel: DataViewModel,  private val deleteMode: Boolean): BaseAdapter() {
     private var categoryList = emptyList<Category>()
     private lateinit var selectedView : MaterialCardView
 
@@ -68,8 +70,14 @@ class SimpleGridAdapter(private val dataViewModel: DataViewModel,  private val d
                         .show()
                 }
             }else{
-//                TODO("open list of record in that category")
-//
+                val view  =  holder.view   as MaterialCardView
+
+                view.setOnClickListener {
+                    val intent = Intent(context, CatRecordActivity::class.java)
+                    intent.putExtra("categoryId", holder.binding.category!!.categoryId)
+                    context.startActivity(intent)
+                }
+
 //                holder.view.setOnClickListener {
 //                    Toast.makeText(holder.view.context, "${holder.binding.category}", Toast.LENGTH_LONG).show()
 ////                    Toast.makeText(holder.view.context, "${itemBinding.category}", Toast.LENGTH_LONG).show()

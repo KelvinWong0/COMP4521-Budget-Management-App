@@ -46,7 +46,7 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
         val btnSort = view.findViewById<Switch>(R.id.btnSort)
 
         val gvCategory = view.findViewById<GridView>(R.id.gvCategory)
-        adapter = SimpleGridAdapter(dataViewModel, gridDeleteMode)
+        adapter = SimpleGridAdapter(requireContext(),dataViewModel, gridDeleteMode)
         gvCategory.adapter = adapter
 
         launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -107,7 +107,7 @@ class FragmentCategory : Fragment(R.layout.fragment_category) {
             }else{
                 toptoolbar.setNavigationIcon(R.drawable.ic_delete_24)
             }
-            adapter = SimpleGridAdapter(dataViewModel, gridDeleteMode)
+            adapter = SimpleGridAdapter(requireContext(), dataViewModel, gridDeleteMode)
             gvCategory.adapter = adapter
             adapter.setData(categoryList)
         }

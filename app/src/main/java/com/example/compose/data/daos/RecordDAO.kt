@@ -52,9 +52,11 @@ interface RecordDAO{
 
     @Query("SELECT SUM(amount) FROM record_table WHERE category_type = :isIncome")
     fun sumOfRecordsByCategory (isIncome: Boolean): LiveData<Int>
+    @Query("SELECT * From record_table Where categoryId = :categoryId")
+    fun loadAllRecordsInCategory(categoryId: Int) : LiveData<List<Record>>
 
 
-    @Query("SELECT date(ra.date/1000, 'unixepoch') as date,  *  FROM record_table ra  inner JOIN  record_table rb  ON date(ra.date/1000, 'unixepoch') = date(rb.date/1000, 'unixepoch')  GROUP BY  date(ra.date/1000, 'unixepoch') ")
+    @Query("SELECT date(ra.date/1000, 'unixepoch')as date,  *  FROM record_table ra Join record_table rb on date(ra.date/1000, 'unixepoch') = date(rb.date/1000, 'unixepoch') ")
     fun getRecordsByDate(): LiveData<Map<@MapColumn("date") Date, List<Record>>>
 }
 

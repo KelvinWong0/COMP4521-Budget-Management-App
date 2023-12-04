@@ -2,8 +2,10 @@ package com.example.compose
 
 
 import android.app.Application
+import android.view.animation.Transformation
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.compose.data.CategoryDatabase
 import com.example.compose.data.CategoryRepository
@@ -23,6 +25,9 @@ class DataViewModel(application: Application): AndroidViewModel(application) {
     val readAllExpense: LiveData<List<Record>>
     val readAllIncome: LiveData<List<Record>>
     val readRecordsByDate: LiveData<Map<Date, List<Record>>>
+    fun readAllRecordInCategory(categoryId : Int): LiveData<List<Record>>{
+        return recordRepo.readRecordsInCategory(categoryId)
+    }
 
     val getTotalExpense: LiveData<Int>
     val getTotalIncome: LiveData<Int>

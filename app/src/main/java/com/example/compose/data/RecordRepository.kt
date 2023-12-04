@@ -9,6 +9,9 @@ import java.util.Date
 class RecordRepository(private val recordDAO: RecordDAO) {
 
     val readRecordsByDate: LiveData<Map<Date, List<Record>>> = recordDAO.getRecordsByDate()
+    fun readRecordsInCategory(categoryId: Int): LiveData<List<Record>> {
+        return recordDAO.loadAllRecordsInCategory(categoryId)
+    }
     val readAllData : LiveData<List<Record>>  = recordDAO.getAll()
     val readAllExpense: LiveData<List<Record>>  = recordDAO.loadAllByType(false)
     val readAllIncome: LiveData<List<Record>>  = recordDAO.loadAllByType(true)

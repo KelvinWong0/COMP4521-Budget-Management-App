@@ -19,6 +19,9 @@
             android:name=".AddCatActivity"
             android:exported="false" />
         <activity
+            android:name=".CatRecordActivity"
+            android:exported="false" />
+        <activity
             android:name=".EditRecordActivity"
             android:exported="false" />
         <activity
