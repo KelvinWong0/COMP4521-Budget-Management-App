@@ -56,7 +56,7 @@ class EditRecordActivity : AppCompatActivity() {
 //    private  var selectedDate: String = dateFormat.format(Date(Instant.now().toEpochMilli()))
     private  var selectedDate: Date = Date(Instant.now().toEpochMilli())
 
-    private lateinit var btnReturn : Button
+    private lateinit var btnReturn : androidx.appcompat.widget.AppCompatImageButton
     private lateinit var headerLayout : ConstraintLayout
 
     private var canAddOperation = false
@@ -94,7 +94,6 @@ class EditRecordActivity : AppCompatActivity() {
         }
         //icons onClick
         gvCategory.onItemClickListener
-
 
         ibtnSelectDate.setOnClickListener{
             // DATE picker
@@ -139,9 +138,9 @@ class EditRecordActivity : AppCompatActivity() {
 
 //        headerLayout = findViewById<ConstraintLayout>(R.id.header_edit_record)
 //        btnReturn = headerLayout.findViewById<Button>(R.id.backToHome)
-//        btnReturn.setOnClickListener{
-//            finish()
-//        }
+        btnReturn.setOnClickListener{
+            finish()
+        }
     }
 
     private fun fetchCurrencyData(): Thread
@@ -188,6 +187,7 @@ class EditRecordActivity : AppCompatActivity() {
         etRecorName = findViewById(R.id.etRecordName)
 
         headerLayout = findViewById<ConstraintLayout>(R.id.header_edit_record)
+        btnReturn = headerLayout.findViewById(R.id.backToHome)
         switchCategory = headerLayout.findViewById<androidx.appcompat.widget.SwitchCompat>(R.id.switchOnOff)
         Log.d("KYS", switchCategory.toString())
 
