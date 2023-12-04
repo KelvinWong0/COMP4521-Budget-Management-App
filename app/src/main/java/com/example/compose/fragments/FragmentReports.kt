@@ -293,19 +293,28 @@ class FragmentReports : Fragment(R.layout.fragment_report){
 //                    }
                     var cumulativeBalance = balance
 
-                    for ((day, amount) in list) {
-                        cumulativeBalance += amount
-                        lineChartData.add(Point(day.toFloat(), cumulativeBalance.toFloat()))
+                    for (index in 0 until 31) {
+                        lineChartData.add(Point(index.toFloat(), 0f))
                     }
 
-                    if(lineChartData.isNotEmpty() && lineChartData.size >=4){
+//                    for ((day, amount) in list) {
+//                        cumulativeBalance += amount
+//                        lineChartData.add(Point(day.toFloat(), cumulativeBalance.toFloat()))
+//                    }
+                    for ((day, amount) in list) {
+                        cumulativeBalance += amount
+                        // Update the corresponding item in lineChartData with the updated cumulativeBalance
+                        lineChartData[day] = Point(day.toFloat(), cumulativeBalance.toFloat())
+                    }
+
+                    if(lineChartData.isNotEmpty() && lineChartData.size >=2){
                         Log.i("DLLM", lineChartData.toString())
                         composeView.setContent {
                             Linechart(lineChartData)
                         }
                     }else{
                         composeView.setContent {
-                            errorShowCharts("Too few records(min: records on 4 different dates) to generate Line Chart")
+                            errorShowCharts("Too few records to generate Line Chart")
                         }
                     }
 
