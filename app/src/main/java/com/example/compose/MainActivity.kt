@@ -33,6 +33,8 @@ class MainActivity : AppCompatActivity() {
 
         setCurrentFragment(fragmentHome)
 
+
+
         bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.miRecord       -> setCurrentFragment(fragmentRecord)
