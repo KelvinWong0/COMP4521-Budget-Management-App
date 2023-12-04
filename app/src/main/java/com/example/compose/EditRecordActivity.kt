@@ -10,6 +10,7 @@ import android.widget.GridView
 import android.widget.ImageButton
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -34,6 +35,7 @@ import com.example.compose.data.models.Category
 import com.example.compose.data.models.Record
 import com.example.compose.fragments.list.GridAdapter
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
 import java.io.InputStreamReader
 import java.net.URL
@@ -49,6 +51,7 @@ class EditRecordActivity : AppCompatActivity() {
     private lateinit var tvResult: TextView
     private lateinit var tvCurCode: TextView
     private lateinit var etRecorName: EditText
+    private lateinit var ibInfo: ImageButton
 
     private lateinit var ibtnSelectDate : ImageButton
     private var shownDateView: Boolean = false
@@ -91,6 +94,20 @@ class EditRecordActivity : AppCompatActivity() {
                     gridViewAdapter.setData(categories)
                 })
             }
+        }
+
+        ibInfo = findViewById<ImageButton>(R.id.ibInfo)
+        ibInfo.setOnClickListener{
+            MaterialAlertDialogBuilder(this)
+                .setTitle("Instruction")
+                .setMessage("1.)\tPick a category\n2.)\tEnter the amount, click = to set value\n3.)\tEnter record name(Optional)\n4.)\tClick OK to confirm")
+//                .setNegativeButton(resources.getString(R.string.decline)) { dialog, which ->
+//                    // Respond to negative button press
+//                }
+                .setNeutralButton("Got it!") { dialog, which ->
+                    // Respond to positive button press
+                }
+                .show()
         }
         //icons onClick
         gvCategory.onItemClickListener
