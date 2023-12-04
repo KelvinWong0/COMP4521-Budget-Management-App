@@ -69,9 +69,9 @@ class FragmentHome: Fragment(R.layout.fragment_home) {
                         apply()
                     }
                     if(expense >= budget){
-                        tvExpense.setTextColor(Color.parseColor("#ff0000"))
+                        etBudget.setTextColor(Color.parseColor("#ff0000"))
                     }else{
-                        tvExpense.setTextColor(Color.parseColor("#0F9D58"))
+                        etBudget.setTextColor(Color.parseColor("#0F9D58"))
                     }
                 }
             }
@@ -86,9 +86,9 @@ class FragmentHome: Fragment(R.layout.fragment_home) {
             if(expense != null){
                 this.expense = expense
                 if(this.expense >= budget){
-                    tvExpense.setTextColor(Color.parseColor("#ff0000"))
+                    etBudget.setTextColor(Color.parseColor("#ff0000"))
                 }else{
-                    tvExpense.setTextColor(Color.parseColor("#0F9D58"))
+                    etBudget.setTextColor(Color.parseColor("#0F9D58"))
                 }
             }else{
                 this.expense = 0
