@@ -31,7 +31,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import co.yml.charts.common.extensions.isNotNull
 import com.example.compose.API.ApiRequest
-import com.example.compose.data.models.Category
 import com.example.compose.data.models.Record
 import com.example.compose.fragments.list.GridAdapter
 import com.google.android.material.button.MaterialButton
@@ -271,11 +270,21 @@ class EditRecordActivity : AppCompatActivity() {
     }
 
     fun confrimAddRecord(view: View) {
-        val cat = gridViewAdapter.getSelectedCategory().takeIf { it.isNotNull() } ?: Category(0, "Others", 0, false )
+        val cat = gridViewAdapter.getSelectedCategory().takeIf { it.isNotNull() } ?: null
         // SAMPLE: Record(0,  "GTA6"     , Category(0,"games", R.drawable.ic_cat_entertainment, false)   , "200", Date(30-11-2023))
-        val RecordName =  etRecorName.text.toString().takeIf { it.isNotBlank() } ?: cat.name
-        val record = Record(0, RecordName,  cat,  tvResult.text.toString().substringAfter(": ").trim(), selectedDate)
-        dataViewModel.addRecord(record)
+        if(  cat.isNotNull() ){
+            val RecordName =  etRecorName.text.toString().takeIf { it.isNotBlank() } ?: cat?.name
+            val record = cat?.let {
+                Record(0, RecordName,
+                    it,  tvResult.text.toString().substringAfter(": ").trim(), selectedDate)
+            }
+            if (record != null) {
+                dataViewModel.addRecord(record)
+            }
+        }else{
+            Toast.makeText( this, "Please select category", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     private fun calculateResults(): String
