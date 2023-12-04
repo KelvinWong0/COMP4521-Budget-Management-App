@@ -1,14 +1,20 @@
 package com.example.compose.fragments
 
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
+import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import co.yml.charts.common.extensions.isNotNull
 import com.example.compose.DataViewModel
 import com.example.compose.EditRecordActivity
 import com.example.compose.R
@@ -29,10 +35,18 @@ class FragmentHome: Fragment(R.layout.fragment_home) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val BudgetsharedPref  = activity?.getSharedPreferences("BudgetPref", MODE_PRIVATE)
+        val editor = BudgetsharedPref?.edit()
+        var budget = 0f
+        budget = BudgetsharedPref?.getFloat("amount", 0F).takeIf { BudgetsharedPref.isNotNull() }!!
         dataViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
         tvIncome = view.findViewById(R.id.tv_income)
         tvExpense = view.findViewById(R.id.tv_expense)
         tvBalance = view.findViewById(R.id.tv_balance)
+        val etBudget = view.findViewById<EditText>(R.id.etBuget)
+        etBudget.setText(budget.toString())
+
         val fabAdd = view.findViewById<FloatingActionButton>(R.id.add_fab)
         fabAdd.setOnClickListener{
             Intent(requireContext(), EditRecordActivity::class.java).also{
@@ -40,16 +54,42 @@ class FragmentHome: Fragment(R.layout.fragment_home) {
             }
         }
 
+        etBudget.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                if(s.isNotEmpty()){
+                    budget = etBudget.text.toString().toFloat()
+                    editor?.apply {
+                        putFloat("amount", budget!!)
+                        apply()
+                    }
+                    if(expense >= budget){
+                        tvExpense.setTextColor(Color.parseColor("#ff0000"))
+                    }else{
+                        tvExpense.setTextColor(Color.parseColor("#0F9D58"))
+                    }
+                }
+            }
+        })
+
 //        income = dataViewModel.getIncome().toString()
 //        expense = dataViewModel.getExpense().toString()
-
-
 
 
 
         dataViewModel.getTotalExpense.observe(viewLifecycleOwner, Observer{expense ->
             if(expense != null){
                 this.expense = expense
+                if(this.expense >= budget){
+                    tvExpense.setTextColor(Color.parseColor("#ff0000"))
+                }else{
+                    tvExpense.setTextColor(Color.parseColor("#0F9D58"))
+                }
             }else{
                 this.expense = 0
             }
@@ -80,6 +120,6 @@ class FragmentHome: Fragment(R.layout.fragment_home) {
             adapter.setData(records.sortedBy { it.date }.reversed())
         })
 
-
     }
+
 }
