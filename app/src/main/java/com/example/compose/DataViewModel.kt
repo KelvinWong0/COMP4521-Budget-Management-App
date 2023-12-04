@@ -92,7 +92,11 @@ class DataViewModel(application: Application): AndroidViewModel(application) {
     fun readMonthWithRecords(startOfMonth: Date, startOfNextMonth: Date) = recordRepo.readMonthWithRecords(startOfMonth, startOfNextMonth)
 
     fun sumDayRecordsByType(startOfDay: Date, startOfNextDay: Date, isIncome: Boolean) = recordRepo.sumDayRecordsByType(startOfDay, startOfNextDay,isIncome)
-
+    fun deleteRecord(record: Record) {
+        viewModelScope.launch(Dispatchers.IO) {
+            recordRepo.deleteRecord(record)
+        }
+    }
 
 
 }

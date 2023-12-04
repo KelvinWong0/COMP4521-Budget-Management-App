@@ -21,7 +21,6 @@
                 android:minHeight="?attr/actionBarSize"
                 app:title="Records"
                 app:titleCentered="true"
-                app:menu="@menu/add_cat_menu"
                 app:navigationIcon="@drawable/ic_back_arrow" />
 
         </com.google.android.material.appbar.AppBarLayout>

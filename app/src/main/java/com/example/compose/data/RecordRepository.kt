@@ -40,6 +40,10 @@ class RecordRepository(private val recordDAO: RecordDAO) {
         return recordDAO.sumAllRecordsinDayByType(startOfDay, startOfNextDay, isIncome)
     }
 
+    suspend fun deleteRecord(record: Record) {
+        recordDAO.delete(record)
+    }
+
     val getTotalExpense: LiveData<Int> = recordDAO.sumOfRecordsByCategory(false)
     val getTotalIncome: LiveData<Int> = recordDAO.sumOfRecordsByCategory(true)
 }

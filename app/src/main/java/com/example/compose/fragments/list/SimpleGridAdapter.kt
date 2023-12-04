@@ -52,7 +52,7 @@ class SimpleGridAdapter(private val context: Context ,private val dataViewModel:
 
                     MaterialAlertDialogBuilder(view.context)
                         .setTitle("Warning")
-                        .setMessage("Delete `${holder.binding.category?.name}` and it's records?")
+                        .setMessage("Delete `${holder.binding.category!!.name}` and it's records?")
                         .setNeutralButton("Cancel") { dialog, which ->
                             // Respond to neutral button press
 

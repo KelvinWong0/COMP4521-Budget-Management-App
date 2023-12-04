@@ -20,7 +20,6 @@ class FragmentSettings : Fragment(R.layout.fragment_settings){
             when{
                 isChecked -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-
                 }
                 else -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
