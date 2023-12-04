@@ -14,13 +14,11 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/topAppBar"
+                android:id="@+id/homeTopBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="?attr/actionBarSize"
-                app:title="@string/title_home"
-                app:menu="@menu/bottom_navigation_menu"
-                app:navigationIcon="@drawable/ic_back_arrow" />
+                app:title="@string/title_home" />
 
         </com.google.android.material.appbar.AppBarLayout>
 

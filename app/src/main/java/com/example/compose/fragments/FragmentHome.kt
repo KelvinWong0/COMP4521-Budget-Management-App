@@ -9,6 +9,8 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.app.AppCompatDelegate.NightMode
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -32,6 +34,7 @@ class FragmentHome: Fragment(R.layout.fragment_home) {
     private var balance:Int = 0
     private var expense:Int = 0
     private var income: Int = 0
+    private var nightMode: Boolean = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,6 +49,25 @@ class FragmentHome: Fragment(R.layout.fragment_home) {
         tvBalance = view.findViewById(R.id.tv_balance)
         val etBudget = view.findViewById<EditText>(R.id.etBuget)
         etBudget.setText(budget.toString())
+        val toptoolbar = view.findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.homeTopBar)
+
+        nightMode  = AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
+        if(nightMode){
+            toptoolbar.setNavigationIcon(R.drawable.ic_sun)
+        }else{
+            toptoolbar.setNavigationIcon(R.drawable.ic_moon)
+        }
+        toptoolbar.setNavigationOnClickListener{
+
+            if(!nightMode){
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                toptoolbar.setNavigationIcon(R.drawable.ic_sun)
+            }else{
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                toptoolbar.setNavigationIcon(R.drawable.ic_moon)
+            }
+            nightMode = !nightMode
+        }
 
         val fabAdd = view.findViewById<FloatingActionButton>(R.id.add_fab)
         fabAdd.setOnClickListener{
